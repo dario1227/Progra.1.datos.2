@@ -41,11 +41,11 @@ void Interfaz::Start() {
     RAM->setParent(main);
     ramTittle->setParent(main);
     text->setParent(main);
-    text->setStyleSheet("border: 1px solid black");
-    console->setStyleSheet("border: 1px solid black");
+    text->setStyleSheet("QLabel { background-color : darkcyan; color : black; border: 1px solid black}");
+    console->setStyleSheet("QLabel { background-color : darkcyan; color : black; border: 1px solid black}");
     runL->setStyleSheet("QLabel { background-color : gray; color : black; border: 1px solid black}");
-    log->setStyleSheet("border: 1px solid black");
-    RAM->setStyleSheet("border: 1px solid black");
+    log->setStyleSheet("QLabel { background-color : darkcyan; color : black; border: 1px solid black}");
+    RAM->setStyleSheet("QLabel { background-color : darkcyan; color : black; border: 1px solid black}");
     ramTittle->setStyleSheet("QLabel { background-color : gray; color : black;  border: 1px solid black}");
     LogTittle->setStyleSheet("QLabel { background-color : gray; color : black; border: 1px solid black}");
     main->show();
