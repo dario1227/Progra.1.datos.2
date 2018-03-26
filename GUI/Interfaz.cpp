@@ -5,6 +5,7 @@
 #include <QtWidgets/QGridLayout>
 #include <QtWidgets/QLabel>
 #include <QtWidgets/QPushButton>
+#include <QtWidgets/QScrollArea>
 #include "Interfaz.h"
 void Interfaz::Start() {
     QWidget* main=new QWidget();
@@ -16,17 +17,9 @@ void Interfaz::Start() {
     runL->resize(900,30);
     runL->move(0,0);
     QLabel* text = new QLabel("########");
-    text->resize(900,300);
-    text->move(0,30);
     QLabel* RAM = new QLabel("########");
-    RAM->resize(300,670);
-    RAM->move(900,30);
     QLabel* log = new QLabel("########");
-    log->resize(900,140);
-    log->move(0,560);
     QLabel* console = new QLabel("########");
-    console->resize(900,200);
-    console->move(0,330);
     QLabel* ramTittle = new QLabel("RAM Live View");
     ramTittle->setAlignment(Qt::AlignCenter);
     ramTittle->resize(300,30);
@@ -34,13 +27,33 @@ void Interfaz::Start() {
     QLabel* LogTittle = new QLabel("Application Log");
     LogTittle->resize(900,30);
     LogTittle->move(0,530);
-    console->setParent(main);
     runL->setParent(main);
-    log->setParent(main);
     LogTittle->setParent(main);
-    RAM->setParent(main);
     ramTittle->setParent(main);
-    text->setParent(main);
+    QScrollArea* scrollT= new QScrollArea();
+    QScrollArea* scrollL= new QScrollArea();
+    QScrollArea* scrollR= new QScrollArea();
+    QScrollArea* scrollC= new QScrollArea();
+    scrollC->setWidget(console);
+    scrollT->setWidget(text);
+    scrollL->setWidget(log);
+    scrollR->setWidget(RAM);
+    scrollC->setParent(main);
+    scrollL->setParent(main);
+    scrollR->setParent(main);
+    scrollT->setParent(main);
+    scrollC->move(0,330);
+    scrollT->move(0,30);
+    scrollR->move(900,30);
+    scrollL->move(0,560);
+    scrollR->resize(300,670);
+    scrollT->resize(900,300);
+    scrollL->resize(900,140);
+    scrollC->resize(900,200);
+    text->resize(1000,1000);
+    RAM->resize(280,1000);
+    log->resize(1000,1000);
+    console->resize(1000,1000);
     text->setStyleSheet("QLabel { background-color : darkcyan; color : black; border: 1px solid black}");
     console->setStyleSheet("QLabel { background-color : darkcyan; color : black; border: 1px solid black}");
     runL->setStyleSheet("QLabel { background-color : gray; color : black; border: 1px solid black}");
