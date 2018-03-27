@@ -6,7 +6,10 @@
 #include <QtWidgets/QLabel>
 #include <QtWidgets/QPushButton>
 #include <QtWidgets/QScrollArea>
+#include <QtWidgets/QPlainTextEdit>
 #include "Interfaz.h"
+#include "CodeEditor.h"
+
 void Interfaz::Start() {
     QWidget* main=new QWidget();
     main->setWindowTitle("C! IDE");
@@ -16,11 +19,15 @@ void Interfaz::Start() {
     run->setParent(runL);
     runL->resize(900,30);
     runL->move(0,0);
-    QLabel* text = new QLabel("########");
     QLabel* RAM = new QLabel("########");
     QLabel* log = new QLabel("########");
     QLabel* console = new QLabel("########");
     QLabel* ramTittle = new QLabel("RAM Live View");
+    QLabel* conTittle = new QLabel("Console");
+    conTittle->setParent(main);
+    conTittle->resize(900,30);
+    conTittle->move(0,330);
+    CodeEditor* editor=new CodeEditor(main);
     ramTittle->setAlignment(Qt::AlignCenter);
     ramTittle->resize(300,30);
     ramTittle->move(900,0);
@@ -30,35 +37,22 @@ void Interfaz::Start() {
     runL->setParent(main);
     LogTittle->setParent(main);
     ramTittle->setParent(main);
-    QScrollArea* scrollT= new QScrollArea();
-    QScrollArea* scrollL= new QScrollArea();
-    QScrollArea* scrollR= new QScrollArea();
-    QScrollArea* scrollC= new QScrollArea();
-    scrollC->setWidget(console);
-    scrollT->setWidget(text);
-    scrollL->setWidget(log);
-    scrollR->setWidget(RAM);
-    scrollC->setParent(main);
-    scrollL->setParent(main);
-    scrollR->setParent(main);
-    scrollT->setParent(main);
-    scrollC->move(0,330);
-    scrollT->move(0,30);
-    scrollR->move(900,30);
-    scrollL->move(0,560);
-    scrollR->resize(300,670);
-    scrollT->resize(900,300);
-    scrollL->resize(900,140);
-    scrollC->resize(900,200);
-    text->resize(1000,1000);
-    RAM->resize(280,1000);
-    log->resize(1000,1000);
-    console->resize(1000,1000);
-    text->setStyleSheet("QLabel { background-color : darkcyan; color : black; border: 1px solid black}");
+    RAM->setParent(main);
+    log->setParent(main);
+    console->setParent(main);
+    console->move(0,360);
+    editor->move(0,30);
+    RAM->move(900,30);
+    log->move(0,560);
+    RAM->resize(300,670);
+    log->resize(900,140);
+    console->resize(900,170);
+    editor->resize(900,300);
     console->setStyleSheet("QLabel { background-color : darkcyan; color : black; border: 1px solid black}");
     runL->setStyleSheet("QLabel { background-color : gray; color : black; border: 1px solid black}");
     log->setStyleSheet("QLabel { background-color : darkcyan; color : black; border: 1px solid black}");
     RAM->setStyleSheet("QLabel { background-color : darkcyan; color : black; border: 1px solid black}");
+    conTittle->setStyleSheet("QLabel { background-color : gray; color : black;  border: 1px solid black}");
     ramTittle->setStyleSheet("QLabel { background-color : gray; color : black;  border: 1px solid black}");
     LogTittle->setStyleSheet("QLabel { background-color : gray; color : black; border: 1px solid black}");
     main->show();

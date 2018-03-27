@@ -8,11 +8,12 @@
 
 #include <QtWidgets/QApplication>
 #include <QtWidgets/QMainWindow>
+#include "CodeEditor.h"
 
 class Interfaz: public QMainWindow{
     Q_OBJECT
 public:
-   static void Start();
+    static void Start();
 
 };
 

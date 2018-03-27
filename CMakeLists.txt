@@ -1,8 +1,5 @@
 cmake_minimum_required(VERSION 3.9)
 project(Progra.1.datos.2)
-
-set(CMAKE_CXX_STANDARD 11)
-add_executable(Progra.1.datos.2 main.cpp Client_Server/Client_Server.cpp Client_Server/Client_Server.h GUI/Interfaz.cpp GUI/Interfaz.h)
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
 set(CMAKE_PREFIX_PATH "/opt/qt/5.6/gcc_64/")
 set(CMAKE_AUTOMOC ON)
@@ -14,6 +11,8 @@ find_package(Qt5Network REQUIRED)
 find_package(Qt5Sql REQUIRED)
 find_package(Qt5PrintSupport REQUIRED)
 find_package(Qt5Xml REQUIRED)
+set(SOURCE_FILES main.cpp Client_Server/Client_Server.cpp Client_Server/Client_Server.h GUI/Interfaz.cpp GUI/CodeEditor.cpp GUI/CodeEditor.h GUI/Interfaz.h)
+add_executable(Progra.1.datos.2 ${SOURCE_FILES} main.cpp "Client_Server/Client_Server.cpp" "Client_Server/Client_Server.h" "GUI/Interfaz.cpp" "GUI/Interfaz.h" "GUI/CodeEditor.cpp" "GUI/CodeEditor.h")
 target_link_libraries(Progra.1.datos.2 json-c)
 target_link_libraries(Progra.1.datos.2 Qt5::Widgets Qt5::Core Qt5::Network Qt5::Sql
         ${Boost_LIBRARIES})
