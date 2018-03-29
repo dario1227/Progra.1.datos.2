@@ -64,6 +64,9 @@ QString Interfaz::getLine(int x) {
     QTextDocument* doc= this->editor->document();
     QTextBlock text= doc->findBlockByLineNumber(x);
     QString line=text.text();
+    QString* str = new QString();
+    str->append('r');
+
     cout<<line.toStdString();
     return line;
 }
