@@ -141,6 +141,8 @@ bool Syntax_analysis::syntax_analysis_stage3(QString line, int i) {
         return false;
     }
     i++;
-    while(i<)
+    while(i<line.length()){
+        
+    }
     return false;
 }
