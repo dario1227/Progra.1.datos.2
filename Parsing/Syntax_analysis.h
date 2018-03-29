@@ -17,11 +17,13 @@ public:
 private:
     bool syntax_analysis_stage1(QString line);
     bool syntax_analysis_stage2(QString line, int i);
-    bool syntax_analysis_stage3(QString line);
+    bool syntax_analysis_stage3(QString line, int i);
     bool syntax_analysis_stagefinal(QString line);
     bool is_pointcomma_next(QString line,int last_index);
     bool is_equal_next(QString line,int lastindex);
     bool types_syntax(QString qString);
+
+    bool types_equal(QString *pString);
 };
 
 
