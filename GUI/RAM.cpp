@@ -10,6 +10,12 @@ RAM::RAM(int x) {
     header<<"Type"<<"Name"<<"Direction";
     this->setHorizontalHeaderLabels(header);
     this->setEditTriggers(QAbstractItemView::NoEditTriggers);
-    this->setItem(2,1,new QTableWidgetItem("22222"));
+    QString* sa=new QString("Prueba");
+    this->add(0,0,*sa);
+}
+void RAM::add(int row, int colu, QString data) {
+   QTableWidgetItem* da= new QTableWidgetItem(data);
+    this->setItem(row, colu,da);
+    da->setTextAlignment(Qt::AlignCenter);
 
 }

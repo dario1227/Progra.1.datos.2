@@ -16,7 +16,7 @@ using namespace std;
 void Interfaz::Start() {
     QWidget* main=new QWidget();
     main->setWindowTitle("C! IDE");
-    main->resize(1230,700);
+    main->resize(1250,700);
     QPushButton* run= new QPushButton("RUN!");
     QLabel* runL = new QLabel();
     run->setParent(runL);
@@ -32,7 +32,7 @@ void Interfaz::Start() {
     conTittle->move(0,330);
     this->editor=new CodeEditor(main);
     ramTittle->setAlignment(Qt::AlignCenter);
-    ramTittle->resize(330,30);
+    ramTittle->resize(350,30);
     ramTittle->move(900,0);
     QLabel* LogTittle = new QLabel("Application Log");
     LogTittle->resize(900,30);
@@ -47,7 +47,7 @@ void Interfaz::Start() {
     this->editor->move(0,30);
     this->table->move(900,30);
     log->move(0,560);
-    this->table->resize(330,670);
+    this->table->resize(350,670);
     log->resize(900,140);
     console->resize(900,170);
     this->editor->resize(900,300);

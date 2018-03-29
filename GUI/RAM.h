@@ -12,6 +12,7 @@
 class RAM: public  QTableWidget{
 public:
     RAM(int x);
+    void add(int row, int colu, QString data);
 
 };
 
