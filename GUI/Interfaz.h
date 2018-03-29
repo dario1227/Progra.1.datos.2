@@ -9,11 +9,13 @@
 #include <QtWidgets/QApplication>
 #include <QtWidgets/QMainWindow>
 #include "CodeEditor.h"
+#include "RAM.h"
 
 class Interfaz: public QMainWindow{
     Q_OBJECT
 public:
     CodeEditor* editor;
+    RAM* table;
     void Start();
     QString getLine(int x);
 

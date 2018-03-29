@@ -3,6 +3,12 @@
 //
 
 #include "RAM.h"
-void RAM::start() {
+RAM::RAM(int x) {
+    this->setColumnCount(3);
+    this->setRowCount(x);
+    QStringList header;
+    header<<"Type"<<"Name"<<"Direction";
+    this->setHorizontalHeaderLabels(header);
+    this->setEditTriggers(QAbstractItemView::NoEditTriggers);
 
 }

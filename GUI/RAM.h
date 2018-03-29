@@ -6,12 +6,12 @@
 #define PROGRA_1_DATOS_2_RAM_H
 
 
-#include <QtWidgets/QTableView>
 #include <QtCore/QStringListModel>
+#include <QtWidgets/QTableWidget>
 
-class RAM: public  QTableView{
+class RAM: public  QTableWidget{
 public:
-    void start();
+    RAM(int x);
 
 };
 

@@ -10,18 +10,19 @@
 #include <QtGui/QTextBlock>
 #include "Interfaz.h"
 #include "CodeEditor.h"
+#include "RAM.h"
 #include <iostream>
 using namespace std;
 void Interfaz::Start() {
     QWidget* main=new QWidget();
     main->setWindowTitle("C! IDE");
-    main->resize(1200,700);
+    main->resize(1230,700);
     QPushButton* run= new QPushButton("RUN!");
     QLabel* runL = new QLabel();
     run->setParent(runL);
     runL->resize(900,30);
     runL->move(0,0);
-    QLabel* RAM = new QLabel("########");
+    this->table = new RAM(20);
     QLabel* log = new QLabel("########");
     QLabel* console = new QLabel("########");
     QLabel* ramTittle = new QLabel("RAM Live View");
@@ -31,7 +32,7 @@ void Interfaz::Start() {
     conTittle->move(0,330);
     this->editor=new CodeEditor(main);
     ramTittle->setAlignment(Qt::AlignCenter);
-    ramTittle->resize(300,30);
+    ramTittle->resize(330,30);
     ramTittle->move(900,0);
     QLabel* LogTittle = new QLabel("Application Log");
     LogTittle->resize(900,30);
@@ -39,21 +40,20 @@ void Interfaz::Start() {
     runL->setParent(main);
     LogTittle->setParent(main);
     ramTittle->setParent(main);
-    RAM->setParent(main);
+    this->table->setParent(main);
     log->setParent(main);
     console->setParent(main);
     console->move(0,360);
     this->editor->move(0,30);
-    RAM->move(900,30);
+    this->table->move(900,30);
     log->move(0,560);
-    RAM->resize(300,670);
+    this->table->resize(330,670);
     log->resize(900,140);
     console->resize(900,170);
     this->editor->resize(900,300);
     console->setStyleSheet("QLabel { background-color : darkcyan; color : black; border: 1px solid black}");
     runL->setStyleSheet("QLabel { background-color : gray; color : black; border: 1px solid black}");
     log->setStyleSheet("QLabel { background-color : darkcyan; color : black; border: 1px solid black}");
-    RAM->setStyleSheet("QLabel { background-color : darkcyan; color : black; border: 1px solid black}");
     conTittle->setStyleSheet("QLabel { background-color : gray; color : black;  border: 1px solid black}");
     ramTittle->setStyleSheet("QLabel { background-color : gray; color : black;  border: 1px solid black}");
     LogTittle->setStyleSheet("QLabel { background-color : gray; color : black; border: 1px solid black}");
