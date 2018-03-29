@@ -22,7 +22,7 @@ void Interfaz::Start() {
     run->setParent(runL);
     runL->resize(900,30);
     runL->move(0,0);
-    this->table = new RAM(20);
+    this->table = new RAM(200);
     QLabel* log = new QLabel("########");
     QLabel* console = new QLabel("########");
     QLabel* ramTittle = new QLabel("RAM Live View");

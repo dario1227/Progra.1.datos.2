@@ -10,5 +10,6 @@ RAM::RAM(int x) {
     header<<"Type"<<"Name"<<"Direction";
     this->setHorizontalHeaderLabels(header);
     this->setEditTriggers(QAbstractItemView::NoEditTriggers);
+    this->setItem(2,1,new QTableWidgetItem("22222"));
 
 }
