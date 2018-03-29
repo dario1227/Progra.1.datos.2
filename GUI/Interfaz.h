@@ -13,7 +13,10 @@
 class Interfaz: public QMainWindow{
     Q_OBJECT
 public:
-    static void Start();
+    CodeEditor* editor;
+    void Start();
+    QString getLine(int x);
+
 
 };
 
