@@ -85,8 +85,9 @@ bool Syntax_analysis::syntax_analysis_stage2(QString line, int i) {
             }
 
         }
-        return false;
     }
+    return false;
+}
 
     bool Syntax_analysis::types_syntax(QString qString) {
         if (qString.contains("int") || qString.contains("bool") || qString.contains("char") ||
@@ -132,7 +133,7 @@ bool Syntax_analysis::syntax_analysis_stage2(QString line, int i) {
             return false;
         }
     }
-}
+
 bool Syntax_analysis::syntax_analysis_stage3(QString line, int i) {
     while(i<line.length()&&line[i]!='='){
         i++;
@@ -142,7 +143,7 @@ bool Syntax_analysis::syntax_analysis_stage3(QString line, int i) {
     }
     i++;
     while(i<line.length()){
-        
+
     }
     return false;
 }
