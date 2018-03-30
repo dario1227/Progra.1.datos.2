@@ -10,9 +10,10 @@
 #include <json-c/json.h>
 class Syntax_analysis {
 public:
+    int actual_line = 0;
     json_object* object = json_object_new_object();
 
-    bool syntax_analysis(QString line);
+    bool syntax_analysis(QString line, int n_line);
 
 private:
     bool syntax_analysis_stage1(QString line);
@@ -22,8 +23,9 @@ private:
     bool is_pointcomma_next(QString line,int last_index);
     bool is_equal_next(QString line,int lastindex);
     bool types_syntax(QString qString);
-
+    bool contains_invalid_symbols(QString qString);
     bool types_equal(QString *pString);
+    bool contains_operational(QString value,const char* type);
 };
 
 

@@ -5,8 +5,10 @@
 #include "Syntax_analysis.h"
 #include "Json_creator.h"
 
-bool Syntax_analysis::syntax_analysis(QString line) {
+bool Syntax_analysis::syntax_analysis(QString line, int line_n) {
+    this->actual_line=line_n;
     if(line.contains(';')&& types_syntax(line)){
+
         return syntax_analysis_stage1(line);
     }
     else{
@@ -19,14 +21,17 @@ bool Syntax_analysis::syntax_analysis_stage1(QString line) {
     int counter = 0;
 
     while(x<line.length()&&counter!=2){
-        if(line.operator[](x)!=' '){
+        std::cout<<parsed->toLatin1().data()<<"\n"<<"line leng="<<line.length();
+        if(line.operator[](x)!=' '&&counter==0){
             counter++;
         }
-        if(types_syntax(*parsed) && line[x+1]!=' '){
+        if(types_syntax(*parsed) && line[x]!=' '){
             std::cout<<"ERROR no se definio el tipo"<<std::endl;
             return false;
         }
         if(counter==1&&line[x]==' '){
+
+
             if(is_pointcomma_next(line,x)||is_equal_next(line,x)){
                 std::cout<<"Error, no se ha definido nombre Variable"<<std::endl;
                 return false;
@@ -48,6 +53,7 @@ bool Syntax_analysis::syntax_analysis_stage1(QString line) {
         }
         x++;
     }
+
     return false;
 }
 /**
@@ -57,18 +63,21 @@ bool Syntax_analysis::syntax_analysis_stage1(QString line) {
  * @return
  */
 bool Syntax_analysis::syntax_analysis_stage2(QString line, int i) {
+    std::cout<<"LLegue al stage 2 \n";
     QString *parsed = new QString;
     int counter = 0;
     while (i < line.length()) {
-        if (line[i] != ' ') {
+        if (line[i] != ' '&& counter==0) {
             counter++;
         }
         if (counter == 1) {
             parsed->append(line[i]);
-
+            std::cout << *parsed->toLatin1().data() << "\n";
             if (is_equal_next(line, i + 1)) {
+
+
                 if (types_equal(parsed)) {
-                    std::cout << "ERROR,no se puede usar nombres de clases como variables" << std::endl;
+                    std::cout << "ERROR,no se puede usar nombres de clases como variables" << "\n";
                     return false;
                 }
                 Json_creator::add_value_name(parsed->toLatin1().data(), object);
@@ -85,7 +94,10 @@ bool Syntax_analysis::syntax_analysis_stage2(QString line, int i) {
             }
 
         }
+
+        i++;
     }
+
     return false;
 }
 
@@ -138,12 +150,60 @@ bool Syntax_analysis::syntax_analysis_stage3(QString line, int i) {
     while(i<line.length()&&line[i]!='='){
         i++;
     }
+    if(line[i]==';'){
+        return false;
+    }
     if(i==line.length()){
+
         return false;
     }
     i++;
+    int counter=0;
+    QString* parsed = new QString();
     while(i<line.length()){
+        if (line[i] != ' '&& counter==0) {
+            counter++;
+        }
+        if(counter==1){
+            parsed->append(line[i]);
+            if(is_pointcomma_next(line,i+1)){
+                std::cout<<parsed<<"\n";
+                return syntax_analysis_stagefinal(*parsed);
+            }
+            if(is_equal_next(line,i+1)){
+                std::cout<<"ERROR no se pueden poner dos iguales"<<std::endl;
+                return false;
+            }
+
+        }
+    i++;
+    }
+    return true;
+}
+bool Syntax_analysis::syntax_analysis_stagefinal(QString value) {
+    if(contains_invalid_symbols(value)){
+        return false;
+    }
+    if(contains_operational(value,json_object_to_json_string(json_object_object_get(object,"type")))){
 
     }
-    return false;
+    return true;
+}
+bool Syntax_analysis::contains_invalid_symbols(QString qString) {
+    if(qString.contains(';')||qString.contains('"')||qString.contains('!')||qString.contains('@')||qString.contains('}')||
+            qString.contains('{')||qString.contains('[')||qString.contains(']')||qString.contains('/')||qString.contains('*')||
+            qString.contains('~')||qString.contains('?')&&(json_object_to_json_string(json_object_object_get(object,"type"))!="char")){
+        return true;
+    }
+    else{
+        return false;
+    }
+}
+bool Syntax_analysis::contains_operational(QString value,const char*  type) {
+    if(type=="char"||type=="bool"||type=="reference"||type=="struct"){
+        return false;
+    }
+    if(value.contains('+')||value.contains('-')||value.contains('/')||value.contains('%')){
+
+    }
 }

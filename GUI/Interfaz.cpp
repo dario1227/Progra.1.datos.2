@@ -11,6 +11,7 @@
 #include "Interfaz.h"
 #include "CodeEditor.h"
 #include "RAM.h"
+#include "../Parsing/Syntax_analysis.h"
 #include <iostream>
 using namespace std;
 void Interfaz::Start() {
@@ -66,11 +67,13 @@ QString Interfaz::getLine(int x) {
     QTextBlock text= doc->findBlockByLineNumber(x);
     QString line=text.text();
     QString* str = new QString();
-    str->append('r');
+    str->append(' ');
 
     cout<<line.toStdString();
     return line;
 }
 void Interfaz::prueba() {
+    Syntax_analysis* syntax = new Syntax_analysis();
+    cout<<"CODIGO Fue"<<syntax->syntax_analysis(getLine(0),0)<<std::endl;
     this->table->add(1,1,getLine(2));
 }
