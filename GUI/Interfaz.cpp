@@ -28,6 +28,7 @@ void Interfaz::Start() {
     QLabel* ramTittle = new QLabel("RAM Live View");
     QLabel* conTittle = new QLabel("Console");
     conTittle->setParent(main);
+    connect(run,SIGNAL (clicked()),this,SLOT(prueba()));
     conTittle->resize(900,30);
     conTittle->move(0,330);
     this->editor=new CodeEditor(main);
@@ -69,4 +70,7 @@ QString Interfaz::getLine(int x) {
 
     cout<<line.toStdString();
     return line;
+}
+void Interfaz::prueba() {
+    this->table->add(1,1,getLine(2));
 }

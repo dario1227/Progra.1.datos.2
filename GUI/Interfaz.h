@@ -19,7 +19,8 @@ public:
     void Start();
     QString getLine(int x);
 
-
+public slots:
+void prueba();
 };
 
 
