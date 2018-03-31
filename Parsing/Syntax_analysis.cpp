@@ -4,6 +4,7 @@
 #include <iostream>
 #include "Syntax_analysis.h"
 #include "Json_creator.h"
+#include "Operational_parsing.h"
 
 bool Syntax_analysis::syntax_analysis(QString line, int line_n) {
     this->actual_line=line_n;
@@ -186,6 +187,7 @@ bool Syntax_analysis::syntax_analysis_stagefinal(QString value) {
     }
     if(contains_operational(value,json_object_to_json_string(json_object_object_get(object,"type")))){
 
+        return Operational_parsing::parse(value,json_object_to_json_string(json_object_object_get(object,"type")),this->object);
     }
     return true;
 }
@@ -193,17 +195,19 @@ bool Syntax_analysis::contains_invalid_symbols(QString qString) {
     if(qString.contains(';')||qString.contains('"')||qString.contains('!')||qString.contains('@')||qString.contains('}')||
             qString.contains('{')||qString.contains('[')||qString.contains(']')||qString.contains('/')||qString.contains('*')||
             qString.contains('~')||qString.contains('?')&&(json_object_to_json_string(json_object_object_get(object,"type"))!="char")){
-        return true;
+        return false;
     }
     else{
         return false;
     }
 }
 bool Syntax_analysis::contains_operational(QString value,const char*  type) {
-    if(type=="char"||type=="bool"||type=="reference"||type=="struct"){
-        return false;
-    }
-    if(value.contains('+')||value.contains('-')||value.contains('/')||value.contains('%')){
 
+    if(value.contains('+')||value.contains('-')||value.contains('/')||value.contains('%')){
+        if(type=="char"||type=="bool"||type=="reference"||type=="struct"){
+            return false;
+        }
+        return true;
     }
+    return false;
 }
