@@ -64,6 +64,10 @@ void Interfaz::Start() {
     main->show();
 
 }
+QString Interfaz::getCell(int x, int y) {
+    QString val=this->table->itemAt(x,y)->text();
+    return val;
+}
 QString Interfaz::getLine(int x) {
     QTextDocument* doc= this->editor->document();
     QTextBlock text= doc->findBlockByLineNumber(x);

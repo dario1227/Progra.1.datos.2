@@ -18,6 +18,7 @@ public:
     RAM* table;
     void Start();
     QString getLine(int x);
+    QString getCell(int x, int y);
 
 public slots:
 void prueba();
