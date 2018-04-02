@@ -4,6 +4,7 @@
 
 #include <json-c/json_object.h>
 #include "Operational_parsing.h"
+#include "exprtk.hpp"
 RAM* Operational_parsing::table_values = nullptr;
 json_object* Operational_parsing::object= nullptr;
 bool Operational_parsing::parse(QString operation,const char* type,json_object* objeto) {
