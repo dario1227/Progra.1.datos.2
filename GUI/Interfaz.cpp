@@ -30,7 +30,7 @@ void Interfaz::Start() {
     runL->resize(900,30);
     runL->move(0,0);
     this->table = new RAM(200);
-    Operational_parsing::table_values=table;
+    Operational_parsing::interface=this;
     QLabel* log = new QLabel("########");
     QLabel* console = new QLabel("########");
     QLabel* ramTittle = new QLabel("RAM Live View");
