@@ -16,6 +16,7 @@ class Interfaz: public QMainWindow{
 public:
     CodeEditor* editor;
     RAM* table;
+    static CodeEditor* document;
     void Start();
     QString getLine(int x);
     QString getCell(int x, int y);

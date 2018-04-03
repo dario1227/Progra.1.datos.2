@@ -14,9 +14,14 @@
 #include "../Parsing/Syntax_analysis.h"
 #include "../Parsing/Operational_parsing.h"
 #include <iostream>
+#include <QThread>
+#include <thread>
+
 using namespace std;
+CodeEditor* Interfaz::document= nullptr;
 void Interfaz::Start() {
     QWidget* main=new QWidget();
+    this->editor=new CodeEditor(main);
     main->setWindowTitle("C! IDE");
     main->resize(1250,700);
     QPushButton* run= new QPushButton("RUN!");
@@ -31,7 +36,6 @@ void Interfaz::Start() {
     QLabel* ramTittle = new QLabel("RAM Live View");
     QLabel* conTittle = new QLabel("Console");
     conTittle->setParent(main);
-    connect(run,SIGNAL (clicked()),this,SLOT(prueba()));
     conTittle->resize(900,30);
     conTittle->move(0,330);
     this->editor=new CodeEditor(main);
@@ -61,6 +65,7 @@ void Interfaz::Start() {
     conTittle->setStyleSheet("QLabel { background-color : gray; color : black;  border: 1px solid black}");
     ramTittle->setStyleSheet("QLabel { background-color : gray; color : black;  border: 1px solid black}");
     LogTittle->setStyleSheet("QLabel { background-color : gray; color : black; border: 1px solid black}");
+   Interfaz::document=this->editor;
     main->show();
 
 }
@@ -83,3 +88,4 @@ void Interfaz::prueba() {
     cout<<"CODIGO Fue"<<syntax->syntax_analysis(getLine(0),0)<<std::endl;
     this->table->add(1,1,getLine(2));
 }
+

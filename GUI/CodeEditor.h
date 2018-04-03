@@ -8,6 +8,7 @@
 
 #include <QPlainTextEdit>
 #include <QObject>
+#include <QtWidgets/QLineEdit>
 class QPaintEvent;
 class QResizeEvent;
 class QSize;
@@ -19,6 +20,8 @@ class LineNumberArea;
 class CodeEditor : public QPlainTextEdit {
     Q_OBJECT
 public:
+    static void findWords();
+
     CodeEditor(QWidget *parent = 0);
     void lineNumberAreaPaintEvent(QPaintEvent *event);
     int lineNumberAreaWidth();

@@ -16,3 +16,4 @@ add_executable(Progra.1.datos.2 ${SOURCE_FILES} main.cpp "Parsing/exprtk.hpp" "C
 target_link_libraries(Progra.1.datos.2 json-c)
 target_link_libraries(Progra.1.datos.2 Qt5::Widgets Qt5::Core Qt5::Network Qt5::Sql
         ${Boost_LIBRARIES})
+target_link_libraries(Progra.1.datos.2  -lpthread)

@@ -3,16 +3,16 @@
 //
 
 #include "CodeEditor.h"
+#include "Interfaz.h"
+#include <unistd.h>
 #include <QtWidgets>
-
+#include <iostream>
 CodeEditor::CodeEditor(QWidget *parent) : QPlainTextEdit(parent)
 {
     lineNumberArea = new LineNumberArea(this);
-
     connect(this, SIGNAL(blockCountChanged(int)), this, SLOT(updateLineNumberAreaWidth(int)));
     connect(this, SIGNAL(updateRequest(QRect,int)), this, SLOT(updateLineNumberArea(QRect,int)));
     connect(this, SIGNAL(cursorPositionChanged()), this, SLOT(highlightCurrentLine()));
-
     updateLineNumberAreaWidth(0);
     highlightCurrentLine();
 }
@@ -70,6 +70,28 @@ void CodeEditor::highlightCurrentLine()
     }
 
     setExtraSelections(extraSelections);
+}
+void CodeEditor::findWords(){
+        usleep(3000);
+        QString *search = new QString("hola");
+        QTextCursor highlightCursor(Interfaz::document->document());
+        QTextCursor cursor(Interfaz::document->document());
+        cursor.beginEditBlock();
+        QTextCharFormat plainFormat(highlightCursor.charFormat());
+        QTextCharFormat colorFormat = plainFormat;
+    colorFormat.setForeground(Qt::red);
+    while (!highlightCursor.isNull() && !highlightCursor.atEnd()) {
+            highlightCursor = Interfaz::document->document()->find(*search, highlightCursor,
+                                                                   QTextDocument::FindWholeWords);
+
+            if (!highlightCursor.isNull()) {
+                highlightCursor.movePosition(QTextCursor::WordRight,
+                                             QTextCursor::KeepAnchor);
+                highlightCursor.mergeCharFormat(colorFormat);
+            }
+        }
+        cursor.endEditBlock();
+    CodeEditor::findWords();
 }
 void CodeEditor::lineNumberAreaPaintEvent(QPaintEvent *event)
 {
