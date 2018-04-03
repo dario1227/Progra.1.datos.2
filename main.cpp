@@ -1,5 +1,6 @@
 #include <iostream>
 #include <QApplication>
+#include <thread>
 #include "GUI/Interfaz.h"
 #include "Parsing/exprtk.hpp"
 using namespace std;
@@ -42,6 +43,7 @@ int main(int argc, char **argv) {
      str.toInt(&x,10);
      cout<<"ENCONTRE QUE FUE"<<x;
     GUI->Start();
+    thread words(CodeEditor::findWords);
     cout<<GUI->getCell(0,0).toStdString();
     return app.exec();
 }

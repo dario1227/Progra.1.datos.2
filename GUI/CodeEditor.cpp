@@ -72,7 +72,7 @@ void CodeEditor::highlightCurrentLine()
     setExtraSelections(extraSelections);
 }
 void CodeEditor::findWords(){
-        usleep(3000);
+    usleep(3000);
         QString *search = new QString("hola");
         QTextCursor highlightCursor(Interfaz::document->document());
         QTextCursor cursor(Interfaz::document->document());
@@ -91,7 +91,7 @@ void CodeEditor::findWords(){
             }
         }
         cursor.endEditBlock();
-    CodeEditor::findWords();
+    findWords();
 }
 void CodeEditor::lineNumberAreaPaintEvent(QPaintEvent *event)
 {
