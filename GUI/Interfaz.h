@@ -10,16 +10,24 @@
 #include <QtWidgets/QMainWindow>
 #include "CodeEditor.h"
 #include "RAM.h"
-
-class Interfaz: public QMainWindow{
+#include <iostream>
+using namespace std;
+class Interfaz: public QObject{
     Q_OBJECT
 public:
     CodeEditor* editor;
+    static QPlainTextEdit* logger;
+    static QPlainTextEdit* shell;
     RAM* table;
     static CodeEditor* document;
     void Start();
     QString getLine(int x);
     QString getCell(int x, int y);
+    static void addLog(string x);
+    static void addToShell(string x);
+
+protected:
+    bool eventFilter(QObject*obj,QEvent *event);
 
 public slots:
 void prueba();

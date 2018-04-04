@@ -16,11 +16,18 @@
 #include <iostream>
 #include <QThread>
 #include <thread>
+#include <zconf.h>
+
+#define SPACEBAR 32;
 
 using namespace std;
 CodeEditor* Interfaz::document= nullptr;
+QPlainTextEdit* Interfaz::logger= nullptr;
+QPlainTextEdit* Interfaz::shell= nullptr;
 void Interfaz::Start() {
     QWidget* main=new QWidget();
+    Interfaz::logger=new QPlainTextEdit();
+    Interfaz::shell= new QPlainTextEdit();
     this->editor=new CodeEditor(main);
     main->setWindowTitle("C! IDE");
     main->resize(1250,700);
@@ -57,6 +64,10 @@ void Interfaz::Start() {
     log->move(0,560);
     this->table->resize(350,670);
     log->resize(900,140);
+    Interfaz::logger->setParent(log);
+    Interfaz::logger->resize(900,140);
+    Interfaz::shell->setParent(console);
+    Interfaz::shell->resize(900,170);
     console->resize(900,170);
     this->editor->resize(900,300);
     console->setStyleSheet("QLabel { background-color : darkcyan; color : black; border: 1px solid black}");
@@ -66,6 +77,7 @@ void Interfaz::Start() {
     ramTittle->setStyleSheet("QLabel { background-color : gray; color : black;  border: 1px solid black}");
     LogTittle->setStyleSheet("QLabel { background-color : gray; color : black; border: 1px solid black}");
    Interfaz::document=this->editor;
+    this->installEventFilter(this);
     main->show();
 
 }
@@ -89,3 +101,38 @@ void Interfaz::prueba() {
     this->table->add(1,1,getLine(2));
 }
 
+void Interfaz::addLog(string x) {
+    Interfaz::logger->appendPlainText(x.c_str());
+
+
+}
+void Interfaz::addToShell(string x) {
+    Interfaz::shell->appendPlainText(x.c_str());
+}
+bool Interfaz::eventFilter(QObject*obj,QEvent *event) {
+    if (event->type() == QEvent::KeyPress) {
+        QKeyEvent *key = static_cast<QKeyEvent *>(event);
+        if ((key->key() == Qt::Key_Space)) {
+            QString *search = new QString("hola");
+            QTextCursor highlightCursor(Interfaz::document->document());
+            QTextCursor cursor(Interfaz::document->document());
+            cursor.beginEditBlock();
+            QTextCharFormat plainFormat(highlightCursor.charFormat());
+            QTextCharFormat colorFormat = plainFormat;
+            colorFormat.setForeground(Qt::red);
+            while (!highlightCursor.isNull() && !highlightCursor.atEnd()) {
+                highlightCursor = Interfaz::document->document()->find(*search, highlightCursor,
+                                                                       QTextDocument::FindWholeWords);
+
+                if (!highlightCursor.isNull()) {
+                    highlightCursor.movePosition(QTextCursor::WordRight,
+                                                 QTextCursor::KeepAnchor);
+                    highlightCursor.mergeCharFormat(colorFormat);
+                }
+            }
+            cursor.endEditBlock();
+        }
+    } else {
+        return Interfaz::eventFilter(obj,event);
+    }
+}

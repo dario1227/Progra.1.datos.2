@@ -3,6 +3,7 @@
 #include <thread>
 #include "GUI/Interfaz.h"
 #include "Parsing/exprtk.hpp"
+#define SPACEBAR 32;
 using namespace std;
 Interfaz* GUI;
 template <typename T>
@@ -35,15 +36,14 @@ void trig_function()
 }
 
 int main(int argc, char **argv) {
-    trig_function<double >();
     QApplication app(argc, argv);
+    trig_function<double >();
      GUI= new Interfaz();
      QString str="34+34";
      bool x;
      str.toInt(&x,10);
      cout<<"ENCONTRE QUE FUE"<<x;
     GUI->Start();
-    thread words(CodeEditor::findWords);
     cout<<GUI->getCell(0,0).toStdString();
     return app.exec();
 }

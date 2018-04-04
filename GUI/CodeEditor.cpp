@@ -71,28 +71,7 @@ void CodeEditor::highlightCurrentLine()
 
     setExtraSelections(extraSelections);
 }
-void CodeEditor::findWords(){
-    usleep(3000);
-        QString *search = new QString("hola");
-        QTextCursor highlightCursor(Interfaz::document->document());
-        QTextCursor cursor(Interfaz::document->document());
-        cursor.beginEditBlock();
-        QTextCharFormat plainFormat(highlightCursor.charFormat());
-        QTextCharFormat colorFormat = plainFormat;
-    colorFormat.setForeground(Qt::red);
-    while (!highlightCursor.isNull() && !highlightCursor.atEnd()) {
-            highlightCursor = Interfaz::document->document()->find(*search, highlightCursor,
-                                                                   QTextDocument::FindWholeWords);
 
-            if (!highlightCursor.isNull()) {
-                highlightCursor.movePosition(QTextCursor::WordRight,
-                                             QTextCursor::KeepAnchor);
-                highlightCursor.mergeCharFormat(colorFormat);
-            }
-        }
-        cursor.endEditBlock();
-    findWords();
-}
 void CodeEditor::lineNumberAreaPaintEvent(QPaintEvent *event)
 {
     QPainter painter(lineNumberArea);
