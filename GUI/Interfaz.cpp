@@ -32,6 +32,7 @@ void Interfaz::Start() {
     main->setWindowTitle("C! IDE");
     main->resize(1250,700);
     QPushButton* run= new QPushButton("RUN!");
+    connect(run,SIGNAL(clicked()),this,SLOT(prueba()));
     QLabel* runL = new QLabel();
     run->setParent(runL);
     runL->resize(900,30);
@@ -77,7 +78,7 @@ void Interfaz::Start() {
     ramTittle->setStyleSheet("QLabel { background-color : gray; color : black;  border: 1px solid black}");
     LogTittle->setStyleSheet("QLabel { background-color : gray; color : black; border: 1px solid black}");
    Interfaz::document=this->editor;
-    this->installEventFilter(this);
+
     main->show();
 
 }
@@ -108,11 +109,13 @@ void Interfaz::addLog(string x) {
 }
 void Interfaz::addToShell(string x) {
     Interfaz::shell->appendPlainText(x.c_str());
+
 }
-bool Interfaz::eventFilter(QObject*obj,QEvent *event) {
+bool eventFilter(QEvent *event) {
     if (event->type() == QEvent::KeyPress) {
         QKeyEvent *key = static_cast<QKeyEvent *>(event);
         if ((key->key() == Qt::Key_Space)) {
+            usleep(3000);
             QString *search = new QString("hola");
             QTextCursor highlightCursor(Interfaz::document->document());
             QTextCursor cursor(Interfaz::document->document());
@@ -133,6 +136,6 @@ bool Interfaz::eventFilter(QObject*obj,QEvent *event) {
             cursor.endEditBlock();
         }
     } else {
-        return Interfaz::eventFilter(obj,event);
+        return eventFilter(event);
     }
 }

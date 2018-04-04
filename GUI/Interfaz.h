@@ -25,10 +25,6 @@ public:
     QString getCell(int x, int y);
     static void addLog(string x);
     static void addToShell(string x);
-
-protected:
-    bool eventFilter(QObject*obj,QEvent *event);
-
 public slots:
 void prueba();
 };
