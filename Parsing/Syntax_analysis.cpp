@@ -187,7 +187,7 @@ bool Syntax_analysis::syntax_analysis_stagefinal(QString value) {
     }
     if(contains_operational(value,json_object_to_json_string(json_object_object_get(object,"type")))){
         std::cout<<value.toLatin1().data()<<"HVFHHHHHHHHHHHHHH";
-
+//
                 return Operational_parsing::parse(value,json_object_to_json_string(json_object_object_get(object,"type")),this->object);
     }
     return true;
