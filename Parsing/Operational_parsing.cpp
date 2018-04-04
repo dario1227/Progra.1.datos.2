@@ -6,6 +6,7 @@
 #include "Operational_parsing.h"
 #include "exprtk.hpp"
 #include "../GUI/Interfaz.h"
+#include <iostream>
 
 Interfaz* Operational_parsing::interface = nullptr;
 json_object* Operational_parsing::object= nullptr;
@@ -47,6 +48,8 @@ bool Operational_parsing::parse_int(QString operation, const char *tipo) {
         string_to_parse.append(operation[index]);
         index++;
     }
+    int result;
+    trig_function_int<double >(&result,string_to_parse.toLatin1().data());
 
 }
 bool Operational_parsing::parse_floar(QString operation, const char *tipo) {
@@ -102,4 +105,20 @@ QString Operational_parsing::get_var_value(QString variable, const char *string)
     }
 
 
+}
+template <typename  T>
+void Operational_parsing::trig_function_int(int *direction,char* strin) {
+    typedef exprtk::symbol_table<T> symbol_table_t;
+    typedef exprtk::expression<T>     expression_t;
+    typedef exprtk::parser<T>             parser_t;
+    std::string expression_string = strin ;
+    T x;
+    symbol_table_t symbol_table;
+    expression_t expression;
+    expression.register_symbol_table(symbol_table);
+
+    parser_t parser;
+    parser.compile(expression_string,expression);
+    T y = expression.value();
+    *direction=y;
 }

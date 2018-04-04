@@ -33,6 +33,14 @@ private:
     static QString reconstruct_without_space(QString* str);
     template <typename T>
     static QString get_var_value(QString variable, const char *string);
+    template <typename T>
+    static void trig_function_int(int* direction,char* str);
+    template <typename T>
+    static void trig_function_long(long* direction,char* str);
+    template <typename T>
+    static void trig_function_double(double * direction,char* str);
+    template <typename T>
+    static void trig_function_float(float * direction,char* str);
 
 };
 
