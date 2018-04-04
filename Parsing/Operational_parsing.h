@@ -30,7 +30,7 @@ private:
     static double convert_to_double(QString str);
     static float convert_to_float(QString str);
     static int get_From_table(QString* str);
-    static QString reconstruct_without_space(QString* str);
+    static QString * reconstruct_without_space(QString str);
     template <typename T>
     static QString get_var_value(QString variable, const char *string);
     template <typename T>
@@ -42,6 +42,7 @@ private:
     template <typename T>
     static void trig_function_float(float * direction,char* str);
 
+    static  char *convert_to_only_char(const char *type);
 };
 
 
