@@ -21,6 +21,7 @@ public:
     RAM* table;
     static CodeEditor* document;
     void Start();
+    void findWords(string a);
     QString getLine(int x);
     QString getCell(int x, int y);
     static void addLog(string x);

@@ -69,6 +69,9 @@ void Interfaz::Start() {
     Interfaz::logger->resize(900,140);
     Interfaz::shell->setParent(console);
     Interfaz::shell->resize(900,170);
+    Interfaz::shell->setReadOnly(true);
+    Interfaz::logger->setReadOnly(true);
+    Interfaz::logger->setStyleSheet("color : red");
     console->resize(900,170);
     this->editor->resize(900,300);
     console->setStyleSheet("QLabel { background-color : darkcyan; color : black; border: 1px solid black}");
@@ -95,10 +98,45 @@ QString Interfaz::getLine(int x) {
     cout<<line.toStdString();
     return line;
 }
+void Interfaz::findWords(string a) {
+    qRegisterMetaType<QTextCharFormat>("QTextCharFormat");
+    qRegisterMetaType<QTextCursor>("QTextCursor");
+    QTextCursor *highlightCursor ;
+    QTextCursor *cursor;
+    QTextCharFormat *plainFormat;
+    QTextCharFormat *colorFormat;
+    QString * searched= new QString(a.c_str());
+    highlightCursor =new QTextCursor(this->editor->document());
+    cursor=new QTextCursor(this->editor->document());
+    plainFormat= new QTextCharFormat(highlightCursor->charFormat());
+    colorFormat = plainFormat;
+    cursor->beginEditBlock();
+    colorFormat->setForeground(Qt::blue);
+    while (!highlightCursor->isNull() && !highlightCursor->atEnd()) {
+        *highlightCursor = this->editor->document()->find(*searched, *highlightCursor, QTextDocument::FindWholeWords);
+        if (!highlightCursor->isNull()) {
+            highlightCursor->movePosition(QTextCursor::WordRight,
+                                          QTextCursor::KeepAnchor);
+            highlightCursor->mergeCharFormat(*colorFormat);
+        }
+    }
+    cursor->endEditBlock();
+}
 void Interfaz::prueba() {
     Syntax_analysis* syntax = new Syntax_analysis();
     cout<<"CODIGO Fue"<<syntax->syntax_analysis(getLine(0),0)<<std::endl;
     this->table->add(1,1,getLine(2));
+    findWords("int");
+    findWords("long");
+    findWords("string");
+    findWords("struct");
+    findWords("short");
+    findWords("bool");
+    findWords("float");
+    findWords("double");
+    findWords("char");
+    addLog("ERROR");
+
 }
 
 void Interfaz::addLog(string x) {

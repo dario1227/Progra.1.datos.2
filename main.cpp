@@ -36,34 +36,7 @@ void trig_function()
     }
 }
 
-void* findWords(void*) {
-    qRegisterMetaType<QTextCharFormat>("QTextCharFormat");
-    qRegisterMetaType<QTextCursor>("QTextCursor");
-    QTextCursor *highlightCursor ;
-    QTextCursor *cursor;
-    QTextCharFormat *plainFormat;
-    QTextCharFormat *colorFormat;
-    QString * searched= new QString("hola");
-    while (true) {
-        usleep(10000);
-        highlightCursor =new QTextCursor(GUI->editor->document());
-        cursor=new QTextCursor(GUI->editor->document());
-        plainFormat= new QTextCharFormat(highlightCursor->charFormat());
-        colorFormat = plainFormat;
-        cursor->beginEditBlock();
-        colorFormat->setForeground(Qt::red);
-        while (!highlightCursor->isNull() && !highlightCursor->atEnd()) {
-            *highlightCursor = GUI->editor->document()->find(*searched, *highlightCursor, QTextDocument::FindWholeWords);
-            if (!highlightCursor->isNull()) {
-                highlightCursor->movePosition(QTextCursor::WordRight,
-                                             QTextCursor::KeepAnchor);
-                highlightCursor->mergeCharFormat(*colorFormat);
-            }
-        }
-        cursor->endEditBlock();
 
-    }
-}
 int main(int argc, char **argv) {
     QApplication app(argc, argv);
     qRegisterMetaType<QTextCharFormat>("QTextCharFormat");
@@ -74,8 +47,6 @@ int main(int argc, char **argv) {
      bool x;
      str.toInt(&x,10);
      cout<<"ENCONTRE QUE FUE"<<x;
-    pthread_t t1;
-    pthread_create(&t1, NULL, &findWords, NULL);
     cout<<GUI->getCell(0,0).toStdString();
     return app.exec();
 }
