@@ -1,11 +1,12 @@
 #include <iostream>
 #include <QApplication>
 #include <thread>
+#include <zconf.h>
 #include "GUI/Interfaz.h"
 #include "Parsing/exprtk.hpp"
 #define SPACEBAR 32;
 using namespace std;
-Interfaz* GUI;
+Interfaz* GUI= new Interfaz();
 template <typename T>
 void trig_function()
 {
@@ -35,15 +36,46 @@ void trig_function()
     }
 }
 
+void* findWords(void*) {
+    qRegisterMetaType<QTextCharFormat>("QTextCharFormat");
+    qRegisterMetaType<QTextCursor>("QTextCursor");
+    QTextCursor *highlightCursor ;
+    QTextCursor *cursor;
+    QTextCharFormat *plainFormat;
+    QTextCharFormat *colorFormat;
+    QString * searched= new QString("hola");
+    while (true) {
+        usleep(10000);
+        highlightCursor =new QTextCursor(GUI->editor->document());
+        cursor=new QTextCursor(GUI->editor->document());
+        plainFormat= new QTextCharFormat(highlightCursor->charFormat());
+        colorFormat = plainFormat;
+        cursor->beginEditBlock();
+        colorFormat->setForeground(Qt::red);
+        while (!highlightCursor->isNull() && !highlightCursor->atEnd()) {
+            *highlightCursor = GUI->editor->document()->find(*searched, *highlightCursor, QTextDocument::FindWholeWords);
+            if (!highlightCursor->isNull()) {
+                highlightCursor->movePosition(QTextCursor::WordRight,
+                                             QTextCursor::KeepAnchor);
+                highlightCursor->mergeCharFormat(*colorFormat);
+            }
+        }
+        cursor->endEditBlock();
+
+    }
+}
 int main(int argc, char **argv) {
     QApplication app(argc, argv);
+    qRegisterMetaType<QTextCharFormat>("QTextCharFormat");
+    qRegisterMetaType<QTextCursor>("QTextCursor");
+    GUI->Start();
     trig_function<double >();
-     GUI= new Interfaz();
      QString str="34+34";
      bool x;
      str.toInt(&x,10);
      cout<<"ENCONTRE QUE FUE"<<x;
-    GUI->Start();
+    pthread_t t1;
+    pthread_create(&t1, NULL, &findWords, NULL);
     cout<<GUI->getCell(0,0).toStdString();
     return app.exec();
 }
