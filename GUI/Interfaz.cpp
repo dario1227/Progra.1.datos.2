@@ -71,6 +71,7 @@ void Interfaz::Start() {
     Interfaz::shell->resize(900,170);
     Interfaz::shell->setReadOnly(true);
     Interfaz::logger->setReadOnly(true);
+    Interfaz::shell->setStyleSheet("color : blue");
     Interfaz::logger->setStyleSheet("color : red");
     console->resize(900,170);
     this->editor->resize(900,300);
@@ -111,7 +112,7 @@ void Interfaz::findWords(string a) {
     plainFormat= new QTextCharFormat(highlightCursor->charFormat());
     colorFormat = plainFormat;
     cursor->beginEditBlock();
-    colorFormat->setForeground(Qt::blue);
+    colorFormat->setForeground(Qt::magenta);
     while (!highlightCursor->isNull() && !highlightCursor->atEnd()) {
         *highlightCursor = this->editor->document()->find(*searched, *highlightCursor, QTextDocument::FindWholeWords);
         if (!highlightCursor->isNull()) {
@@ -135,7 +136,9 @@ void Interfaz::prueba() {
     findWords("float");
     findWords("double");
     findWords("char");
+    findWords("printf");
     addLog("ERROR");
+    addToShell("KILL ME PLS :,v");
 
 }
 
