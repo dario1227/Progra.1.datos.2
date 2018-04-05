@@ -186,14 +186,15 @@ bool Syntax_analysis::syntax_analysis_stagefinal(QString value) {
         return false;
     }
     if(contains_operational(value,json_object_to_json_string(json_object_object_get(object,"type")))){
-
-        return Operational_parsing::parse(value,json_object_to_json_string(json_object_object_get(object,"type")),this->object);
+        std::cout<<value.toLatin1().data()<<"HVFHHHHHHHHHHHHHH";
+//
+                return Operational_parsing::parse(value,json_object_to_json_string(json_object_object_get(object,"type")),this->object);
     }
     return true;
 }
 bool Syntax_analysis::contains_invalid_symbols(QString qString) {
     if(qString.contains(';')||qString.contains('"')||qString.contains('!')||qString.contains('@')||qString.contains('}')||
-            qString.contains('{')||qString.contains('[')||qString.contains(']')||qString.contains('/')||qString.contains('*')||
+            qString.contains('{')||qString.contains('[')||qString.contains(']')||qString.contains('*')||
             qString.contains('~')||qString.contains('?')&&(json_object_to_json_string(json_object_object_get(object,"type"))!="char")){
         return false;
     }
