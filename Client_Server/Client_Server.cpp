@@ -3,6 +3,8 @@
 //
 
 #include "Client_Server.h"
+#include "Json_parser.h"
+
 void Client_Server::connect_Server() {
     struct sockaddr_in server_addr;
 
@@ -24,6 +26,7 @@ void Client_Server::connect_Server() {
     while(true){
         recv(client, buffer, bufsize, 0);
         //HACER ALGO CON LA INTERFAZ PARA ANADIRLO :D
+        Json_parser::create_json(buffer);
     }
 }
 void Client_Server::send_Server(json_object* objeto) {

@@ -6,6 +6,7 @@
 #include "Operational_parsing.h"
 #include "exprtk.hpp"
 #include "../GUI/Interfaz.h"
+#include "Json_creator.h"
 #include <iostream>
 
 Interfaz* Operational_parsing::interface = nullptr;
@@ -17,13 +18,13 @@ bool Operational_parsing::parse(QString operation,const char* type,json_object* 
 
         return parse_int(operation,type);
     }
-    if(type=="float"){
+    if(tipo.contains("float")){
         return parse_floar(operation,type);
     }
-    if(type=="double"){
+    if(tipo.contains("double")){
         return parse_double(operation,type);
     }
-    if(type=="long"){
+    if(tipo.contains("long")){
         return parse_long(operation,type);
 
     }
@@ -56,20 +57,112 @@ bool Operational_parsing::parse_int(QString operation, const char *tipo) {
     }
     int result;
     trig_function_int<double >(&result,string_to_parse.toLatin1().data());
+    std::string s=std::to_string(result);
+    Json_creator::add_value((char*)s.c_str(),object);
     std::cout<<"RESULTADO FUE"<<result;
 
 }
 bool Operational_parsing::parse_floar(QString operation, const char *tipo) {
+    QString string_to_parse ;
+    operation=*reconstruct_without_space(operation);
+    int index = 0;
+    int len = operation.length();
+    while(index<operation.length()){
+        QString *str = new QString();
+        while((operation[index]!= '+'&&operation[index]!='/'&&operation[index]!='*'&&operation[index]!='-'&&operation[index]!='%')&&index<operation.length()){
+            str->append(operation[index]);
+            index++;
+        }
+        std::cout<<str->toLatin1().data()<<"ESTO FUE \n"<<std::endl;
+        if(!contains_alphabet(*str,tipo)){
+            QString string_saica = get_var_value<int>(*str, tipo);
+            if(string_saica=="Error"){
+                return false;
+            }
+            string_to_parse.append(string_saica);
+        }
+        else{
+            string_to_parse.append(*str);
+        }
+        string_to_parse.append(operation[index]);
+        index++;
 
+    }
+    float result;
+    trig_function_float<double >(&result,string_to_parse.toLatin1().data());
+    std::string s=std::to_string(result);
+    Json_creator::add_value((char*)s.c_str(),object);
+    std::cout<<"RESULTADO FUE"<<result;
 }
 bool Operational_parsing::parse_long(QString operation, const char *tipo) {
+    QString string_to_parse ;
+    operation=*reconstruct_without_space(operation);
+    int index = 0;
+    int len = operation.length();
+    while(index<operation.length()){
+        QString *str = new QString();
+        while((operation[index]!= '+'&&operation[index]!='/'&&operation[index]!='*'&&operation[index]!='-'&&operation[index]!='%')&&index<operation.length()){
+            str->append(operation[index]);
+            index++;
+        }
+        std::cout<<str->toLatin1().data()<<"ESTO FUE \n"<<std::endl;
+        if(!contains_alphabet(*str,tipo)){
+            QString string_saica = get_var_value<int>(*str, tipo);
+            if(string_saica=="Error"){
+                return false;
+            }
+            string_to_parse.append(string_saica);
+        }
+        else{
+            string_to_parse.append(*str);
+        }
+        string_to_parse.append(operation[index]);
+        index++;
 
+    }
+    long result;
+    trig_function_long<double >(&result,string_to_parse.toLatin1().data());
+    std::string s=std::to_string(result);
+    Json_creator::add_value_name((char*)s.c_str(),object);
+    std::cout<<"RESULTADO FUE"<<result;
 }
-bool Operational_parsing::parse_double(QString operation, const char *tipo) {}
+bool Operational_parsing::parse_double(QString operation, const char *tipo) {
+    QString string_to_parse ;
+    operation=*reconstruct_without_space(operation);
+    int index = 0;
+    int len = operation.length();
+    while(index<operation.length()){
+        QString *str = new QString();
+        while((operation[index]!= '+'&&operation[index]!='/'&&operation[index]!='*'&&operation[index]!='-'&&operation[index]!='%')&&index<operation.length()){
+            str->append(operation[index]);
+            index++;
+        }
+        std::cout<<str->toLatin1().data()<<"ESTO FUE \n"<<std::endl;
+        if(!contains_alphabet(*str,tipo)){
+            QString string_saica = get_var_value<int>(*str, tipo);
+            if(string_saica=="Error"){
+                return false;
+            }
+            string_to_parse.append(string_saica);
+        }
+        else{
+            string_to_parse.append(*str);
+        }
+        string_to_parse.append(operation[index]);
+        index++;
+
+    }
+    double result;
+    trig_function_double<double >(&result,string_to_parse.toLatin1().data());
+    std::string s=std::to_string(result);
+    Json_creator::add_value((char*)s.c_str(),object);
+    std::cout<<"RESULTADO FUE"<<result;
+}
 
 bool Operational_parsing::contains_alphabet(QString str,const char* varType) {
     std::cout<<str.toLatin1().data()<<"ese fue el valor"<<std::endl;
-    if (varType=="float"||varType=="double"){
+    QString string = varType;
+    if (string.contains("float")||string.contains("double")){
         bool x;
         str.toDouble(&x);
         std::cout<<"EL BOOL FUE"<<x;
@@ -133,7 +226,57 @@ void Operational_parsing::trig_function_int(int *direction,char* strin) {
     T y = expression.value();
     *direction=y;
 }
+template <typename  T>
 
+void Operational_parsing::trig_function_double(double *direction, char *str) {
+    typedef exprtk::symbol_table<T> symbol_table_t;
+    typedef exprtk::expression<T>     expression_t;
+    typedef exprtk::parser<T>             parser_t;
+    std::string expression_string = str ;
+    T x;
+    symbol_table_t symbol_table;
+    expression_t expression;
+    expression.register_symbol_table(symbol_table);
+
+    parser_t parser;
+    parser.compile(expression_string,expression);
+    T y = expression.value();
+    *direction=y;
+}
+template <typename  T>
+
+void Operational_parsing::trig_function_float(float *direction, char *str) {
+    typedef exprtk::symbol_table<T> symbol_table_t;
+    typedef exprtk::expression<T>     expression_t;
+    typedef exprtk::parser<T>             parser_t;
+    std::string expression_string = str ;
+    T x;
+    symbol_table_t symbol_table;
+    expression_t expression;
+    expression.register_symbol_table(symbol_table);
+
+    parser_t parser;
+    parser.compile(expression_string,expression);
+    T y = expression.value();
+    *direction=y;
+}
+template <typename  T>
+
+void Operational_parsing::trig_function_long(long *direction, char *str) {
+    typedef exprtk::symbol_table<T> symbol_table_t;
+    typedef exprtk::expression<T>     expression_t;
+    typedef exprtk::parser<T>             parser_t;
+    std::string expression_string = str ;
+    T x;
+    symbol_table_t symbol_table;
+    expression_t expression;
+    expression.register_symbol_table(symbol_table);
+
+    parser_t parser;
+    parser.compile(expression_string,expression);
+    T y = expression.value();
+    *direction=y;
+}
  char *Operational_parsing::convert_to_only_char(const char *type) {
     char* caracter= new char[sizeof((*reconstruct_without_space( QString(type))).toLatin1().data())-2];
     int i = 0;
@@ -145,7 +288,6 @@ void Operational_parsing::trig_function_int(int *direction,char* strin) {
                 return caracter;
             }
             contador2++;
-
         }
         std::cout<<type[i]<<"\n";
         if(type[i]!='"'&&' '){

@@ -26,6 +26,10 @@ private:
     bool contains_invalid_symbols(QString qString);
     bool types_equal(QString *pString);
     bool contains_operational(QString value,const char* type);
+
+    void parse_print(QString qString);
+
+    void analize_to_print(QString qString);
 };
 
 
