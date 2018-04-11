@@ -6,16 +6,14 @@
 #define EXTRA_CLASE_1_NODOS_H
 
 
+#include <thread>
 #include "../GUI/MyThread.h"
 
 class NodoS {
 public:
-    MyThread value;
-    void setValue(MyThread x);
+    NodoS();
+    void (*Function)();
     NodoS* next= nullptr;
-    NodoS(){
-    next= nullptr;
-    }
 };
 
 

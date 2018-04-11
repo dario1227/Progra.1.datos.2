@@ -4,6 +4,8 @@
 #include <zconf.h>
 #include "GUI/Interfaz.h"
 #include "Parsing/exprtk.hpp"
+#include "GUI/MyThread.h"
+
 using namespace std;
 Interfaz* GUI= new Interfaz();
 template <typename T>
@@ -34,14 +36,29 @@ void trig_function()
       //  printf("%19.15f\t%19.15f\n",x,y);
     }
 }
-
-
+int x=0;
+void ex1(){
+    x+=5;
+}
+void  ex2(){
+    x+=5;
+}
+void ex3(){
+    x+=6;
+}
 int main(int argc, char **argv) {
     QApplication app(argc, argv);
     qRegisterMetaType<QTextCharFormat>("QTextCharFormat");
     qRegisterMetaType<QTextCursor>("QTextCursor");
     GUI->Start();
     trig_function<double >();
+    MyThread* threads=new MyThread();
+    threads->addT(ex1);
+    threads->addT(ex2);
+    threads->addT(ex3);
+    threads->startT();
+    usleep(1000);
+    cout<<"//////////////////"<<x;
      QString str="34+34";
      bool x;
      str.toInt(&x,10);

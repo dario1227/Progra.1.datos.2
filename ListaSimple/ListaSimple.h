@@ -4,22 +4,18 @@
 
 #ifndef EXTRA_CLASE_1_LISTASIMPLE_H
 #define EXTRA_CLASE_1_LISTASIMPLE_H
+
 #include "NodoS.h"
+class NodoS;
 class ListaSimple {
 public:
-    ListaSimple(){
-        head= nullptr;
-    }
-    int large=0;
+    ListaSimple();
     NodoS* head= nullptr;
-    void addF(MyThread x);
-    void addL(MyThread x);
-    void add(MyThread x , int pos);
+    int large=0;
+    void addL(NodoS* x);
     void delF();
     void delL();
     void del(int pos);
-    void get(int pos);
-    void modify(MyThread x, int pos);
 };
 
 

@@ -22,6 +22,7 @@ public:
     static CodeEditor* document;
     void Start();
     void findWords(string a);
+    int getLines();
     QString getLine(int x);
     QString getCell(int x, int y);
     static void addLog(string x);

@@ -99,7 +99,11 @@ QString Interfaz::getLine(int x) {
     cout<<line.toStdString();
     return line;
 }
+int Interfaz::getLines(){
+    QTextDocument* code=this->editor->document();
+    return code->lineCount();
 
+}
 void  Interfaz::findWords(string a) {
     qRegisterMetaType<QTextCharFormat>("QTextCharFormat");
     qRegisterMetaType<QTextCursor>("QTextCursor");
@@ -128,6 +132,7 @@ void Interfaz::prueba() {
     Syntax_analysis* syntax = new Syntax_analysis();
     cout<<"CODIGO Fue"<<syntax->syntax_analysis(getLine(0),0)<<std::endl;
     this->table->add(1,1,getLine(2));
+    cout<<this->getLines();
     findWords("int");
     findWords("long");
     findWords("string");

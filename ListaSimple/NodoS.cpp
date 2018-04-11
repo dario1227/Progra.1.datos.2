@@ -4,8 +4,9 @@
 #include <iostream>
 #include "NodoS.h"
 using namespace std;
-void NodoS::setValue(MyThread x) {
-    this->value=x;
+NodoS::NodoS(){
+    this->next= nullptr;
+    this->Function= nullptr;
 }
 
 
