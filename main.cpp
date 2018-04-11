@@ -4,7 +4,6 @@
 #include <zconf.h>
 #include "GUI/Interfaz.h"
 #include "Parsing/exprtk.hpp"
-#define SPACEBAR 32;
 using namespace std;
 Interfaz* GUI= new Interfaz();
 template <typename T>

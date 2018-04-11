@@ -99,7 +99,8 @@ QString Interfaz::getLine(int x) {
     cout<<line.toStdString();
     return line;
 }
-void Interfaz::findWords(string a) {
+
+void  Interfaz::findWords(string a) {
     qRegisterMetaType<QTextCharFormat>("QTextCharFormat");
     qRegisterMetaType<QTextCursor>("QTextCursor");
     QTextCursor *highlightCursor ;
