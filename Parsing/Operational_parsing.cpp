@@ -12,6 +12,7 @@
 Interfaz* Operational_parsing::interface = nullptr;
 json_object* Operational_parsing::object= nullptr;
 bool Operational_parsing::parse(QString operation,const char* type,json_object* objeto) {
+    object=objeto;
     QString tipo = type;
     if(tipo.contains("int")){
         std::cout<<operation.toLatin1().data()<<"ELVSJFKJHKAJSBFSKLJJG";
@@ -59,7 +60,7 @@ bool Operational_parsing::parse_int(QString operation, const char *tipo) {
     trig_function_int<double >(&result,string_to_parse.toLatin1().data());
     std::string s=std::to_string(result);
     Json_creator::add_value((char*)s.c_str(),object);
-    std::cout<<"RESULTADO FUE"<<result;
+    std::cout<<"RESULTADO FUE"<<result<<'\n'<<std::endl;
 
 }
 bool Operational_parsing::parse_floar(QString operation, const char *tipo) {

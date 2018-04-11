@@ -27,6 +27,12 @@ bool Syntax_analysis::syntax_analysis_stage1(QString line) {
             counter++;
         }
         if(types_syntax(*parsed) && line[x]!=' '){
+            if(parsed->contains("print")){
+                return syntax_analysis_stage2(line, x);
+
+            }
+            std::cout<<"ME SALIO ESTO"<<line[x].toLatin1()<<std::endl;
+            std::cout<<"me salio esto en la linea"<<parsed->toLatin1().data()<<std::endl;
             std::cout<<"ERROR no se definio el tipo"<<std::endl;
             return false;
         }
@@ -106,7 +112,7 @@ bool Syntax_analysis::syntax_analysis_stage2(QString line, int i) {
 }
 
     bool Syntax_analysis::types_syntax(QString qString) {
-        if (qString.contains("int") || qString.contains("bool") || qString.contains("char") ||
+        if ((qString.contains("int")&&!qString.contains("p")) || qString.contains("bool") || qString.contains("char") ||
             qString.contains("double") || qString.contains("long") || qString.contains("float") ||
             qString.contains("struct")||qString.contains("printf")) {
             return true;
@@ -217,22 +223,29 @@ bool Syntax_analysis::contains_operational(QString value,const char*  type) {
 }
 
 void Syntax_analysis::parse_print(QString qString) {
+    std::cout<<"LA LEYRAS QUE ME ENTRAN ES"<<qString.toLatin1().data()<<std::endl;
+
     int counter = 0;
     int index = 0;
     int comilla_counter = 0;
     QString string_to_add = QString();
     if(qString[qString.length()-1]!=';' || qString[qString.length()-2]!=')'){
          std::cout<<"ERROR SAICO";
+        return;
+
     }
     while(index<qString.length()){
-
-        if(qString[index]=='('||')'||';'){
+       // std::cout<<"El counter es"+counter<<std::endl;
+       // std::cout<<"LA LETRA ES:"+qString[index].toLatin1()<<endl;
+        if(qString[index]=='(' || qString[index]==')'||qString[index]==';'){
+            std::cout<<qString[index].toLatin1()<<std::endl;
             counter++;
         }
         if((counter==1||2)&&qString[index]!='('&&')'&&';'&&index>5){
             string_to_add.append(qString[index]);
         }
         if(counter==3){
+
             analize_to_print(string_to_add);
             return;;
         }
@@ -240,6 +253,7 @@ void Syntax_analysis::parse_print(QString qString) {
         index++;
     }
     if(index==qString.length()){
+
         Operational_parsing::interface->addToShell("Error de syntaxis"+std::to_string(actual_line));
         return;
     }
@@ -249,26 +263,32 @@ void Syntax_analysis::parse_print(QString qString) {
 }
 
 void Syntax_analysis::analize_to_print(QString qString) {
+
     QString str = QString();
     int counter = 0;
     int comilla_counter = 0;
     while(counter<qString.length()){
-        if(qString[counter]=='"'||"'"){
+        if(qString[counter]=='"'){
             comilla_counter++;
             if(comilla_counter==2){
                 counter++;
                 break;
             }
         }
-        if(qString[counter]!='"'||"'"){
+        if(qString[counter]!='"'){
             str.append(qString[counter]);
         }
         counter++;
+
     }
     if(comilla_counter==1){
         std::cout<<"ERROR no se puede usar comillas dentro de strings ";
     }
-    if(comilla_counter){
+    if(comilla_counter==2){
+
+        Operational_parsing::interface->addLog(str.toLatin1().data());
+    }
+    if(comilla_counter==0){
         while(counter<qString.length()){
             if(qString[counter]<6){}
 

@@ -137,7 +137,7 @@ void Interfaz::prueba() {
     findWords("double");
     findWords("char");
     findWords("printf");
-    addLog("ERROR");
+    addLog("LOLOL me troleo its a prank bro ,calm your tits");
     addToShell("KILL ME PLS :,v");
 
 }
