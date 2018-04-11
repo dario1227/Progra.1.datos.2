@@ -193,7 +193,7 @@ QString Operational_parsing::get_var_value(QString variable, const char *string)
     int index = 0;
     char* var = variable.toLatin1().data();
     while(index<200){
-        if((string) == interface->getCell(1, index)){
+        if( interface->getCell(1, index).contains(variable)){
             break;
         }
         index++;
@@ -201,7 +201,7 @@ QString Operational_parsing::get_var_value(QString variable, const char *string)
     if (index==200){
         return "ERROR";
     }
-    if(interface->getCell(0,index)=="int"||"double"||"long"||"float"){
+    if(interface->getCell(0,index)=="int"||interface->getCell(0,index)=="double"||interface->getCell(0,index)=="long"||interface->getCell(0,index)=="float"){
         return interface->getCell(2,index);
     }
     else{

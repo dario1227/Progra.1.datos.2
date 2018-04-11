@@ -8,6 +8,13 @@
 
 bool Syntax_analysis::syntax_analysis(QString line, int line_n) {
     this->actual_line=line_n;
+    if(line=="{"){
+        scope_level++;
+        return true ;
+    }
+    if(line=="}"){
+
+    }
     if(line.contains(';')&& types_syntax(line)){
 
         return syntax_analysis_stage1(line);
@@ -286,13 +293,31 @@ void Syntax_analysis::analize_to_print(QString qString) {
     }
     if(comilla_counter==2){
 
-        Operational_parsing::interface->addLog(str.toLatin1().data());
+        Operational_parsing::interface->addToShell(str.toLatin1().data());
     }
     if(comilla_counter==0){
-        while(counter<qString.length()){
-            if(qString[counter]<6){}
+        Operational_parsing::interface->addToShell(search_value(str).toLatin1().data());
+    }
+    else{
+        Operational_parsing::interface->addLog("ERROR no se deben anadir comillas dentro de un string" + std::to_string(actual_line));
+    }
 
+}
+QString Syntax_analysis::search_value(QString nombre) {
+    int index = 0;
+    char* var = nombre.toLatin1().data();
+    while(index<200){
+        if( Operational_parsing::interface->getCell(1, index).contains(nombre)){
+            break;
         }
+        index++;
+    }
+    if (index==200){
+        return QString ("ERROR");
+    }
+
+    else{
+        return Operational_parsing::interface->getCell(2,index);
     }
 
 }

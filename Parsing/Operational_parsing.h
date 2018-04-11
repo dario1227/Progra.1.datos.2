@@ -12,6 +12,9 @@
 
 class Operational_parsing {
 public:
+    template <typename T>
+    static QString get_var_value(QString variable, const char *string);
+
     static Interfaz* interface;
     static json_object* object;
     static bool parse(QString operation,const char* tipo,json_object*);
@@ -25,14 +28,8 @@ private:
     static int get_var_pos(char* var);
     static bool is_operational_next(int i,QString str);
     static bool contains_alphabet(QString str,const char* type);
-    static int convert_to_int(QString str);
-    static long convert_to_long(QString str);
-    static double convert_to_double(QString str);
-    static float convert_to_float(QString str);
-    static int get_From_table(QString* str);
+
     static QString * reconstruct_without_space(QString str);
-    template <typename T>
-    static QString get_var_value(QString variable, const char *string);
     template <typename T>
     static void trig_function_int(int* direction,char* str);
     template <typename T>
