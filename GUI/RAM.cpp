@@ -4,10 +4,10 @@
 
 #include "RAM.h"
 RAM::RAM(int x) {
-    this->setColumnCount(3);
+    this->setColumnCount(5);
     this->setRowCount(x);
     QStringList header;
-    header<<"Type"<<"Name"<<"Direction";
+    header<<"Type"<<"Name"<<"Direction"<<"Position"<<"Scope";
     this->setHorizontalHeaderLabels(header);
     this->setEditTriggers(QAbstractItemView::NoEditTriggers);
     QString* sa=new QString("Prueba");
