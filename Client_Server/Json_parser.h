@@ -12,7 +12,7 @@ class Json_parser {
 public:
     static void create_json(char*);
     static QString* parse_chars(char*);
-    static void add_table(QString *value,QString * type,QString * name);
+    static void add_table(QString *value,QString * type,QString * name,QString * ,QString * );
 };
 
 

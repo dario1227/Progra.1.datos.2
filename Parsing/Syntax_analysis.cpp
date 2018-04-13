@@ -5,8 +5,12 @@
 #include "Syntax_analysis.h"
 #include "Json_creator.h"
 #include "Operational_parsing.h"
+#include "parentesis_tester.h"
 
 bool Syntax_analysis::syntax_analysis(QString line, int line_n) {
+    if(parentesis_tester::analize()== false){
+        return false;
+    }
     this->actual_line=line_n;
     if(line=="{"){
         scope_level++;
@@ -294,9 +298,12 @@ void Syntax_analysis::analize_to_print(QString qString) {
     if(comilla_counter==2){
 
         Operational_parsing::interface->addToShell(str.toLatin1().data());
+        return;
     }
     if(comilla_counter==0){
         Operational_parsing::interface->addToShell(search_value(str).toLatin1().data());
+        return;
+
     }
     else{
         Operational_parsing::interface->addLog("ERROR no se deben anadir comillas dentro de un string" + std::to_string(actual_line));

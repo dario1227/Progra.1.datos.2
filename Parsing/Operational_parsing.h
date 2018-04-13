@@ -9,7 +9,7 @@
 #include <QtCore/QString>
 #include "../GUI/RAM.h"
 #include "../GUI/Interfaz.h"
-
+#include "json-c/json.h"
 class Operational_parsing {
 public:
     template <typename T>
@@ -17,7 +17,7 @@ public:
 
     static Interfaz* interface;
     static json_object* object;
-    static bool parse(QString operation,const char* tipo,json_object*);
+    static bool parse(QString operation,const char* tipo,json_object* objeto);
 private:
 
     static bool parse_int(QString operation,const char* tipo);
