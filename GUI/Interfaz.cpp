@@ -18,8 +18,6 @@
 #include <thread>
 #include <zconf.h>
 
-#define SPACEBAR 32;
-
 using namespace std;
 CodeEditor* Interfaz::document= nullptr;
 QPlainTextEdit* Interfaz::logger= nullptr;
@@ -126,6 +124,8 @@ void  Interfaz::findWords(string a) {
             highlightCursor->mergeCharFormat(*colorFormat);
         }
     }
+    colorFormat->setForeground(Qt::black);
+    highlightCursor->mergeCharFormat(*colorFormat);
     cursor->endEditBlock();
 }
 void Interfaz::prueba() {
@@ -143,8 +143,6 @@ void Interfaz::prueba() {
     findWords("double");
     findWords("char");
     findWords("printf");
-    addLog("LOLOL me troleo its a prank bro ,calm your tits");
-    addToShell("KILL ME PLS :,v");
 
 }
 

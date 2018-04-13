@@ -1,10 +1,10 @@
 #include <iostream>
 #include <QApplication>
 #include <thread>
-#include <zconf.h>
 #include "GUI/Interfaz.h"
 #include "Parsing/exprtk.hpp"
 #include "GUI/MyThread.h"
+#include <unistd.h>
 
 using namespace std;
 Interfaz* GUI= new Interfaz();
@@ -57,7 +57,7 @@ int main(int argc, char **argv) {
     threads->addT(ex2);
     threads->addT(ex3);
     threads->startT();
-    usleep(1000);
+    usleep(2000);
     cout<<"//////////////////"<<x;
      QString str="34+34";
      bool x;
