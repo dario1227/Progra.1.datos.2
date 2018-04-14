@@ -6,7 +6,7 @@
 #include "Json_creator.h"
 #include "Operational_parsing.h"
 #include "parentesis_tester.h"
-
+#include "reference_parsing.h"
 bool Syntax_analysis::syntax_analysis(QString line, int line_n) {
     if(parentesis_tester::analize()== false){
         return false;
@@ -41,6 +41,9 @@ bool Syntax_analysis::syntax_analysis_stage1(QString line) {
             if(parsed->contains("print")){
                 return syntax_analysis_stage2(line, x);
 
+            }
+            if(parsed->contains("getAddr")){
+                syntax_analysis_stage2(line,x);
             }
             std::cout<<"ME SALIO ESTO"<<line[x].toLatin1()<<std::endl;
             std::cout<<"me salio esto en la linea"<<parsed->toLatin1().data()<<std::endl;
@@ -87,6 +90,9 @@ bool Syntax_analysis::syntax_analysis_stage2(QString line, int i) {
     if(line.contains("printf")){
         parse_print(line);
     }
+    if(line.contains("getAddr")){
+        reference_parsing::parse_reference(line, object);
+    }
     while (i < line.length()) {
         if (line[i] != ' '&& counter==0) {
             counter++;
@@ -125,7 +131,7 @@ bool Syntax_analysis::syntax_analysis_stage2(QString line, int i) {
     bool Syntax_analysis::types_syntax(QString qString) {
         if ((qString.contains("int")&&!qString.contains("p")) || qString.contains("bool") || qString.contains("char") ||
             qString.contains("double") || qString.contains("long") || qString.contains("float") ||
-            qString.contains("struct")||qString.contains("printf")) {
+            qString.contains("struct")||qString.contains("printf")||qString.contains("getAddr")) {
             return true;
         } else {
             return false;

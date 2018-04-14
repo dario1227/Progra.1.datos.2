@@ -11,7 +11,7 @@ find_package(Qt5Network REQUIRED)
 find_package(Qt5Sql REQUIRED)
 find_package(Qt5PrintSupport REQUIRED)
 find_package(Qt5Xml REQUIRED)
-set(SOURCE_FILES main.cpp Client_Server/Client_Server.cpp Parsing/exprtk.hpp Client_Server/Client_Server.h GUI/Interfaz.cpp GUI/CodeEditor.cpp GUI/CodeEditor.h GUI/Interfaz.h GUI/RAM.cpp GUI/RAM.h Parsing/Json_creator.cpp Parsing/Json_creator.h Parsing/Syntax_analysis.cpp Parsing/Syntax_analysis.h Parsing/Operational_parsing.cpp Parsing/Operational_parsing.h Client_Server/Json_parser.cpp Client_Server/Json_parser.h ListaSimple/NodoS.cpp ListaSimple/NodoS.h ListaSimple/ListaSimple.cpp ListaSimple/ListaSimple.h GUI/MyThread.cpp GUI/MyThread.h Parsing/parentesis_tester.cpp Parsing/parentesis_tester.h)
+set(SOURCE_FILES main.cpp Client_Server/Client_Server.cpp Parsing/exprtk.hpp Client_Server/Client_Server.h GUI/Interfaz.cpp GUI/CodeEditor.cpp GUI/CodeEditor.h GUI/Interfaz.h GUI/RAM.cpp GUI/RAM.h Parsing/Json_creator.cpp Parsing/Json_creator.h Parsing/Syntax_analysis.cpp Parsing/Syntax_analysis.h Parsing/Operational_parsing.cpp Parsing/Operational_parsing.h Client_Server/Json_parser.cpp Client_Server/Json_parser.h ListaSimple/NodoS.cpp ListaSimple/NodoS.h ListaSimple/ListaSimple.cpp ListaSimple/ListaSimple.h GUI/MyThread.cpp GUI/MyThread.h Parsing/parentesis_tester.cpp Parsing/parentesis_tester.h Parsing/reference_parsing.cpp Parsing/reference_parsing.h)
 add_executable(Progra.1.datos.2 ${SOURCE_FILES} main.cpp "Parsing/exprtk.hpp" "Client_Server/Client_Server.cpp" "Client_Server/Client_Server.h" "GUI/Interfaz.cpp" "GUI/Interfaz.h" "GUI/CodeEditor.cpp" "GUI/CodeEditor.h")
 target_link_libraries(Progra.1.datos.2 json-c)
 target_link_libraries(Progra.1.datos.2 Qt5::Widgets Qt5::Core Qt5::Network Qt5::Sql
