@@ -13,6 +13,7 @@
 #include "RAM.h"
 #include "../Parsing/Syntax_analysis.h"
 #include "../Parsing/Operational_parsing.h"
+#include "StructP.h"
 #include <iostream>
 #include <QThread>
 #include <thread>
@@ -128,7 +129,16 @@ void  Interfaz::findWords(string a) {
     highlightCursor->mergeCharFormat(*colorFormat);
     cursor->endEditBlock();
 }
+void test(){
+    NodoS* temp=StructP::structs->head;
+    while (temp!= nullptr){
+        cout<<"\n"<<"////////////struct Lines"<<"\n"<<StructP::structs->large;
+        temp=temp->next;
+    }
+}
 void Interfaz::prueba() {
+    StructP::start(this);
+    test();
     Syntax_analysis* syntax = new Syntax_analysis();
     cout<<"CODIGO Fue"<<syntax->syntax_analysis(getLine(0),0)<<std::endl;
     this->table->add(1,1,getLine(2));

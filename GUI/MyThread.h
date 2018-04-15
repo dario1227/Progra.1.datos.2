@@ -5,8 +5,7 @@
 #ifndef PROGRA_1_DATOS_2_MYTHREAD_H
 #define PROGRA_1_DATOS_2_MYTHREAD_H
 
-#include "../ListaSimple/ListaSimple.h"
-
+#include "ListaSimple.h"
 class ListaSimple;
 class MyThread {
 public:

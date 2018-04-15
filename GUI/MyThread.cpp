@@ -1,9 +1,10 @@
 //
 // Created by dario1227 on 11/04/18.
 //
-#include <pthread.h>
 #include "MyThread.h"
-#include <thread>
+#include <pthread.h>
+#include "ListaSimple.h"
+#include "NodoS.h"
 MyThread::MyThread() {
     this->lista=new ListaSimple();
 }

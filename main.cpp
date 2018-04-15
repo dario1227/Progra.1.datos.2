@@ -5,7 +5,7 @@
 #include "Parsing/exprtk.hpp"
 #include "GUI/MyThread.h"
 #include <unistd.h>
-
+#include "GUI/ListaSimple.h"
 using namespace std;
 Interfaz* GUI= new Interfaz();
 template <typename T>
@@ -52,11 +52,11 @@ int main(int argc, char **argv) {
     qRegisterMetaType<QTextCursor>("QTextCursor");
     GUI->Start();
     trig_function<double >();
-    MyThread* threads=new MyThread();
-    threads->addT(ex1);
-    threads->addT(ex2);
-    threads->addT(ex3);
-    threads->startT();
+    MyThread* ejecutables=new MyThread();
+    ejecutables->addT(ex1);
+    ejecutables->addT(ex2);
+    ejecutables->addT(ex3);
+    ejecutables->startT();
     usleep(2000);
     cout<<"//////////////////"<<x;
      QString str="34+34";

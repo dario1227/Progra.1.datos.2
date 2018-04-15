@@ -31,7 +31,6 @@ void ListaSimple::delF() {
         this->head=this->head->next;
     }
 }
-
 void ListaSimple::delL() {
     if(this->head== nullptr){
         cout<<"Lista Vacia";
