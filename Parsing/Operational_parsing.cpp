@@ -191,7 +191,6 @@ QString * Operational_parsing::reconstruct_without_space(QString str) {
 template <typename T>
 QString Operational_parsing::get_var_value(QString variable, const char *string) {
     int index = 0;
-    char* var = variable.toLatin1().data();
     while(index<200){
         if( interface->getCell(1, index).contains(variable)){
             break;

@@ -12,8 +12,13 @@
 class reference_parsing {
 public:
 
-    static void parse_reference(QString qString, json_object *pObject);
+    static bool parse_reference(QString qString, json_object *pObject);
     static QString* value_getter(QString var);
+    static bool is_equals_next(QString lol , int index);
+    static bool is_pointcomma_next(QString str,int index);
+    static bool its_type(QString str);
+    static bool parse_reference_stage2(QString qString,json_object* pObject,QString type);
+    static bool already_exists(QString name);
 };
 
 

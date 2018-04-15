@@ -9,6 +9,7 @@
 class Json_creator {
 public:
     static void add_type_value(char* value,json_object* objeto);
+
     static void add_value( char* value,json_object* objeto);
     static void add_value_name(char* value,json_object* objeto);
     static void add_scope_level(char* value,json_object* objeto);

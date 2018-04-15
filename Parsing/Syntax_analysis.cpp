@@ -42,6 +42,9 @@ bool Syntax_analysis::syntax_analysis_stage1(QString line) {
                 return syntax_analysis_stage2(line, x);
 
             }
+            if(parsed->contains("reference")){
+                return reference_parsing::parse_reference(line,this->object);
+            }
             if(parsed->contains("getAddr")){
                 syntax_analysis_stage2(line,x);
             }
@@ -54,7 +57,7 @@ bool Syntax_analysis::syntax_analysis_stage1(QString line) {
 
 
             if(is_pointcomma_next(line,x)||is_equal_next(line,x)){
-                std::cout<<"Error, no se ha definido nombre Variable"<<std::endl;
+                Operational_parsing::interface->addLog("ERROR se espera un nombre de variable despues del tipo :D");
                 return false;
             }
             else {
@@ -131,7 +134,7 @@ bool Syntax_analysis::syntax_analysis_stage2(QString line, int i) {
     bool Syntax_analysis::types_syntax(QString qString) {
         if ((qString.contains("int")&&!qString.contains("p")) || qString.contains("bool") || qString.contains("char") ||
             qString.contains("double") || qString.contains("long") || qString.contains("float") ||
-            qString.contains("struct")||qString.contains("printf")||qString.contains("getAddr")) {
+            qString.contains("struct")||qString.contains("printf")||qString.contains("getAddr")||qString.contains("reference")) {
             return true;
         } else {
             return false;
