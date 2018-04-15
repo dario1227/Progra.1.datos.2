@@ -4,6 +4,7 @@
 #include "GUI/Interfaz.h"
 #include "Parsing/exprtk.hpp"
 #include "GUI/MyThread.h"
+#include "Client_Server/Client_Server.h"
 #include <unistd.h>
 
 using namespace std;
@@ -38,7 +39,8 @@ void trig_function()
 }
 int x=0;
 void ex1(){
-    x+=5;
+Client_Server* servidor = new Client_Server();
+    servidor->connect_Server();
 }
 void  ex2(){
     x+=5;
@@ -52,11 +54,12 @@ int main(int argc, char **argv) {
     qRegisterMetaType<QTextCursor>("QTextCursor");
     GUI->Start();
     trig_function<double >();
-    MyThread* threads=new MyThread();
-    threads->addT(ex1);
-    threads->addT(ex2);
-    threads->addT(ex3);
-    threads->startT();
+    ex1();
+//    MyThread* threads=new MyThread();
+//
+//    threads->addT(ex1);
+//
+//    threads->startT();
     usleep(2000);
     cout<<"//////////////////"<<x;
      QString str="34+34";

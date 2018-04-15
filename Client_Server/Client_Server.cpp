@@ -22,8 +22,9 @@ void Client_Server::connect_Server() {
         std::cout << "=> Connection to the server port number: " << portNum << std::endl;
     std::cout << "=> Awaiting confirmation from the server..." << std::endl; //line 40
     recv(client, buffer, bufsize, 0);
-    std::cout << "=> Connection confirmed, you are good to go...";
+    std::cout << "=> Connection confirmed, you are good to go..."<<std::endl;
     while(true){
+        std::cout<<"ESTOY AQUI PERROS"<<std::endl;
         recv(client, buffer, bufsize, 0);
         //HACER ALGO CON LA INTERFAZ PARA ANADIRLO :D
         Json_parser::create_json(buffer);

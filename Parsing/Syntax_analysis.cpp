@@ -7,7 +7,15 @@
 #include "Operational_parsing.h"
 #include "parentesis_tester.h"
 #include "reference_parsing.h"
+
 bool Syntax_analysis::syntax_analysis(QString line, int line_n) {
+    if(object!= nullptr){
+        delete object;
+        object = json_object_new_object();
+    }
+    if(object== nullptr){
+        object=json_object_new_object();
+    }
 
     if(parentesis_tester::analize()== false){
         return false;

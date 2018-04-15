@@ -19,14 +19,14 @@ void Json_parser::create_json(char * var) {
 }
 void Json_parser::add_table(QString * value,QString * type,QString * name,QString* scope,QString *pos) {
     int index = 0;
-    while(Operational_parsing::interface->getCell(0,index)!= nullptr&&" "){
+    while(Operational_parsing::interface->getCell(0,index)!= nullptr&&Operational_parsing::interface->getCell(0,index)!=" "){
         index++;
     }
     Operational_parsing::interface->table->add(0,index,*value);
     Operational_parsing::interface->table->add(1,index,*type);
     Operational_parsing::interface->table->add(2,index,*name);
-    Operational_parsing::interface->table->add(3,index,*name);
-    Operational_parsing::interface->table->add(4,index,*name);
+    Operational_parsing::interface->table->add(3,index,*scope);
+    Operational_parsing::interface->table->add(4,index,*pos);
 
 }
 QString* Json_parser::parse_chars(char * character) {

@@ -11,9 +11,9 @@
 class Syntax_analysis {
 public:
     int actual_line = 0;
-    static int scope_level=0;
-    static int howmanyScopes = 0;
-    static QString  string =  QString("ABCDEFGHIJKLMNOPQRSTUVWXYZ");
+    int scope_level=0;
+    int howmanyScopes = 0;
+    QString  string=QString("ABCDEFGHIJKLMNOPQRSTUVWXYZ") ;
     json_object* object = json_object_new_object();
 
     bool syntax_analysis(QString line, int n_line);

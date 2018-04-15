@@ -17,7 +17,7 @@
 #include <json-c/json.h>
 class Client_Server {
 public:
-    void connect_Server();
+     void connect_Server();
     int client;
     int portNum = 1500;
     bool isExit = false;
