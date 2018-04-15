@@ -5,6 +5,7 @@
 #include <iostream>
 #include "reference_parsing.h"
 #include "Operational_parsing.h"
+#include "Json_creator.h"
 
 bool reference_parsing::parse_reference(QString qString, json_object *pObject) {
     int counter = 0;
@@ -52,6 +53,7 @@ bool reference_parsing::parse_reference(QString qString, json_object *pObject) {
 
         }
         else{
+            Json_creator::add_type_value(isReference.toLatin1().data(),pObject);
             return parse_reference_stage2(qString,pObject,reference_type);
         }
     }
@@ -110,19 +112,148 @@ bool reference_parsing::parse_reference_stage2(QString qString, json_object *pOb
 
         return false;
     }
-    QString type = 
-    while
+    QString name = QString();
+    int counter_No_space = 0;
+    if(qString[index]!=' '){
+        Operational_parsing::interface->addLog("Error ,se tiene que dejar espacio para definir la variable");
+
+        return false;
+    }
+    while(index<qString.length()){
+        //inicia ese if
+        if(is_equals_next(qString,index)){
+            if(name.isEmpty()){
+                Operational_parsing::interface->addLog("Error ,no se definio un nombre");
+                return false;
+            }
+            else{
+                if(!already_exists(name)){
+                    return false;
+                }
+                if(contains_fault_characters(name)){
+                    Operational_parsing::interface->addLog("Error ,Caracteres incorrectos en la variable");
+                    return false;
+
+                }
+                else{
+                    Json_creator::add_value_name(name.toLatin1().data(),pObject);
+                    return parse_reference_stage3(qString,pObject,type);
+                }
+            }
+        }
+        //Termina ese if
+        if(qString[index]!=' '){
+            name.append(qString[index]);
+        }
+        index++;
+
+    }
+    Operational_parsing::interface->addLog("Error ,No se encontro definicion de la variable");
+    return false;
+
 }
 bool reference_parsing::already_exists(QString name) {
     int index = 0;
     while(index<200){
-        if( Operational_parsing::interface->getCell(1, index).contains(name)){
+        if(Operational_parsing::interface->getCell(1, index)==""||Operational_parsing::interface->getCell(1, index)==NULL){
+            return true;
+        }
+        if( Operational_parsing::interface->getCell(1, index)==name){
             Operational_parsing::interface->addLog("Ya existe una variable con el mismo nombre :D");
             return false;
         }
         index++;
     }
     if (index==200){
-        return "ERROR";
+        return true;
+    }
+
+}
+bool reference_parsing::contains_fault_characters(QString qString) {
+    if(qString.contains("'")||qString.contains("}")||qString.contains("{")||qString.contains(")")||qString.contains("(")||qString.contains(";")||
+            qString.contains('"')||qString.contains("!")||qString.contains("*")||qString.contains("?")||qString.contains("]")||
+            qString.contains(':')|| qString.contains(',')|| qString.contains('.') ||qString.contains('<')){
+        return true;
+    }
+    else{
+        return false;
+    }
+}
+bool reference_parsing::parse_reference_stage3(QString qString, json_object *pObject, QString type) {
+    int index =0;
+    while(index<qString.length()){
+        if(qString[index]=='='){
+            index++;
+            break;
+        }
+        index++;
+    }
+
+    QString a_parsear = QString();
+    while(index<qString.length()){
+        if(qString[index]!= ' '){
+            a_parsear.append(qString[index]);
+        }
+        if(qString[index]==';'){
+            break;
+        }
+    }
+    int secondary_index=0,parentesis_counter=0;
+    QString to_search = QString();
+    QString getadd = QString();
+    if(a_parsear[7]!='('){
+        Operational_parsing::interface->addLog("Error,despues de getAddr tiene que ir un (");
+
+
+    }
+    if(a_parsear[a_parsear.length()-1]!=')'){
+        Operational_parsing::interface->addLog("Error,Se debe cerrar con otros )");
+
+    }
+    while(secondary_index<a_parsear.length()){
+        if(a_parsear[secondary_index]=='('||a_parsear[secondary_index]==')'){
+            parentesis_counter++;
+            secondary_index++;
+        }
+        if(parentesis_counter==2){
+            break;
+        }
+        if(parentesis_counter==0){
+            getadd.append(a_parsear[secondary_index]);
+        }
+        if(parentesis_counter==1){
+            to_search.append(a_parsear[secondary_index]);
+        }
+        secondary_index++;
+        }
+        if(getadd!="getAddr"){
+            Operational_parsing::interface->addLog("Error,para conseguir la direccion se necesita getAddr()");
+            return false;
+        }
+        else{
+            return  parse_reference_stage4(to_search,pObject,type);
+    }
+    }
+bool reference_parsing::parse_reference_stage4(QString to_search, json_object *pObject, QString type) {
+    int index = 0;
+    int linea = -1;
+    while(index<200){
+        if(Operational_parsing::interface->getCell(1, index)==""||Operational_parsing::interface->getCell(1, index)==NULL){
+            break;
+        }
+
+        if( Operational_parsing::interface->getCell(1, index)== to_search){
+            linea=index;
+            break;
+        }
+        index++;
+    }
+    if(Operational_parsing::interface->getCell(0,linea)!=type){
+        Operational_parsing::interface->addLog("Error,Los tipos no coinciden");
+        return false;
+    }
+    else{
+        Json_creator::add_value(Operational_parsing::interface->getCell(2,linea).toLatin1().data(),pObject);
+        return true;
     }
 }

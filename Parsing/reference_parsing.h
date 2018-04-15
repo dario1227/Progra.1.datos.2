@@ -18,7 +18,11 @@ public:
     static bool is_pointcomma_next(QString str,int index);
     static bool its_type(QString str);
     static bool parse_reference_stage2(QString qString,json_object* pObject,QString type);
+    static bool parse_reference_stage3(QString qString,json_object* pObject,QString type);
+    static bool parse_reference_stage4(QString qString,json_object* pObject,QString type);
+    static bool contains_fault_characters(QString qString);
     static bool already_exists(QString name);
+    static int search_value_position(QString valuename);
 };
 
 
