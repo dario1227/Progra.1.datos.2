@@ -8,12 +8,14 @@
 
 #include <thread>
 #include "../GUI/MyThread.h"
-
+#include "StructP.h"
+class StructP;
 class NodoS {
 public:
     NodoS();
     void (*Function)();
     NodoS* next= nullptr;
+    StructP* value= nullptr;
 };
 
 

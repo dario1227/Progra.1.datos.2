@@ -7,7 +7,7 @@
 
 #include "NodoS.h"
 class NodoS;
-class ListaSimple {
+class ListaSimple{
 public:
     ListaSimple();
     NodoS* head= nullptr;
