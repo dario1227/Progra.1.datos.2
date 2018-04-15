@@ -8,19 +8,29 @@
 #include "parentesis_tester.h"
 #include "reference_parsing.h"
 bool Syntax_analysis::syntax_analysis(QString line, int line_n) {
+
     if(parentesis_tester::analize()== false){
         return false;
     }
+    if(line=="{"){
+        object= nullptr;
+        howmanyScopes++;
+        scope_level++;
+        return true;
+    }
     this->actual_line=line_n;
     if(line=="{"){
+        object= nullptr;
         scope_level++;
         return true ;
     }
     if(line=="}"){
+        scope_level--;
+        return true;
 
     }
     if(line.contains(';')&& types_syntax(line)){
-
+        Json_creator::add_scope_level((char*)std::to_string(scope_level).c_str()+string[howmanyScopes].toLatin1(),object);
         return syntax_analysis_stage1(line);
     }
     else{
