@@ -6,23 +6,27 @@
 #include "Json_parser.h"
 
 void Client_Server::connect_Server() {
+    int portNum = 1500; // NOTE that the port number is same for both client and server
+    bool isExit = false;
+    char* ip = "127.0.0.1";
+
     struct sockaddr_in server_addr;
 
     client = socket(AF_INET, SOCK_STREAM, 0);
-    client = socket(AF_INET, SOCK_STREAM, 0);
-
     if (client < 0)
     {
         std::cout << "\nError establishing socket..." << std::endl;
         exit(1);
     }
+    std::cout << "\n=> Socket client has been created..." <<std:: endl;
+
     server_addr.sin_family = AF_INET;
     server_addr.sin_port = htons(portNum);
     if (connect(client,(struct sockaddr *)&server_addr, sizeof(server_addr)) == 0)
         std::cout << "=> Connection to the server port number: " << portNum << std::endl;
     std::cout << "=> Awaiting confirmation from the server..." << std::endl; //line 40
     recv(client, buffer, bufsize, 0);
-    std::cout << "=> Connection confirmed, you are good to go..."<<std::endl;
+    std::cout << "=> Connection confirmed, you are good to go...";
     while(true){
         std::cout<<"ESTOY AQUI PERROS"<<std::endl;
         recv(client, buffer, bufsize, 0);

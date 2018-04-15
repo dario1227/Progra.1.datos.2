@@ -6,6 +6,8 @@
 #include "GUI/MyThread.h"
 #include <unistd.h>
 #include "GUI/ListaSimple.h"
+#include "Client_Server/Client_Server.h"
+
 using namespace std;
 Interfaz* GUI= new Interfaz();
 template <typename T>
@@ -52,12 +54,14 @@ int main(int argc, char **argv) {
     qRegisterMetaType<QTextCursor>("QTextCursor");
     GUI->Start();
     trig_function<double >();
-    MyThread* ejecutables=new MyThread();
-    ejecutables->addT(ex1);
-    ejecutables->addT(ex2);
-    ejecutables->addT(ex3);
-    ejecutables->startT();
-    usleep(2000);
+    Client_Server servidor = Client_Server();
+    servidor.connect_Server();
+//    MyThread* ejecutables=new MyThread();
+//    ejecutables->addT(ex1);
+//    ejecutables->addT(ex2);
+//    ejecutables->addT(ex3);
+//    ejecutables->startT();
+//    usleep(2000);
     cout<<"//////////////////"<<x;
      QString str="34+34";
      bool x;

@@ -19,11 +19,10 @@ class Client_Server {
 public:
      void connect_Server();
     int client;
-    int portNum = 1500;
-    bool isExit = false;
+
     static const int bufsize = 1024;
     char buffer[bufsize];
-    char* ip = "127.0.0.1";
+
     void send_Server(json_object* objeto);
 };
 
