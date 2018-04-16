@@ -48,6 +48,9 @@ void  ex2(){
 void ex3(){
     x+=6;
 }
+void started(){
+    ///////AQUI LO DEL SERVER
+}
 int main(int argc, char **argv) {
     QApplication app(argc, argv);
     qRegisterMetaType<QTextCharFormat>("QTextCharFormat");
@@ -56,7 +59,9 @@ int main(int argc, char **argv) {
     trig_function<double >();
     Client_Server servidor = Client_Server();
   //  servidor.connect_Server();
-//    MyThread* ejecutables=new MyThread();
+    //Client_Server servidor = Client_Server();
+    //servidor.connect_Server();
+    MyThread* ejecutables=new MyThread();
 //    ejecutables->addT(ex1);
 //    ejecutables->addT(ex2);
 //    ejecutables->addT(ex3);
@@ -68,5 +73,7 @@ int main(int argc, char **argv) {
      str.toInt(&x,10);
      cout<<"ENCONTRE QUE FUE"<<x;
     cout<<GUI->getCell(0,0).toStdString();
-    return app.exec();
+    started();
+    app.exec();
+    return 0;
 }
