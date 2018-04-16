@@ -9,33 +9,25 @@ ListaSimple* StructP::structs=new ListaSimple();
 void StructP::start(Interfaz* gui){
     StructP::structs= new ListaSimple();
     int x=0;
-    int final=gui->getLines();
-    while(x<=final){
-        string line=gui->getLine(x).toStdString();
-        if(line.find("{")){
-            x++;
-            int y=0;
-            int array[30];
-            while(!line.find("}")) {
-                line=gui->getLine(x).toStdString();
-                array[y]=x;
-                y++;
-                x++;
-            }
-            StructP *structA = new StructP();
-            int z=0;
-            while(z<30){
-                structA->lines[z]=array[z];
-                z++;
-            }
-            NodoS* nodo=new NodoS();
-            nodo->value=structA;
-            StructP::structs->addL(nodo);
-            x++;
-        } else{
-            x++;
+    int ini=0;
+    int fin=0;
+    int finales=gui->getLines();
+    while(x<=finales){
+        QString line=gui->getLine(x);
+        if(line.contains("{")){
+            ini=x+1;
         }
+        else if(line.contains("}")){
+            fin=x+1;
+            cout<<"hhoollllaaaa";
+            StructP* structP=new StructP();
+            structP->inicio=ini;
+            structP->final=fin;
+            NodoS* nodo= new NodoS();
+            nodo->value=structP;
+            StructP::structs->addL(nodo);
+        }
+        x++;
+
     }
-
-
 }

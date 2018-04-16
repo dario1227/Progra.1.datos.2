@@ -39,24 +39,24 @@ bool parentesis_tester::counter(int num_lines) {
                 corchete_frontal++;
             }
             if(parentesis_counter_backward>parentesis_counter_foward){
-                usleep(100);
+                usleep(200);
                 not_error=false;
                 Operational_parsing::interface->addLog("Error, se coloco un ) sin que le antesediera un( linea : "+(char)current_line);
             }
             if(corchete_back>corchete_frontal){
-                usleep(100);
+                usleep(200);
                 not_error=false;
                 Operational_parsing::interface->addLog("Error, se coloco un } sin que le antesediera un { linea : "+(char)current_line);
             }
             counter2++;
         }
         if(comilla_counter!=2&&comilla_counter!=0){
-            usleep(100);
+            usleep(200);
             not_error=false;
              Operational_parsing::interface->addLog("Error, se esperan  2 comillas en una sola linea : "+(char)current_line);
         }
         if(parentesis_counter_backward!=parentesis_counter_foward){
-            usleep(100);
+            usleep(200);
             not_error=false;
 
             Operational_parsing::interface->addLog("Error, deben de haber la misma cantidad de ( y ) en una linea : "+(char)current_line);
@@ -65,7 +65,7 @@ bool parentesis_tester::counter(int num_lines) {
 
     }
     if(corchete_back!=corchete_frontal){
-        usleep(100);
+        usleep(200);
         not_error=false;
         Operational_parsing::interface->addLog("Error,se debe de tener la misma cantidad de } y { en un solo codigo");
 

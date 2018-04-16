@@ -132,7 +132,9 @@ void  Interfaz::findWords(string a) {
 void test(){
     NodoS* temp=StructP::structs->head;
     while (temp!= nullptr){
-        cout<<"\n"<<"////////////struct Lines"<<"\n"<<StructP::structs->large;
+        cout<<"\n"<<"////////////struct Lines"<<"\n";
+        int x=temp->value->inicio;
+        cout<<temp->value->inicio<<"-"<<temp->value->final;
         temp=temp->next;
     }
 }

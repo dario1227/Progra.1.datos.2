@@ -12,7 +12,8 @@ class ListaSimple;
 class StructP {
 public:
     static ListaSimple* structs;
-     int lines[30];
+    int inicio=0;
+    int final =0;
     static void start(Interfaz* gui);
 
 };
