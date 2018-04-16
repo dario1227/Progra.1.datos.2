@@ -55,7 +55,7 @@ int main(int argc, char **argv) {
     GUI->Start();
     trig_function<double >();
     Client_Server servidor = Client_Server();
-    servidor.connect_Server();
+  //  servidor.connect_Server();
 //    MyThread* ejecutables=new MyThread();
 //    ejecutables->addT(ex1);
 //    ejecutables->addT(ex2);
