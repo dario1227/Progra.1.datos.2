@@ -9,13 +9,6 @@
 #include "reference_parsing.h"
 
 bool Syntax_analysis::syntax_analysis(QString line, int line_n) {
-    if(object!= nullptr){
-        delete object;
-        object = json_object_new_object();
-    }
-    if(object== nullptr){
-        object=json_object_new_object();
-    }
 
     if(parentesis_tester::analize()== false){
         return false;
@@ -237,6 +230,7 @@ bool Syntax_analysis::syntax_analysis_stagefinal(QString value) {
 //
                 return Operational_parsing::parse(value,json_object_to_json_string(json_object_object_get(object,"type")),this->object);
     }
+    Json_creator::add_value(value.toLatin1().data(),this->object);
     return true;
 }
 bool Syntax_analysis::contains_invalid_symbols(QString qString) {

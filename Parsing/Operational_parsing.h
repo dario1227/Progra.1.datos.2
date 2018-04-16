@@ -10,12 +10,15 @@
 #include "../GUI/RAM.h"
 #include "../GUI/Interfaz.h"
 #include "json-c/json.h"
+#include "../Client_Server/Client_Server.h"
+
 class Operational_parsing {
 public:
     template <typename T>
     static QString get_var_value(QString variable, const char *string);
 
     static Interfaz* interface;
+    static Client_Server *server;
     static json_object* object;
     static bool parse(QString operation,const char* tipo,json_object* objeto);
 private:
@@ -40,6 +43,8 @@ private:
     static void trig_function_float(float * direction,char* str);
 
     static  char *convert_to_only_char(const char *type);
+
+
 };
 
 

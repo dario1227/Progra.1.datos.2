@@ -7,6 +7,7 @@
 #include <unistd.h>
 #include "GUI/ListaSimple.h"
 #include "Client_Server/Client_Server.h"
+#include "Parsing/Operational_parsing.h"
 
 using namespace std;
 Interfaz* GUI= new Interfaz();
@@ -40,7 +41,9 @@ void trig_function()
 }
 int x=0;
 void ex1(){
-    x+=5;
+Client_Server server = Client_Server();
+Operational_parsing::server = &server;
+server.connect_Server();
 }
 void  ex2(){
     x+=5;
@@ -57,15 +60,14 @@ int main(int argc, char **argv) {
     qRegisterMetaType<QTextCursor>("QTextCursor");
     GUI->Start();
     trig_function<double >();
-    Client_Server servidor = Client_Server();
   //  servidor.connect_Server();
     //Client_Server servidor = Client_Server();
     //servidor.connect_Server();
     MyThread* ejecutables=new MyThread();
-//    ejecutables->addT(ex1);
+   ejecutables->addT(ex1);
 //    ejecutables->addT(ex2);
 //    ejecutables->addT(ex3);
-//    ejecutables->startT();
+    ejecutables->startT();
 //    usleep(2000);
     cout<<"//////////////////"<<x;
      QString str="34+34";

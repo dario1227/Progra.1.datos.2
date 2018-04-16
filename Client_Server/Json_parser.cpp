@@ -7,26 +7,32 @@
 #include "../Parsing/Operational_parsing.h"
 
 void Json_parser::create_json(char * var) {
+    std::cout<<var<<std::endl;
     json_object* objeto = json_tokener_parse(var);
+    std::cout<<json_object_to_json_string(objeto)<<std::endl;
+
 
     QString* type = parse_chars((char*)json_object_to_json_string(json_object_object_get(objeto,"type")));
     QString* value = parse_chars((char*)json_object_to_json_string(json_object_object_get(objeto,"value")));
     QString* name = parse_chars((char*)json_object_to_json_string(json_object_object_get(objeto,"name")));
     QString* scope = parse_chars((char*)json_object_to_json_string(json_object_object_get(objeto,"scope")));
     QString* pos = parse_chars((char*)json_object_to_json_string(json_object_object_get(objeto,"position")));
+    QString* ss = new QString("OLOL");
+    add_table(value,type,name,ss,pos);
 
 
 }
 void Json_parser::add_table(QString * value,QString * type,QString * name,QString* scope,QString *pos) {
+    std::cout<<value->toLatin1().data()<<type->toLatin1().data()<<name->toLatin1().data()<<pos->toLatin1().data()<<std::endl;
     int index = 0;
-    while(Operational_parsing::interface->getCell(0,index)!= nullptr&&Operational_parsing::interface->getCell(0,index)!=" "){
-        index++;
-    }
-    Operational_parsing::interface->table->add(0,index,*value);
-    Operational_parsing::interface->table->add(1,index,*type);
-    Operational_parsing::interface->table->add(2,index,*name);
-    Operational_parsing::interface->table->add(3,index,*scope);
-    Operational_parsing::interface->table->add(4,index,*pos);
+//    while(Operational_parsing::interface->getCell(0,index)!= nullptr&&Operational_parsing::interface->getCell(0,index)!=" "&&Operational_parsing::interface->getCell(0,index)!=NULL){
+//        index++;
+//    }
+    Operational_parsing::interface->table->add(0,0,*type);
+    Operational_parsing::interface->table->add(0,1,*name);
+    Operational_parsing::interface->table->add(0,2,*pos);
+    Operational_parsing::interface->table->add(0,3,*scope);
+    Operational_parsing::interface->table->add(0,4,*value);
 
 }
 QString* Json_parser::parse_chars(char * character) {
