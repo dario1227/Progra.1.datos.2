@@ -5,6 +5,8 @@
 #include <QtGui/QTextCursor>
 #include "StructP.h"
 #include "Interfaz.h"
+#include "../Parsing/Syntax_analysis.h"
+
 ListaSimple* StructP::structs=new ListaSimple();
 void StructP::start(Interfaz* gui){
     StructP::structs= new ListaSimple();
@@ -30,4 +32,20 @@ void StructP::start(Interfaz* gui){
         x++;
 
     }
+    NodoS* temp= StructP::structs->head;
+    Syntax_analysis* analysis= new Syntax_analysis();
+    while (temp!=nullptr){
+        int z=temp->value->inicio-1;
+        int y=0;
+        while (z<temp->value->final){
+            bool valor =analysis->syntax_analysis(gui->getLine(z),z);
+            if (valor){
+                temp->value->lines[y] = gui->getLine(z);
+            }
+            z++;
+            y++;
+        }
+        temp=temp->next;
+    }
+
 }

@@ -14,6 +14,7 @@ public:
     static ListaSimple* structs;
     int inicio=0;
     int final =0;
+    QString lines[30];
     static void start(Interfaz* gui);
 
 };

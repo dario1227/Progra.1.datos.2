@@ -134,6 +134,12 @@ void test(){
     while (temp!= nullptr){
         cout<<"\n"<<"////////////struct Lines"<<"\n";
         int x=temp->value->inicio;
+        int y=0;
+        while (x<temp->value->final){
+            cout<<temp->value->lines[y].toStdString()<<"LIENA";
+            x++;
+            y++;
+        }
         cout<<temp->value->inicio<<"-"<<temp->value->final;
         temp=temp->next;
     }
