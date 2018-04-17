@@ -165,6 +165,8 @@ void Interfaz::prev() {
     if(x>1) {
         y-=17;
         x--;
+        Syntax_analysis* analysis= new Syntax_analysis();
+        analysis->syntax_analysis(getLine(x),x);
         this->cursor->move(1, y);
     }
 }
@@ -172,6 +174,8 @@ void Interfaz::next() {
     if(x<this->getLines()) {
         y+=17;
         x++;
+        Syntax_analysis* analysis= new Syntax_analysis();
+        analysis->syntax_analysis(getLine(x),x);
         this->cursor->move(1, y);
     }
 
