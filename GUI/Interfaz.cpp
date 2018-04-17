@@ -149,6 +149,7 @@ void Interfaz::prueba() {
     test();
     Syntax_analysis* syntax = new Syntax_analysis();
     cout<<"CODIGO Fue"<<syntax->syntax_analysis(getLine(0),0)<<std::endl;
+    Operational_parsing::server->send_Server(syntax->object);
     this->table->add(1,1,getLine(2));
     cout<<this->getLines();
     findWords("int");

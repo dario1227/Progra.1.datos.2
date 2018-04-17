@@ -7,10 +7,12 @@
 #include "exprtk.hpp"
 #include "../GUI/Interfaz.h"
 #include "Json_creator.h"
+#include "../Client_Server/Client_Server.h"
 #include <iostream>
 
 Interfaz* Operational_parsing::interface = nullptr;
 json_object* Operational_parsing::object= nullptr;
+Client_Server* Operational_parsing::server = nullptr;
 bool Operational_parsing::parse(QString operation,const char* type,json_object* objeto) {
     object=objeto;
     QString tipo = type;
