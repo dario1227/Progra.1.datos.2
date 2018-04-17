@@ -155,7 +155,7 @@ bool reference_parsing::parse_reference_stage2(QString qString, json_object *pOb
 bool reference_parsing::already_exists(QString name) {
     int index = 0;
     while(index<200){
-        if(Operational_parsing::interface->getCell(1, index)==""||Operational_parsing::interface->getCell(1, index)==NULL){
+        if(Operational_parsing::interface->table->isEmpty(1,index)){
             return true;
         }
         if( Operational_parsing::interface->getCell(1, index)==name){
@@ -238,7 +238,7 @@ bool reference_parsing::parse_reference_stage4(QString to_search, json_object *p
     int index = 0;
     int linea = -1;
     while(index<200){
-        if(Operational_parsing::interface->getCell(1, index)==""||Operational_parsing::interface->getCell(1, index)==NULL){
+        if(Operational_parsing::interface->table->isEmpty(1,index)){
             break;
         }
 
@@ -248,7 +248,7 @@ bool reference_parsing::parse_reference_stage4(QString to_search, json_object *p
         }
         index++;
     }
-    if(Operational_parsing::interface->getCell(0,linea)!=type){
+    if(Operational_parsing::interface->getCell(0,linea).contains(type)){
         Operational_parsing::interface->addLog("Error,Los tipos no coinciden");
         return false;
     }

@@ -194,7 +194,7 @@ template <typename T>
 QString Operational_parsing::get_var_value(QString variable, const char *string) {
     int index = 0;
     while(index<200){
-        if( interface->getCell(1, index).contains(variable)){
+        if( interface->table->isEmpty(index,0)){
             break;
         }
         index++;

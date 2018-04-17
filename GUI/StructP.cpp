@@ -16,7 +16,7 @@ void StructP::start(Interfaz* gui){
     int finales=gui->getLines();
     while(x<=finales){
         QString line=gui->getLine(x);
-        if(line.contains("{")){
+        if(line.contains("{")&&line.contains("struct")){
             ini=x+1;
         }
         else if(line.contains("}")){
