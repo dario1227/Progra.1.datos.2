@@ -11,10 +11,12 @@
 #include "CodeEditor.h"
 #include "RAM.h"
 #include <iostream>
+#include "QLabel"
 using namespace std;
 class Interfaz: public QObject{
     Q_OBJECT
 public:
+    QLabel* cursor;
     CodeEditor* editor;
     static QPlainTextEdit* logger;
     static QPlainTextEdit* shell;
@@ -29,6 +31,8 @@ public:
     static void addToShell(string x);
 public slots:
 void prueba();
+void next();
+void prev();
 };
 
 

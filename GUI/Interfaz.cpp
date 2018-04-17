@@ -18,22 +18,37 @@
 #include <QThread>
 #include <thread>
 #include <zconf.h>
+#include <QtGui/QPainter>
 
 using namespace std;
 CodeEditor* Interfaz::document= nullptr;
 QPlainTextEdit* Interfaz::logger= nullptr;
 QPlainTextEdit* Interfaz::shell= nullptr;
+static  int x=1;
+static int y=6;
 void Interfaz::Start() {
     QWidget* main=new QWidget();
+    this->cursor=new QLabel();
+    this->cursor->setStyleSheet("QLabel { background-color: cyan}");
+    this->cursor->resize(12,12);
     Interfaz::logger=new QPlainTextEdit();
     Interfaz::shell= new QPlainTextEdit();
     this->editor=new CodeEditor(main);
+    this->cursor->move(1,y);
     main->setWindowTitle("C! IDE");
     main->resize(1250,700);
     QPushButton* run= new QPushButton("RUN!");
+    QPushButton* sig= new QPushButton("NEXT");
+    QPushButton* ant= new QPushButton("PREV");
     connect(run,SIGNAL(clicked()),this,SLOT(prueba()));
+    connect(sig,SIGNAL(clicked()),this,SLOT(next()));
+    connect(ant,SIGNAL(clicked()),this,SLOT(prev()));
     QLabel* runL = new QLabel();
     run->setParent(runL);
+    sig->setParent(runL);
+    ant->setParent(runL);
+    sig->move(200,0);
+    ant->move(100,0);
     runL->resize(900,30);
     runL->move(0,0);
     this->table = new RAM(200);
@@ -72,6 +87,8 @@ void Interfaz::Start() {
     Interfaz::logger->setReadOnly(true);
     Interfaz::shell->setStyleSheet("color : blue");
     Interfaz::logger->setStyleSheet("color : red");
+    this->cursor->setParent(this->editor);
+
     console->resize(900,170);
     this->editor->resize(900,300);
     console->setStyleSheet("QLabel { background-color : darkcyan; color : black; border: 1px solid black}");
@@ -143,6 +160,21 @@ void test(){
         cout<<temp->value->inicio<<"-"<<temp->value->final;
         temp=temp->next;
     }
+}
+void Interfaz::prev() {
+    if(x>1) {
+        y-=17;
+        x--;
+        this->cursor->move(1, y);
+    }
+}
+void Interfaz::next() {
+    if(x<this->getLines()) {
+        y+=17;
+        x++;
+        this->cursor->move(1, y);
+    }
+
 }
 void Interfaz::prueba() {
     StructP::start(this);

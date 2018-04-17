@@ -76,6 +76,5 @@ int main(int argc, char **argv) {
      cout<<"ENCONTRE QUE FUE"<<x;
     cout<<GUI->getCell(0,0).toStdString();
     started();
-    app.exec();
-    return 0;
+    return app.exec();
 }
