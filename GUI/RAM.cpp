@@ -20,5 +20,21 @@ void RAM::add(int row, int colu, QString data) {
 
 }
 bool RAM::isEmpty(int colu, int row) {
-   return this->item(row,colu)->text().isEmpty();
+    bool valor=this->item(row,colu)== nullptr;
+   return valor;
+}
+int RAM::searchName(string name ){
+    int index=0;
+    int result=0;
+    while(!isEmpty(1,index)){
+        if(this->item(index,1)->text().toStdString()==name){
+            result=index;
+            cout<<"LO ENCONTRE PERRAS";
+            break;
+        }
+        index++;
+
+    }
+    return result;
+
 }

@@ -183,10 +183,13 @@ void Interfaz::next() {
 void Interfaz::prueba() {
     StructP::start(this);
     test();
+    cout<<this->table->isEmpty(2,0)<<"ESTA VACIO?";
     Syntax_analysis* syntax = new Syntax_analysis();
     cout<<"CODIGO Fue"<<syntax->syntax_analysis(getLine(0),0)<<std::endl;
-    Operational_parsing::server->send_Server(syntax->object);
+    //Operational_parsing::server->send_Server(syntax->object);
     this->table->add(1,1,getLine(2));
+    this->table->add(0,1,"satan");
+    cout<<this->table->searchName("Dios")<<"LO ENCONTRO";
     cout<<this->getLines();
     findWords("int");
     findWords("long");

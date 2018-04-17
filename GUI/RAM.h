@@ -8,12 +8,14 @@
 
 #include <QtCore/QStringListModel>
 #include <QtWidgets/QTableWidget>
-
+#include <iostream>
+using namespace std;
 class RAM: public  QTableWidget{
 public:
     RAM(int x);
     void add(int row, int colu, QString data);
     bool isEmpty( int colu, int row);
+    int searchName(string name );
 
 };
 
