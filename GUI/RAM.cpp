@@ -19,3 +19,6 @@ void RAM::add(int row, int colu, QString data) {
     da->setTextAlignment(Qt::AlignCenter);
 
 }
+bool RAM::isEmpty(int colu, int row) {
+   return this->item(row,colu)->text().isEmpty();
+}
