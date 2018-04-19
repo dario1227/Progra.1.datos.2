@@ -15,6 +15,4 @@ public:
     static void add_table(QString *value,QString * type,QString * name,QString * ,QString * );
     static QString* parse_to_nocomma();
 };
-
-
 #endif //PROGRA_1_DATOS_2_JSON_PARSER_H

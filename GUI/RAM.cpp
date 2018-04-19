@@ -8,7 +8,7 @@ RAM::RAM(int x) {
     this->setColumnCount(5);
     this->setRowCount(x);
     QStringList header;
-    header<<"Type"<<"Name"<<"Direction"<<"Position"<<"Scope";
+    header<<"Type"<<"Name"<<"Direction"<<"Scope"<<"Value";
     this->setHorizontalHeaderLabels(header);
     this->setEditTriggers(QAbstractItemView::NoEditTriggers);
     QString* sa=new QString("Prueba");

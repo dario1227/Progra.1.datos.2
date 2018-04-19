@@ -31,6 +31,8 @@ bool Syntax_analysis::syntax_analysis(QString line, int line_n) {
         return true ;
     }
     if(line=="}"){
+        object= nullptr;
+
         scope_level--;
         return true;
 
@@ -40,6 +42,8 @@ bool Syntax_analysis::syntax_analysis(QString line, int line_n) {
         return syntax_analysis_stage1(line);
     }
     else{
+        object= nullptr;
+
         return false;
     }
 }
@@ -79,6 +83,8 @@ bool Syntax_analysis::syntax_analysis_stage1(QString line) {
 
             if(is_pointcomma_next(line,x)||is_equal_next(line,x)){
                 Operational_parsing::interface->addLog("ERROR se espera un nombre de variable despues del tipo :D");
+                object= nullptr;
+
                 return false;
             }
             else {
@@ -88,6 +94,8 @@ bool Syntax_analysis::syntax_analysis_stage1(QString line) {
                 }
                 else{
                     std::cout<<"Error, tipo inexistente"<<std::endl;
+                    object= nullptr;
+
                     return false;
                 }
             }
@@ -98,6 +106,7 @@ bool Syntax_analysis::syntax_analysis_stage1(QString line) {
         }
         x++;
     }
+    object= nullptr;
 
     return false;
 }
@@ -129,6 +138,7 @@ bool Syntax_analysis::syntax_analysis_stage2(QString line, int i) {
 
                 if (types_equal(parsed)) {
                     std::cout << "ERROR,no se puede usar nombres de clases como variables" << "\n";
+                    object= nullptr;
                     return false;
                 }
                 Json_creator::add_value_name(parsed->toLatin1().data(), object);
@@ -138,6 +148,7 @@ bool Syntax_analysis::syntax_analysis_stage2(QString line, int i) {
             if (is_pointcomma_next(line, i + 1)) {
                 if (types_equal(parsed)) {
                     std::cout << "ERROR,no se puede usar nombres de clases como variables" << std::endl;
+                    object= nullptr;
                     return false;
                 }
                 Json_creator::add_value_name(parsed->toLatin1().data(), object);
@@ -148,6 +159,7 @@ bool Syntax_analysis::syntax_analysis_stage2(QString line, int i) {
 
         i++;
     }
+    object= nullptr;
 
     return false;
 }
@@ -227,6 +239,7 @@ bool Syntax_analysis::syntax_analysis_stage3(QString line, int i) {
         i++;
     }
     if(line[i]==';'){
+        object= nullptr;
         return false;
     }
     if(i==line.length()){

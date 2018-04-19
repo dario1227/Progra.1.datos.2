@@ -38,7 +38,7 @@ void Client_Server::connect_Server() {
         }
         std::cout<< sizeof(buffer)<<std::endl;
         //HACER ALGO CON LA INTERFAZ PARA ANADIRLO :D
-        //Json_parser::create_json(buffer);
+        Json_parser::create_json(buffer);
     }
 }
 void Client_Server::send_Server(json_object* objeto) {

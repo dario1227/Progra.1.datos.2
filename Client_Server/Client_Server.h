@@ -15,8 +15,11 @@
 #include <unistd.h>
 #include <netdb.h>
 #include <json-c/json.h>
+#include <QtCore/QString>
+
 class Client_Server {
 public:
+    QString* str= nullptr;
      void connect_Server();
     int client;
 

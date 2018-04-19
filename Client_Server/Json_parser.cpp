@@ -13,15 +13,13 @@ void Json_parser::create_json(char * var) {
     std::cout<<var<<std::endl;
     json_object* objeto = json_tokener_parse(var);
     std::cout<<json_object_to_json_string(objeto)<<std::endl;
-
-
     QString* type = parse_chars((char*)json_object_to_json_string(json_object_object_get(objeto,"type")));
     QString* value = parse_chars((char*)json_object_to_json_string(json_object_object_get(objeto,"value")));
     QString* name = parse_chars((char*)json_object_to_json_string(json_object_object_get(objeto,"name")));
     QString* scope = parse_chars((char*)json_object_to_json_string(json_object_object_get(objeto,"scope")));
-    QString* pos = parse_chars((char*)json_object_to_json_string(json_object_object_get(objeto,"position")));
+    QString* pos = parse_chars((char*)json_object_to_json_string(json_object_object_get(objeto,"Position")));
     QString* ss = new QString("OLOL");
-    add_table(value,type,name,ss,pos);
+    add_table(value,type,name,scope,pos);
 
 
 }
