@@ -162,6 +162,7 @@ void test(){
         temp=temp->next;
     }
 }
+//
 NodoS* actual= nullptr;
 void Interfaz::next() {
     if(x<this->getLines()) {
