@@ -36,9 +36,9 @@ void StructP::start(Interfaz* gui){
     NodoS* temp= StructP::structs->head;
     Syntax_analysis* analysis= new Syntax_analysis();
     while (temp!=nullptr){
-        int z=temp->value->inicio-1;
+        int z=temp->value->inicio;
         int y=0;
-        while (z<temp->value->final){
+        while (z<temp->value->final-1){
             bool valor =analysis->syntax_analysis(gui->getLine(z),z);
             if (valor){
                 temp->value->lines[y] = gui->getLine(z);
