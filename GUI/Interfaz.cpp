@@ -179,7 +179,8 @@ void Interfaz::prueba() {
     Syntax_analysis* syntax = new Syntax_analysis();
     cout<<"CODIGO Fue"<<syntax->syntax_analysis(getLine(0),0)<<std::endl;
     std::cout<<json_object_to_json_string(syntax->object)<<std::endl;
-    Operational_parsing::server->send_Server(syntax->object);
+//    if(syntax->object!= nullptr){
+//    Operational_parsing::server->send_Server(syntax->object);}
     this->table->add(1,1,getLine(2));
     this->table->add(0,1,"satan");
     cout<<this->table->searchName("Dios")<<"LO ENCONTRO";

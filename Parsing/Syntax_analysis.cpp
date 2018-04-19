@@ -151,7 +151,9 @@ bool Syntax_analysis::syntax_analysis_stage2(QString line, int i) {
                     object= nullptr;
                     return false;
                 }
-                Json_creator::add_value_name(parsed->toLatin1().data(), object);
+                if(object!= nullptr) {
+                    Json_creator::add_value_name(parsed->toLatin1().data(), object);
+                }
                 return true;
             }
 
@@ -340,7 +342,7 @@ void Syntax_analysis::parse_print(QString qString) {
             std::cout<<qString[index].toLatin1()<<std::endl;
             counter++;
         }
-        if((counter==1||2)&&qString[index]!='('&&')'&&';'&&index>5){
+        if((counter==1||2)&&qString[index]!='('&&qString[index]!=')'&&qString[index]!=';'&&index>5){
             string_to_add.append(qString[index]);
         }
         if(counter==3){
@@ -365,6 +367,7 @@ void Syntax_analysis::parse_print(QString qString) {
  * @param qString
  */
 void Syntax_analysis::analize_to_print(QString qString) {
+    this->object= nullptr;
 
     QString str = QString();
     int counter = 0;
@@ -387,11 +390,12 @@ void Syntax_analysis::analize_to_print(QString qString) {
         std::cout<<"ERROR no se puede usar comillas dentro de strings ";
     }
     if(comilla_counter==2){
-
+        std::cout<<"LLEGUE HASTA AQUI"<<std::endl;
         Operational_parsing::interface->addToShell(str.toLatin1().data());
         return;
     }
     if(comilla_counter==0){
+        std::cout<<"LOLOL entreaqui"<<std::endl;
         Operational_parsing::interface->addToShell(search_value(str).toLatin1().data());
         return;
 
@@ -408,14 +412,9 @@ void Syntax_analysis::analize_to_print(QString qString) {
  * @return
  */
 QString Syntax_analysis::search_value(QString nombre) {
-    int index = 0;
+    int index = Operational_parsing::interface->table->searchName(nombre.toLatin1().data());
     char* var = nombre.toLatin1().data();
-    while(index<200){
-        if( Operational_parsing::interface->getCell(1, index).contains(nombre)){
-            break;
-        }
-        index++;
-    }
+
     if (index==200){
         return QString ("ERROR");
     }
