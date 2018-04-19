@@ -289,24 +289,17 @@ bool reference_parsing::parse_reference_stage3(QString qString, json_object *pOb
      */
 bool reference_parsing::parse_reference_stage4(QString to_search, json_object *pObject, QString type) {
     int index = 0;
-    int linea = -1;
-    while(index<200){
-        if(Operational_parsing::interface->table->isEmpty(1,index)){
-            break;
-        }
-
-        if( Operational_parsing::interface->getCell(1, index)== to_search){
-            linea=index;
-            break;
-        }
-        index++;
+        index = Operational_parsing::interface->table->searchName(to_search.toLatin1().data());
+    if(index==-1){
+        Operational_parsing::interface->addLog("Error,variable no encontrada :D");
+        return false;
     }
-    if(Operational_parsing::interface->getCell(0,linea).contains(type)){
+        if(!Operational_parsing::interface->getCell(0,index).contains(type)){
         Operational_parsing::interface->addLog("Error,Los tipos no coinciden");
         return false;
     }
     else{
-        Json_creator::add_value(Operational_parsing::interface->getCell(2,linea).toLatin1().data(),pObject);
+        Json_creator::add_value(Operational_parsing::interface->getCell(2,index).toLatin1().data(),pObject);
         return true;
     }
 }
