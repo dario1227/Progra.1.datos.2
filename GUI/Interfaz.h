@@ -16,6 +16,7 @@ using namespace std;
 class Interfaz: public QObject{
     Q_OBJECT
 public:
+    void clearAll();
     QLabel* cursor;
     CodeEditor* editor;
     static QPlainTextEdit* logger;

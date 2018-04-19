@@ -61,7 +61,7 @@ int main(int argc, char **argv) {
     //Client_Server servidor = Client_Server();
     //servidor.connect_Server();
     MyThread* ejecutables=new MyThread();
-   ejecutables->addT(ex1);
+   //ejecutables->addT(ex1);
 //    ejecutables->addT(ex2);
 //    ejecutables->addT(ex3);
     ejecutables->startT();

@@ -12,6 +12,7 @@ class ListaSimple;
 class StructP {
 public:
     static ListaSimple* structs;
+    int bytes=0;
     int inicio=0;
     int final =0;
     QString lines[30];

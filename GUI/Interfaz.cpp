@@ -162,29 +162,51 @@ void test(){
         temp=temp->next;
     }
 }
+NodoS* actual= nullptr;
 void Interfaz::next() {
     if(x<this->getLines()) {
-        y+=17;
-        Syntax_analysis* analysis= new Syntax_analysis();
-        analysis->syntax_analysis(getLine(x),x);
-        this->cursor->move(1, y);
-        x++;
+        if(getLine(x).contains("struct")){
+            if(actual== nullptr){
+                actual=StructP::structs->head;
+            }
+            else{
+                actual=actual->next;
+            }
+            x+=(actual->value->final-actual->value->inicio)+1;
+            y+=((actual->value->final-actual->value->inicio)+1)*17;
+            this->cursor->move(1, y);
+        }
+
+        else {
+            y += 17;
+            Syntax_analysis *analysis = new Syntax_analysis();
+            analysis->syntax_analysis(getLine(x), x);
+            this->cursor->move(1, y);
+            x++;
+        }
     }
 
 }
+void Interfaz::clearAll() {
+    Interfaz::logger->clear();
+    Interfaz::shell->clear();
+    this->table->clear();
+    QStringList header;
+    header<<"Type"<<"Name"<<"Direction"<<"Scope"<<"Value";
+    this->table->setHorizontalHeaderLabels(header);
+}
 void Interfaz::prueba() {
+    actual= nullptr;
+    y=6;
+    x=1;
+    this->cursor->move(1, y);
+    this->clearAll();
     StructP::start(this);
     test();
-    cout<<this->table->isEmpty(2,0)<<"ESTA VACIO?";
     Syntax_analysis* syntax = new Syntax_analysis();
-    cout<<"CODIGO Fue"<<syntax->syntax_analysis(getLine(0),0)<<std::endl;
-    std::cout<<json_object_to_json_string(syntax->object)<<std::endl;
-//    if(syntax->object!= nullptr){
-//    Operational_parsing::server->send_Server(syntax->object);}
-    this->table->add(1,1,getLine(2));
-    this->table->add(0,1,"satan");
-    cout<<this->table->searchName("Dios")<<"LO ENCONTRO";
-    cout<<this->getLines();
+    cout<<"CODIGO Fue"<<syntax->syntax_analysis(getLine(0),0)<<std::endl<<StructP::structs->head->value->bytes;
+    //std::cout<<json_object_to_json_string(syntax->object)<<std::endl;
+    //Operational_parsing::server->send_Server(syntax->object);
     findWords("int");
     findWords("long");
     findWords("string");
