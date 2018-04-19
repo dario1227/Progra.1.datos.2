@@ -205,7 +205,7 @@ void Interfaz::prueba() {
     StructP::start(this);
     test();
     Syntax_analysis* syntax = new Syntax_analysis();
-    cout<<"CODIGO Fue"<<syntax->syntax_analysis(getLine(0),0)<<std::endl<<StructP::structs->head->value->bytes;
+    cout<<"CODIGO Fue"<<syntax->syntax_analysis(getLine(0),0)<<std::endl;
     //std::cout<<json_object_to_json_string(syntax->object)<<std::endl;
     //Operational_parsing::server->send_Server(syntax->object);
     findWords("int");
