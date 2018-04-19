@@ -4,7 +4,9 @@
 
 #include "Client_Server.h"
 #include "Json_parser.h"
-
+/**
+ * Inicializa la coneccion al server
+ */
 void Client_Server::connect_Server() {
     int portNum = 1500; // NOTE that the port number is same for both client and server
     bool isExit = false;
@@ -27,11 +29,16 @@ void Client_Server::connect_Server() {
     std::cout << "=> Awaiting confirmation from the server..." << std::endl; //line 40
     recv(client, buffer, bufsize, 0);
     std::cout << "=> Connection confirmed, you are good to go...";
-    while(true){
+    while(client){
         std::cout<<"ESTOY AQUI PERROS"<<std::endl;
         recv(client, buffer, bufsize, 0);
+        QString str = QString(buffer);
+        if(!str.contains("type")){
+            return;
+        }
+        std::cout<< sizeof(buffer)<<std::endl;
         //HACER ALGO CON LA INTERFAZ PARA ANADIRLO :D
-        Json_parser::create_json(buffer);
+        //Json_parser::create_json(buffer);
     }
 }
 void Client_Server::send_Server(json_object* objeto) {

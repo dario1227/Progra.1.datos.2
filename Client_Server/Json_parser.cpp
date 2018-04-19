@@ -5,7 +5,10 @@
 #include <json-c/json.h>
 #include "Json_parser.h"
 #include "../Parsing/Operational_parsing.h"
-
+/**
+ * Crea un json a partir de la variable
+ * @param var
+ */
 void Json_parser::create_json(char * var) {
     std::cout<<var<<std::endl;
     json_object* objeto = json_tokener_parse(var);
@@ -22,10 +25,18 @@ void Json_parser::create_json(char * var) {
 
 
 }
+/**
+ * anade valor a la tabla segun el json
+ * @param value
+ * @param type
+ * @param name
+ * @param scope
+ * @param pos
+ */
 void Json_parser::add_table(QString * value,QString * type,QString * name,QString* scope,QString *pos) {
     int index = 0;
     while(index<200){
-        if( Operational_parsing::interface->table->isEmpty(index,0)){
+        if( Operational_parsing::interface->table->isEmpty(0,index)){
             break;
         }
         index++;

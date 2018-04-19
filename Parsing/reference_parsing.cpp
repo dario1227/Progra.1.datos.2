@@ -6,7 +6,12 @@
 #include "reference_parsing.h"
 #include "Operational_parsing.h"
 #include "Json_creator.h"
-
+/**
+ * Inicia el parseo de una referencia
+ * @param qString
+ * @param pObject
+ * @return
+ */
 bool reference_parsing::parse_reference(QString qString, json_object *pObject) {
     int counter = 0;
     int counter2=0;
@@ -64,6 +69,12 @@ bool reference_parsing::parse_reference(QString qString, json_object *pObject) {
     }
 
 }
+/**
+ * revisa si = es siguiente
+ * @param lol
+ * @param index
+ * @return
+ */
 bool reference_parsing::is_equals_next(QString lol, int index) {
     while (index < lol.length()) {
         if (lol[index] == '=') {
@@ -77,6 +88,12 @@ bool reference_parsing::is_equals_next(QString lol, int index) {
     }
     return false;
 }
+/**
+ * Revisa si es punto y coma siguiente
+ * @param str
+ * @param index
+ * @return
+ */
 bool reference_parsing::is_pointcomma_next(QString str, int index) {
     while (index < str.length()) {
         if (str[index] == ';') {
@@ -89,6 +106,11 @@ bool reference_parsing::is_pointcomma_next(QString str, int index) {
     }
     return false;
 }
+/**
+ * revisa el tipo
+ * @param qString
+ * @return
+ */
 bool reference_parsing::its_type(QString qString) {
     if ((qString.contains("int")&&!qString.contains("p")) || qString.contains("bool") || qString.contains("char") ||
         qString.contains("double") || qString.contains("long") || qString.contains("float") ||
@@ -98,6 +120,13 @@ bool reference_parsing::its_type(QString qString) {
         return false;
     }
 }
+/**
+ * parsea los tipos de referencia dentro de reference<LO>
+ * @param qString
+ * @param pObject
+ * @param type
+ * @return
+ */
 bool reference_parsing::parse_reference_stage2(QString qString, json_object *pObject, QString type) {
     int index = 0;
     while(index<qString.length()){
@@ -152,6 +181,11 @@ bool reference_parsing::parse_reference_stage2(QString qString, json_object *pOb
     return false;
 
 }
+/**
+ * revisa si existe
+ * @param name
+ * @return
+ */
 bool reference_parsing::already_exists(QString name) {
     int index = 0;
     while(index<200){
@@ -169,6 +203,11 @@ bool reference_parsing::already_exists(QString name) {
     }
 
 }
+/**
+ * Revisa si contiene caracteres erroneos
+ * @param qString
+ * @return
+ */
 bool reference_parsing::contains_fault_characters(QString qString) {
     if(qString.contains("'")||qString.contains("}")||qString.contains("{")||qString.contains(")")||qString.contains("(")||qString.contains(";")||
             qString.contains('"')||qString.contains("!")||qString.contains("*")||qString.contains("?")||qString.contains("]")||
@@ -179,6 +218,13 @@ bool reference_parsing::contains_fault_characters(QString qString) {
         return false;
     }
 }
+/**
+ * PArsea ya la referencia final
+ * @param qString
+ * @param pObject
+ * @param type
+ * @return
+ */
 bool reference_parsing::parse_reference_stage3(QString qString, json_object *pObject, QString type) {
     int index =0;
     while(index<qString.length()){
@@ -234,6 +280,13 @@ bool reference_parsing::parse_reference_stage3(QString qString, json_object *pOb
             return  parse_reference_stage4(to_search,pObject,type);
     }
     }
+    /**
+     * Ya anade los valores de la referencia
+     * @param to_search
+     * @param pObject
+     * @param type
+     * @return
+     */
 bool reference_parsing::parse_reference_stage4(QString to_search, json_object *pObject, QString type) {
     int index = 0;
     int linea = -1;

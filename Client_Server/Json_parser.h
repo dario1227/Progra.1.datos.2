@@ -13,6 +13,7 @@ public:
     static void create_json(char*);
     static QString* parse_chars(char*);
     static void add_table(QString *value,QString * type,QString * name,QString * ,QString * );
+    static QString* parse_to_nocomma();
 };
 
 

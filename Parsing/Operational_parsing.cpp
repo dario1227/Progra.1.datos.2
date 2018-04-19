@@ -13,6 +13,13 @@
 Interfaz* Operational_parsing::interface = nullptr;
 json_object* Operational_parsing::object= nullptr;
 Client_Server* Operational_parsing::server = nullptr;
+/**
+ * Inicia el parseo de una operacion con ints
+ * @param operation
+ * @param type
+ * @param objeto
+ * @return
+ */
 bool Operational_parsing::parse(QString operation,const char* type,json_object* objeto) {
     object=objeto;
     QString tipo = type;
@@ -32,6 +39,12 @@ bool Operational_parsing::parse(QString operation,const char* type,json_object* 
 
     }
 }
+/**
+ * Inicia la operacion del parseo de un int
+ * @param operation
+ * @param tipo
+ * @return
+ */
 bool Operational_parsing::parse_int(QString operation, const char *tipo) {
     QString string_to_parse ;
     operation=*reconstruct_without_space(operation);
@@ -65,6 +78,12 @@ bool Operational_parsing::parse_int(QString operation, const char *tipo) {
     std::cout<<"RESULTADO FUE"<<result<<'\n'<<std::endl;
 
 }
+/**
+ * Inicia el parseo de un Float
+ * @param operation
+ * @param tipo
+ * @return
+ */
 bool Operational_parsing::parse_floar(QString operation, const char *tipo) {
     QString string_to_parse ;
     operation=*reconstruct_without_space(operation);
@@ -97,6 +116,12 @@ bool Operational_parsing::parse_floar(QString operation, const char *tipo) {
     Json_creator::add_value((char*)s.c_str(),object);
     std::cout<<"RESULTADO FUE"<<result;
 }
+/**
+ * inicia el parseo de un long
+ * @param operation
+ * @param tipo
+ * @return
+ */
 bool Operational_parsing::parse_long(QString operation, const char *tipo) {
     QString string_to_parse ;
     operation=*reconstruct_without_space(operation);
@@ -161,7 +186,12 @@ bool Operational_parsing::parse_double(QString operation, const char *tipo) {
     Json_creator::add_value((char*)s.c_str(),object);
     std::cout<<"RESULTADO FUE"<<result;
 }
-
+/**
+ * Verificacion de que si es un numero ovariable
+ * @param str
+ * @param varType
+ * @return
+ */
 bool Operational_parsing::contains_alphabet(QString str,const char* varType) {
     std::cout<<str.toLatin1().data()<<"ese fue el valor"<<std::endl;
     QString string = varType;
@@ -179,6 +209,11 @@ bool Operational_parsing::contains_alphabet(QString str,const char* varType) {
     }
 
 }
+/**
+ * Reconstruye un int sin espacios
+ * @param str
+ * @return
+ */
 QString * Operational_parsing::reconstruct_without_space(QString str) {
     QString* str2 = new QString();
     int index=0;
@@ -190,20 +225,22 @@ QString * Operational_parsing::reconstruct_without_space(QString str) {
     return str2;
 
 }
+/**
+ * Optiene el valor de una variable
+ * @tparam T
+ * @param variable
+ * @param string
+ * @return
+ */
 template <typename T>
 QString Operational_parsing::get_var_value(QString variable, const char *string) {
     int index = 0;
-    while(index<200){
-        if( interface->table->isEmpty(index,0)){
-            break;
-        }
-        index++;
-    }
+    index =interface->table->searchName(variable.toLatin1().data());
     if (index==200){
         return "ERROR";
     }
     if(interface->getCell(0,index)=="int"||interface->getCell(0,index)=="double"||interface->getCell(0,index)=="long"||interface->getCell(0,index)=="float"){
-        return interface->getCell(2,index);
+        return interface->getCell(index,2);
     }
     else{
 
@@ -212,6 +249,12 @@ QString Operational_parsing::get_var_value(QString variable, const char *string)
 
 
 }
+/**
+ *
+ * @tparam T
+ * @param direction
+ * @param strin
+ */
 template <typename  T>
 void Operational_parsing::trig_function_int(int *direction,char* strin) {
     typedef exprtk::symbol_table<T> symbol_table_t;
@@ -229,7 +272,12 @@ void Operational_parsing::trig_function_int(int *direction,char* strin) {
     *direction=y;
 }
 template <typename  T>
-
+/**
+ * Operacion con una variable double
+ * @tparam T
+ * @param direction
+ * @param str
+ */
 void Operational_parsing::trig_function_double(double *direction, char *str) {
     typedef exprtk::symbol_table<T> symbol_table_t;
     typedef exprtk::expression<T>     expression_t;
@@ -246,7 +294,12 @@ void Operational_parsing::trig_function_double(double *direction, char *str) {
     *direction=y;
 }
 template <typename  T>
-
+/**
+ * Operacion con float
+ * @tparam T
+ * @param direction
+ * @param str
+ */
 void Operational_parsing::trig_function_float(float *direction, char *str) {
     typedef exprtk::symbol_table<T> symbol_table_t;
     typedef exprtk::expression<T>     expression_t;
@@ -263,7 +316,12 @@ void Operational_parsing::trig_function_float(float *direction, char *str) {
     *direction=y;
 }
 template <typename  T>
-
+/**
+ * Parseo operacion long
+ * @tparam T
+ * @param direction
+ * @param str
+ */
 void Operational_parsing::trig_function_long(long *direction, char *str) {
     typedef exprtk::symbol_table<T> symbol_table_t;
     typedef exprtk::expression<T>     expression_t;
@@ -279,6 +337,11 @@ void Operational_parsing::trig_function_long(long *direction, char *str) {
     T y = expression.value();
     *direction=y;
 }
+/**
+ * Convierte a solo chars
+ * @param type
+ * @return
+ */
  char *Operational_parsing::convert_to_only_char(const char *type) {
     char* caracter= new char[sizeof((*reconstruct_without_space( QString(type))).toLatin1().data())-2];
     int i = 0;

@@ -7,7 +7,12 @@
 #include "Operational_parsing.h"
 #include "parentesis_tester.h"
 #include "reference_parsing.h"
-
+/**
+ * Inicia los parametros iniciales
+ * @param line
+ * @param line_n
+ * @return
+ */
 bool Syntax_analysis::syntax_analysis(QString line, int line_n) {
 
     if(parentesis_tester::analize()== false){
@@ -31,20 +36,25 @@ bool Syntax_analysis::syntax_analysis(QString line, int line_n) {
 
     }
     if(line.contains(';')&& types_syntax(line)){
-        Json_creator::add_scope_level((char*)std::to_string(scope_level).c_str()+string[howmanyScopes].toLatin1(),object);
+        Json_creator::add_scope_level((char*)std::to_string(scope_level).c_str(),object);
         return syntax_analysis_stage1(line);
     }
     else{
         return false;
     }
 }
+/**
+ * Analiza los tipos de la variable
+ * @param line
+ * @return
+ */
 bool Syntax_analysis::syntax_analysis_stage1(QString line) {
     QString* parsed= new QString;
     int x = 0;
     int counter = 0;
 
     while(x<line.length()&&counter!=2){
-        std::cout<<parsed->toLatin1().data()<<"\n"<<"line leng="<<line.length();
+        std::cout<<parsed->toLatin1().data()<<"\n"<<"line leng="<<line.length()<<std::endl;
         if(line.operator[](x)!=' '&&counter==0){
             counter++;
         }
@@ -98,7 +108,7 @@ bool Syntax_analysis::syntax_analysis_stage1(QString line) {
  * @return
  */
 bool Syntax_analysis::syntax_analysis_stage2(QString line, int i) {
-    std::cout<<"LLegue al stage 2 \n";
+    std::cout<<"LLegue al stage 2 \n"<<std::endl;
     QString *parsed = new QString;
     int counter = 0;
     if(line.contains("printf")){
@@ -141,9 +151,13 @@ bool Syntax_analysis::syntax_analysis_stage2(QString line, int i) {
 
     return false;
 }
-
+/**
+ * analiza si el tipo entra en estos
+ * @param qString
+ * @return
+ */
     bool Syntax_analysis::types_syntax(QString qString) {
-        if ((qString.contains("int")&&!qString.contains("p")) || qString.contains("bool") || qString.contains("char") ||
+        if ((qString.contains("int")&&!qString.contains("print")) || qString.contains("bool") || qString.contains("char") ||
             qString.contains("double") || qString.contains("long") || qString.contains("float") ||
             qString.contains("struct")||qString.contains("printf")||qString.contains("getAddr")||qString.contains("reference")) {
             return true;
@@ -151,6 +165,12 @@ bool Syntax_analysis::syntax_analysis_stage2(QString line, int i) {
             return false;
         }
     }
+    /**
+     * analiza si existe el punto y coma despues
+     * @param line
+     * @param last_index
+     * @return
+     */
     bool Syntax_analysis::is_pointcomma_next(QString line, int last_index) {
         while (last_index < line.length()) {
             if (line[last_index] == ';') {
@@ -163,6 +183,12 @@ bool Syntax_analysis::syntax_analysis_stage2(QString line, int i) {
         }
         return false;
     }
+    /**
+     * Analiza si es el igual despues
+     * @param line
+     * @param lastindex
+     * @return
+     */
     bool Syntax_analysis::is_equal_next(QString line, int lastindex) {
         while (lastindex < line.length()) {
             if (line[lastindex] == '=') {
@@ -176,7 +202,11 @@ bool Syntax_analysis::syntax_analysis_stage2(QString line, int i) {
         }
         return false;
     }
-
+/**
+ * Analiza si el tipo es igual
+ * @param pString
+ * @return
+ */
     bool Syntax_analysis::types_equal(QString *pString) {
         if (*pString == "int" || *pString == "char" || *pString == "bool" || *pString == "double" ||
             *pString == "long" || *pString == "float"
@@ -186,7 +216,12 @@ bool Syntax_analysis::syntax_analysis_stage2(QString line, int i) {
             return false;
         }
     }
-
+/**
+ * Etapa 3. evalue si ya existe la variable
+ * @param line
+ * @param i
+ * @return
+ */
 bool Syntax_analysis::syntax_analysis_stage3(QString line, int i) {
     while(i<line.length()&&line[i]!='='){
         i++;
@@ -221,6 +256,11 @@ bool Syntax_analysis::syntax_analysis_stage3(QString line, int i) {
     }
     return true;
 }
+/**
+ * Etapa final
+ * @param value
+ * @return
+ */
 bool Syntax_analysis::syntax_analysis_stagefinal(QString value) {
     if(contains_invalid_symbols(value)){
         return false;
@@ -233,6 +273,11 @@ bool Syntax_analysis::syntax_analysis_stagefinal(QString value) {
     Json_creator::add_value(value.toLatin1().data(),this->object);
     return true;
 }
+/**
+ * revisa si una variable contiene signos prohibidos
+ * @param qString
+ * @return
+ */
 bool Syntax_analysis::contains_invalid_symbols(QString qString) {
     if(qString.contains(';')||qString.contains('"')||qString.contains('!')||qString.contains('@')||qString.contains('}')||
             qString.contains('{')||qString.contains('[')||qString.contains(']')||qString.contains('*')||
@@ -243,9 +288,15 @@ bool Syntax_analysis::contains_invalid_symbols(QString qString) {
         return false;
     }
 }
+/**
+ * revisa si contiene un operacional
+ * @param value
+ * @param type
+ * @return
+ */
 bool Syntax_analysis::contains_operational(QString value,const char*  type) {
 
-    if(value.contains('+')||value.contains('-')||value.contains('/')||value.contains('%')){
+    if(value.contains('+')||value.contains('-')||value.contains('/')||value.contains('%')||value.contains('*')){
         if(type=="char"||type=="bool"||type=="reference"||type=="struct"){
             return false;
         }
@@ -253,7 +304,10 @@ bool Syntax_analysis::contains_operational(QString value,const char*  type) {
     }
     return false;
 }
-
+/**
+ * parseo de los print
+ * @param qString
+ */
 void Syntax_analysis::parse_print(QString qString) {
     std::cout<<"LA LEYRAS QUE ME ENTRAN ES"<<qString.toLatin1().data()<<std::endl;
 
@@ -293,7 +347,10 @@ void Syntax_analysis::parse_print(QString qString) {
     return;
 
 }
-
+/**
+ * Analiza lo que tiene un pint en el interior
+ * @param qString
+ */
 void Syntax_analysis::analize_to_print(QString qString) {
 
     QString str = QString();
@@ -331,6 +388,12 @@ void Syntax_analysis::analize_to_print(QString qString) {
     }
 
 }
+//____________________________________________________________________________________________________________________________________________
+/**
+ * busca el valor de una variable
+ * @param nombre
+ * @return
+ */
 QString Syntax_analysis::search_value(QString nombre) {
     int index = 0;
     char* var = nombre.toLatin1().data();

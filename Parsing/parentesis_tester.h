@@ -8,6 +8,7 @@
 
 class parentesis_tester {
 public:
+
     static  bool analize();
     static bool counter(int num_lines) ;
 };
