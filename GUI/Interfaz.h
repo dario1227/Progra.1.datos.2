@@ -32,7 +32,6 @@ public:
 public slots:
 void prueba();
 void next();
-void prev();
 };
 
 
