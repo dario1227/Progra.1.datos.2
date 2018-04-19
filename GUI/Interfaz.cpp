@@ -162,13 +162,28 @@ void test(){
         temp=temp->next;
     }
 }
+NodoS* actual= nullptr;
 void Interfaz::next() {
     if(x<this->getLines()) {
-        y+=17;
-        Syntax_analysis* analysis= new Syntax_analysis();
-        analysis->syntax_analysis(getLine(x),x);
-        this->cursor->move(1, y);
-        x++;
+        if(getLine(x).contains("struct")){
+            if(actual== nullptr){
+                actual=StructP::structs->head;
+            }
+            else{
+                actual=actual->next;
+            }
+            x+=(actual->value->final-actual->value->inicio)+1;
+            y+=((actual->value->final-actual->value->inicio)+1)*17;
+            this->cursor->move(1, y);
+        }
+
+        else {
+            y += 17;
+            Syntax_analysis *analysis = new Syntax_analysis();
+            analysis->syntax_analysis(getLine(x), x);
+            this->cursor->move(1, y);
+            x++;
+        }
     }
 
 }
@@ -181,6 +196,7 @@ void Interfaz::clearAll() {
     this->table->setHorizontalHeaderLabels(header);
 }
 void Interfaz::prueba() {
+    actual= nullptr;
     y=6;
     x=1;
     this->cursor->move(1, y);
@@ -188,7 +204,7 @@ void Interfaz::prueba() {
     StructP::start(this);
     test();
     Syntax_analysis* syntax = new Syntax_analysis();
-    cout<<"CODIGO Fue"<<syntax->syntax_analysis(getLine(0),0)<<std::endl;
+    cout<<"CODIGO Fue"<<syntax->syntax_analysis(getLine(0),0)<<std::endl<<StructP::structs->head->value->bytes;
     //std::cout<<json_object_to_json_string(syntax->object)<<std::endl;
     //Operational_parsing::server->send_Server(syntax->object);
     findWords("int");
