@@ -172,18 +172,25 @@ void Interfaz::next() {
     }
 
 }
+void Interfaz::clearAll() {
+    Interfaz::logger->clear();
+    Interfaz::shell->clear();
+    this->table->clear();
+    QStringList header;
+    header<<"Type"<<"Name"<<"Direction"<<"Scope"<<"Value";
+    this->table->setHorizontalHeaderLabels(header);
+}
 void Interfaz::prueba() {
+    y=6;
+    x=1;
+    this->cursor->move(1, y);
+    this->clearAll();
     StructP::start(this);
     test();
-    cout<<this->table->isEmpty(2,0)<<"ESTA VACIO?";
     Syntax_analysis* syntax = new Syntax_analysis();
     cout<<"CODIGO Fue"<<syntax->syntax_analysis(getLine(0),0)<<std::endl;
     std::cout<<json_object_to_json_string(syntax->object)<<std::endl;
     Operational_parsing::server->send_Server(syntax->object);
-    this->table->add(1,1,getLine(2));
-    this->table->add(0,1,"satan");
-    cout<<this->table->searchName("Dios")<<"LO ENCONTRO";
-    cout<<this->getLines();
     findWords("int");
     findWords("long");
     findWords("string");
