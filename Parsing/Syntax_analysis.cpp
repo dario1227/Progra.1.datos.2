@@ -418,7 +418,9 @@ QString Syntax_analysis::search_value(QString nombre) {
     if (index==200){
         return QString ("ERROR");
     }
-
+    if(index==-1){
+        return QString("ERROR");
+    }
     else{
         return Operational_parsing::interface->getCell(2,index);
     }

@@ -37,6 +37,9 @@ int RAM::searchName(string name ){
         index++;
 
     }
+    if(isEmpty(1,index)){
+        return -1;
+    }
     return result;
 
 }
