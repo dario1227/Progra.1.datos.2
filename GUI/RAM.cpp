@@ -3,6 +3,7 @@
 //
 
 #include "RAM.h"
+//la tabla de la memoria RAM
 RAM::RAM(int x) {
     this->setColumnCount(5);
     this->setRowCount(x);
@@ -19,6 +20,7 @@ void RAM::add(int row, int colu, QString data) {
     da->setTextAlignment(Qt::AlignCenter);
 
 }
+//verifica la fila vacia
 bool RAM::isEmpty(int colu, int row) {
     bool valor=this->item(row,colu)== nullptr;
    return valor;

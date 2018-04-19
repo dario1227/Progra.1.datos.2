@@ -8,6 +8,8 @@
 #include "../Parsing/Syntax_analysis.h"
 
 ListaSimple* StructP::structs=new ListaSimple();
+//lista de structs en el codigo con sus lineas de inicio y final
+//se encarga de agregar los structs y luego parse sus lineas de inicio a fin
 void StructP::start(Interfaz* gui){
     StructP::structs= new ListaSimple();
     int x=0;
@@ -21,7 +23,6 @@ void StructP::start(Interfaz* gui){
         }
         else if(line.contains("}")){
             fin=x+1;
-            cout<<"hhoollllaaaa";
             StructP* structP=new StructP();
             structP->inicio=ini;
             structP->final=fin;

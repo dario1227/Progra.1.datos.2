@@ -8,6 +8,7 @@
 MyThread::MyThread() {
     this->lista=new ListaSimple();
 }
+//agrega un thread con la funcion en el parametro
 void MyThread::addT(void (*Function)()) {
     NodoS* t=new NodoS();
     t->Function=Function;
@@ -15,6 +16,7 @@ void MyThread::addT(void (*Function)()) {
 
 
 }
+//inicializa todos los threads
 void MyThread::startT() {
     NodoS* temp= this->lista->head;
     while(temp!= nullptr){

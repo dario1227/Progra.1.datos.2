@@ -15,7 +15,7 @@ class QSize;
 class QWidget;
 
 class LineNumberArea;
-
+//Clase del editor de codigo, recibe el padre como parametro
 
 class CodeEditor : public QPlainTextEdit {
     Q_OBJECT

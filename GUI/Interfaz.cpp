@@ -26,6 +26,9 @@ QPlainTextEdit* Interfaz::logger= nullptr;
 QPlainTextEdit* Interfaz::shell= nullptr;
 static  int x=1;
 static int y=6;
+//
+//crea la interfaz con todo lo necesario para su manejo
+//
 void Interfaz::Start() {
     QWidget* main=new QWidget();
     this->cursor=new QLabel();
@@ -39,16 +42,12 @@ void Interfaz::Start() {
     main->resize(1250,700);
     QPushButton* run= new QPushButton("RUN!");
     QPushButton* sig= new QPushButton("NEXT");
-    QPushButton* ant= new QPushButton("PREV");
     connect(run,SIGNAL(clicked()),this,SLOT(prueba()));
     connect(sig,SIGNAL(clicked()),this,SLOT(next()));
-    connect(ant,SIGNAL(clicked()),this,SLOT(prev()));
     QLabel* runL = new QLabel();
     run->setParent(runL);
     sig->setParent(runL);
-    ant->setParent(runL);
-    sig->move(200,0);
-    ant->move(100,0);
+    sig->move(100,0);
     runL->resize(900,30);
     runL->move(0,0);
     this->table = new RAM(200);
@@ -115,11 +114,13 @@ QString Interfaz::getLine(int x) {
     cout<<line.toStdString();
     return line;
 }
+//obtiene el numero total de lineas
 int Interfaz::getLines(){
     QTextDocument* code=this->editor->document();
     return code->lineCount();
 
 }
+//busca las palabras de tipos en el editor
 void  Interfaz::findWords(string a) {
     qRegisterMetaType<QTextCharFormat>("QTextCharFormat");
     qRegisterMetaType<QTextCursor>("QTextCursor");
@@ -161,22 +162,13 @@ void test(){
         temp=temp->next;
     }
 }
-void Interfaz::prev() {
-    if(x>1) {
-        y-=17;
-        x--;
-        Syntax_analysis* analysis= new Syntax_analysis();
-        analysis->syntax_analysis(getLine(x),x);
-        this->cursor->move(1, y);
-    }
-}
 void Interfaz::next() {
     if(x<this->getLines()) {
         y+=17;
-        x++;
         Syntax_analysis* analysis= new Syntax_analysis();
         analysis->syntax_analysis(getLine(x),x);
         this->cursor->move(1, y);
+        x++;
     }
 
 }
