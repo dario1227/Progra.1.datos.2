@@ -16,11 +16,20 @@ json_object* StructP::makeJson(){
     json_object* toAdd = json_object_new_string(this->nombre.c_str());
     json_object_object_add(object,"name",toAdd);
     toAdd = json_object_new_string(to_string(this->bytes).c_str());
-    json_object_object_add(object,"Bytes",toAdd);
-    toAdd = json_object_new_string(to_string(this->inicio).c_str());
-    json_object_object_add(object,"Start",toAdd);
-    toAdd = json_object_new_string(to_string(this->final).c_str());
-    json_object_object_add(object,"End",toAdd);
+    json_object_object_add(object,"value",toAdd);
+    toAdd = json_object_new_string(to_string(0).c_str());
+    json_object_object_add(object,"scope",toAdd);
+    json_object* array=json_object_new_array();
+    int c=0;
+    while(this->lines[c]!= nullptr){
+        int size=this->lines[c].length()-1;
+        string line=this->lines[c].toStdString();
+        line.resize(size);
+        toAdd = json_object_new_string(line.c_str());
+        json_object_array_add(array,toAdd);
+        c++;
+    }
+    json_object_object_add(object,"variables",array);
     return object;
 }
 void StructP::start(Interfaz* gui){

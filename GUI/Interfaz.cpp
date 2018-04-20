@@ -178,7 +178,6 @@ void Interfaz::next() {
             this->cursor->move(1, y);
             json_object* toserver=actual->value->makeJson();
         }
-
         else {
             y += 17;
             Syntax_analysis *analysis = new Syntax_analysis();
