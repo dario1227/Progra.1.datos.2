@@ -128,6 +128,8 @@ bool reference_parsing::its_type(QString qString) {
  * @return
  */
 bool reference_parsing::parse_reference_stage2(QString qString, json_object *pObject, QString type) {
+    std::cout<<"ESTOY EN PARSE REFERENCE2"<<std::endl;
+
     int index = 0;
     while(index<qString.length()){
         if(qString[index]=='>'){
@@ -149,6 +151,8 @@ bool reference_parsing::parse_reference_stage2(QString qString, json_object *pOb
         return false;
     }
     while(index<qString.length()){
+        std::cout<<"ESTOY EN PARSE REFERENCE2 while"<<std::endl;
+
         //inicia ese if
         if(is_equals_next(qString,index)){
             if(name.isEmpty()){
@@ -226,6 +230,7 @@ bool reference_parsing::contains_fault_characters(QString qString) {
  * @return
  */
 bool reference_parsing::parse_reference_stage3(QString qString, json_object *pObject, QString type) {
+
     int index =0;
     while(index<qString.length()){
         if(qString[index]=='='){
@@ -237,12 +242,14 @@ bool reference_parsing::parse_reference_stage3(QString qString, json_object *pOb
 
     QString a_parsear = QString();
     while(index<qString.length()){
-        if(qString[index]!= ' '){
-            a_parsear.append(qString[index]);
-        }
         if(qString[index]==';'){
             break;
         }
+        if(qString[index]!= ' '){
+            a_parsear.append(qString[index]);
+        }
+
+        index++;
     }
     int secondary_index=0,parentesis_counter=0;
     QString to_search = QString();
@@ -294,12 +301,12 @@ bool reference_parsing::parse_reference_stage4(QString to_search, json_object *p
         Operational_parsing::interface->addLog("Error,variable no encontrada :D");
         return false;
     }
-        if(!Operational_parsing::interface->getCell(0,index).contains(type)){
+        if(!Operational_parsing::interface->table->item(index,0)->text().contains(type)){
         Operational_parsing::interface->addLog("Error,Los tipos no coinciden");
         return false;
     }
     else{
-        Json_creator::add_value(Operational_parsing::interface->getCell(2,index).toLatin1().data(),pObject);
+        Json_creator::add_value(Operational_parsing::interface->table->item(index,2)->text().toLatin1().data(),pObject);
         return true;
     }
 }

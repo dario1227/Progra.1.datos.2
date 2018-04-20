@@ -189,10 +189,10 @@ void Interfaz::prueba() {
    // this->clearAll();
     StructP::start(this);
     Syntax_analysis* syntax = new Syntax_analysis();
-    cout<<"CODIGO Fue"<<syntax->syntax_analysis(getLine(0),0)<<std::endl;
+    //cout<<"CODIGO Fue"<<syntax->syntax_analysis(getLine(0),0)<<std::endl;
     //std::cout<<json_object_to_json_string(syntax->object)<<std::endl;
-    if(syntax->object!= nullptr){
-    //Operational_parsing::server->send_Server(syntax->object);
+    if(syntax->syntax_analysis(getLine(0),0)){
+    Operational_parsing::server->send_Server(syntax->object);
     }
     findWords("int");
     findWords("long");

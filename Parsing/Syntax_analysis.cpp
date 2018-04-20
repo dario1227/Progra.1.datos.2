@@ -7,6 +7,8 @@
 #include "Operational_parsing.h"
 #include "parentesis_tester.h"
 #include "reference_parsing.h"
+#include "Counter_resolving.h"
+
 /**
  * Inicia los parametros iniciales
  * @param line
@@ -21,24 +23,24 @@ bool Syntax_analysis::syntax_analysis(QString line, int line_n) {
     if(line=="{"){
         object= nullptr;
         howmanyScopes++;
-        scope_level++;
+        Counter_resolving::scope_level++;
         return true;
     }
     this->actual_line=line_n;
     if(line=="{"){
         object= nullptr;
-        scope_level++;
+        Counter_resolving::scope_level++;
         return true ;
     }
     if(line=="}"){
         object= nullptr;
 
-        scope_level--;
+        Counter_resolving::scope_level--;
         return true;
 
     }
     if(line.contains(';')&& types_syntax(line)){
-        Json_creator::add_scope_level((char*)std::to_string(scope_level).c_str(),object);
+        Json_creator::add_scope_level((char*)std::to_string(Counter_resolving::scope_level).c_str(),object);
         return syntax_analysis_stage1(line);
     }
     else{
@@ -277,14 +279,57 @@ bool Syntax_analysis::syntax_analysis_stage3(QString line, int i) {
  * @return
  */
 bool Syntax_analysis::syntax_analysis_stagefinal(QString value) {
-    if(contains_invalid_symbols(value)){
-        return false;
-    }
     if(contains_operational(value,json_object_to_json_string(json_object_object_get(object,"type")))){
         std::cout<<value.toLatin1().data()<<"HVFHHHHHHHHHHHHHH";
 //
-                return Operational_parsing::parse(value,json_object_to_json_string(json_object_object_get(object,"type")),this->object);
+        return Operational_parsing::parse(value,json_object_to_json_string(json_object_object_get(object,"type")),this->object);
     }
+    QString type =QString(json_object_to_json_string(json_object_object_get(object,"type")));
+    if(value.contains('&')){
+        return parse_get_value(value,type);
+    }
+    if (Counter_resolving::contains_solo_alpha(value)&&!type.contains("bool")){
+        int searched = Operational_parsing::interface->table->searchName(reconstruct_without_space(value)->toLatin1().data());
+        if(searched==-1){
+            Operational_parsing::interface->addLog("ERROR,variable no encontrada");
+            return false;
+        }
+        else{
+            if(type.contains(Operational_parsing::interface->table->item(searched,0)->text())){
+                Json_creator::add_value(Operational_parsing::interface->table->item(searched,4)->text().toLatin1().data(),object);
+                return true;
+            }
+            else{
+                Operational_parsing::interface->addLog("Tipos no compatibles");
+                return false;
+
+            }
+        }
+    }if(contains_invalid_symbols(value)){
+        return false;
+    }
+    if(type.contains("bool")){
+        return parse_bool(value);
+    }
+    if(type.contains("int")){
+        std::cout<<"OAKJHFDKJAAAAAAAAAG____________"<<std::endl;
+        return parse_int(value);
+    }
+    if(type.contains("float")){
+        return parse_float(value);
+    }
+    if(type.contains("char")){
+        return parsechar(value);
+    }
+    if(type.contains("double")){
+        return parse_double(value);
+    }
+    if(type.contains("long")){
+        return parse_long(value);
+    }
+
+
+
     Json_creator::add_value(value.toLatin1().data(),this->object);
     return true;
 }
@@ -295,9 +340,9 @@ bool Syntax_analysis::syntax_analysis_stagefinal(QString value) {
  */
 bool Syntax_analysis::contains_invalid_symbols(QString qString) {
     if(qString.contains(';')||qString.contains('"')||qString.contains('!')||qString.contains('@')||qString.contains('}')||
-            qString.contains('{')||qString.contains('[')||qString.contains(']')||qString.contains('*')||
+            qString.contains('{')||qString.contains('[')||qString.contains(']')||qString.contains('*')||qString.contains(',')||
             qString.contains('~')||qString.contains('?')&&(json_object_to_json_string(json_object_object_get(object,"type"))!="char")){
-        return false;
+        return true;
     }
     else{
         return false;
@@ -426,4 +471,168 @@ QString Syntax_analysis::search_value(QString nombre) {
         return Operational_parsing::interface->table->item(index,4)->text();
     }
 
+}
+QString * Syntax_analysis::reconstruct_without_space(QString str) {
+    QString* str2 = new QString();
+    int index=0;
+    while(index<str.length()){
+        if(str[(index)]!=' '){
+            str2->append(str[index]);}
+        index++;
+    }
+    return str2;
+
+}
+
+bool Syntax_analysis::parse_get_value(QString var, QString type) {
+    int index = 0;
+    QString to_search = QString();
+    while(index<var.length()){
+        if(var[index]!='&'&&var[index]!='.'){
+            to_search.append(var[index]);
+        }
+        index++;
+    }
+    int index_of_var = Operational_parsing::interface->table->searchName(to_search.toLatin1().data());
+    if(index_of_var==-1){
+        Operational_parsing::interface->addLog("ERROR, la variable no fue encontrada");
+        return false;
+    }
+    if(!Operational_parsing::interface->table->item(index_of_var,0)->text().contains("reference")){
+        Operational_parsing::interface->addLog("ERROR, para usar el operacional & se necesita que sea referencia");
+        return false;
+    }
+    std::cout<<var.toLatin1().data()<<"Y ESTO"<<index_of_var<<std::endl;
+    QString position_of_value= search_value(to_search);
+    std::cout<<"POSITION OF VALUE MIS HUEVOS"<<position_of_value.toLatin1().data()<<std::endl;
+    int pos_real_value = Operational_parsing::interface->table->searchPos(position_of_value.toLatin1().data());
+    if(pos_real_value==-1){
+        Operational_parsing::interface->addLog("ERROR, no se conecto bien la referencia");
+        return false;
+    }
+    if(!type.contains(Operational_parsing::interface->table->item(pos_real_value,0)->text())){
+        Operational_parsing::interface->addLog("ERROR, los tipos al que apunta el puntero y asignado no coinciden");
+
+    }
+    else{
+        Json_creator::add_value(Operational_parsing::interface->table->item(pos_real_value,4)->text().toLatin1().data(),object);
+        return true;
+    }
+
+
+}
+
+bool Syntax_analysis::parse_bool(QString qString) {
+    if(qString.contains("'")){
+        Operational_parsing::interface->addLog("Error, el tipo char no se puede introducir en bool");
+        return false;
+    }
+    if(qString=="true"||qString=="false"||qString=="1"||qString=="0"){
+        Json_creator::add_value(qString.toLatin1().data(),this->object);
+        return true;
+    }
+    else{
+        Operational_parsing::interface->addLog("Error, tipos no cinciden");
+        return false;
+    }
+}
+
+bool Syntax_analysis::parse_int(QString qString) {
+    if(qString.contains("'")){
+        Operational_parsing::interface->addLog("Error, el tipo char no se puede introducir en int");
+        return false;
+    }
+    QString to_add =QString();
+    int index =0;
+    while (index<qString.length()){
+        if(qString[index]=='.'){
+            break;
+        }
+        std::cout<<qString[index].toLatin1()<<std::endl;
+        to_add.append(qString[index]);
+        index++;
+    }
+    if(contains_invalid_symbols(to_add)){
+        Operational_parsing::interface->addLog("Error, simbolos no aceptados");
+        return false;
+    }
+    Json_creator::add_value(to_add.toLatin1().data(),this->object);
+    return true;
+}
+
+bool Syntax_analysis::parsechar(QString qString) {
+ QString valor = *reconstruct_without_space(qString);
+ int comilla_counter=0;
+ int counter = 0;
+ if(!valor.contains("'")){
+     Operational_parsing::interface->addLog("Error, un char tiene que ser 's' ");
+
+     return false;
+ }
+ if(valor.length()!=3){
+     Operational_parsing::interface->addLog("Error, un char tiene que ser 's', no mas grande ");
+     return false;
+ }
+    Json_creator::add_value(valor.toLatin1().data(),this->object);
+    return true;
+
+}
+
+bool Syntax_analysis::parse_float(QString qString) {
+    if(qString.contains("'")){
+        Operational_parsing::interface->addLog("Error, el tipo char no se puede introducir en int");
+        return false;
+    }
+    QString to_add =QString("0");
+    int index =0;
+    int counter_point=0;
+    while (index<qString.length()){
+        if(qString[index]=='.'){
+            counter_point++;
+        }
+        std::cout<<qString[index].toLatin1()<<std::endl;
+        if(counter_point==1) {
+            to_add.append(qString[index]);
+        }
+        index++;
+    }
+    if(contains_invalid_symbols(to_add)){
+        Operational_parsing::interface->addLog("Error, simbolos no aceptados");
+        return false;
+    }
+    Json_creator::add_value(to_add.toLatin1().data(),this->object);
+    return true;
+}
+
+bool Syntax_analysis::parse_double(QString qString) {
+    if(qString.contains("'")||contains_invalid_symbols(qString)){
+        Operational_parsing::interface->addLog("Error, el tipo char no se puede introducir en int, en serio men es un double");
+    }
+    else{
+        Json_creator::add_value(qString.toLatin1().data(),this->object);
+
+    }
+}
+
+bool Syntax_analysis::parse_long(QString qString) {
+    if(qString.contains("'")){
+        Operational_parsing::interface->addLog("Error, el tipo char no se puede introducir en int");
+        return false;
+    }
+    QString to_add =QString();
+    int index =0;
+    while (index<qString.length()){
+        if(qString[index]=='.'){
+            break;
+        }
+        std::cout<<qString[index].toLatin1()<<std::endl;
+        to_add.append(qString[index]);
+        index++;
+    }
+    if(contains_invalid_symbols(to_add)){
+        Operational_parsing::interface->addLog("Error, simbolos no aceptados");
+        return false;
+    }
+    Json_creator::add_value(to_add.toLatin1().data(),this->object);
+    return true;
 }

@@ -151,7 +151,7 @@ bool Operational_parsing::parse_long(QString operation, const char *tipo) {
     long result;
     trig_function_long<double >(&result,string_to_parse.toLatin1().data());
     std::string s=std::to_string(result);
-    Json_creator::add_value_name((char*)s.c_str(),object);
+    Json_creator::add_value((char*)s.c_str(),object);
     std::cout<<"RESULTADO FUE"<<result;
 }
 bool Operational_parsing::parse_double(QString operation, const char *tipo) {
@@ -165,10 +165,12 @@ bool Operational_parsing::parse_double(QString operation, const char *tipo) {
             str->append(operation[index]);
             index++;
         }
-        std::cout<<str->toLatin1().data()<<"ESTO FUE \n"<<std::endl;
         if(!contains_alphabet(*str,tipo)){
             QString string_saica = get_var_value<int>(*str, tipo);
-            if(string_saica=="Error"){
+            std::cout<<string_saica.toLatin1().data()<<"ESTO FUE El Valor \n"<<std::endl;
+
+            std::cout<<"QUE ME ESTA DANDO"<<string_saica.toLatin1().data()<<std::endl;
+            if(string_saica=="ERROR"){
                 return false;
             }
             string_to_parse.append(string_saica);
@@ -239,8 +241,9 @@ QString Operational_parsing::get_var_value(QString variable, const char *string)
     if (index==200){
         return "ERROR";
     }
-    if(interface->getCell(0,index)=="int"||interface->getCell(0,index)=="double"||interface->getCell(0,index)=="long"||interface->getCell(0,index)=="float"){
-        return interface->getCell(index,2);
+    if(interface->table->item(index,0)->text()=="int"||interface->table->item(index,0)->text()=="double"||interface->table->item(index,0)->text()=="long"||interface->table->item(index,0)->text()=="float"){
+
+        return interface->table->item(index,4)->text();
     }
     else{
 

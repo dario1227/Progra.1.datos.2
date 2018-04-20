@@ -16,6 +16,7 @@ public:
     void add(int row, int colu, QString data);
     bool isEmpty( int colu, int row);
     int searchName(string name );
+    int searchPos(string pos);
 
 };
 

@@ -42,3 +42,22 @@ int RAM::searchName(string name ){
     return result;
 
 }
+int RAM::searchPos(string pos ){
+    std::cout<<pos<< "ESTA FUE LA POSICION :D"<<std::endl;
+    int index=0;
+    int result=0;
+    while(!isEmpty(1,index)){
+        if(this->item(index,2)->text().toStdString()==pos){
+            result=index;
+            cout<<"LO ENCONTRE PERRAS";
+            break;
+        }
+        index++;
+        std::cout<<"ESTE ES EL INDICE"<<std::endl;
+    }
+    if(isEmpty(1,index)){
+        return -1;
+    }
+    return result;
+
+}

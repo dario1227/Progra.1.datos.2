@@ -29,10 +29,30 @@ private:
     bool contains_invalid_symbols(QString qString);
     bool types_equal(QString *pString);
     bool contains_operational(QString value,const char* type);
+    bool comprobate_char(QString value, json_object* objeto);
+    bool comprobate_number(QString value, json_object* objeto);
+    bool comprobate_struct(QString value, json_object* objeto);
+    bool comprobate_var(QString value , json_object* objeto);
     QString search_value(QString nombre);
     void parse_print(QString qString);
 
     void analize_to_print(QString qString);
+
+    QString *reconstruct_without_space(QString str);
+
+    bool parse_get_value(QString qString, QString type);
+
+    bool parse_bool(QString qString);
+
+    bool parse_int(QString qString);
+
+    bool parsechar(QString qString);
+
+    bool parse_float(QString qString);
+
+    bool parse_double(QString qString);
+
+    bool parse_long(QString qString);
 };
 
 
