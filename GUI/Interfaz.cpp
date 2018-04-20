@@ -32,7 +32,7 @@ static int y=6;
 void Interfaz::Start() {
     QWidget* main=new QWidget();
     this->cursor=new QLabel();
-    this->cursor->setStyleSheet("QLabel { background-color: cyan}");
+    this->cursor->setStyleSheet("QLabel { background-color:cyan}");
     this->cursor->resize(12,12);
     Interfaz::logger=new QPlainTextEdit();
     Interfaz::shell= new QPlainTextEdit();
@@ -91,11 +91,11 @@ void Interfaz::Start() {
     console->resize(900,170);
     this->editor->resize(900,300);
     console->setStyleSheet("QLabel { background-color : darkcyan; color : black; border: 1px solid black}");
-    runL->setStyleSheet("QLabel { background-color : gray; color : black; border: 1px solid black}");
+    runL->setStyleSheet("QLabel { background-color : darkcyan; color : black; border: 1px solid black}");
     log->setStyleSheet("QLabel { background-color : darkcyan; color : black; border: 1px solid black}");
-    conTittle->setStyleSheet("QLabel { background-color : gray; color : black;  border: 1px solid black}");
-    ramTittle->setStyleSheet("QLabel { background-color : gray; color : black;  border: 1px solid black}");
-    LogTittle->setStyleSheet("QLabel { background-color : gray; color : black; border: 1px solid black}");
+    conTittle->setStyleSheet("QLabel { background-color : darkcyan; color : black;  border: 1px solid black}");
+    ramTittle->setStyleSheet("QLabel { background-color : darkcyan; color : black;  border: 1px solid black}");
+    LogTittle->setStyleSheet("QLabel { background-color : darkcyan; color : black; border: 1px solid black}");
    Interfaz::document=this->editor;
     main->show();
 
