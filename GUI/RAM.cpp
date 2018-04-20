@@ -11,8 +11,7 @@ RAM::RAM(int x) {
     header<<"Type"<<"Name"<<"Direction"<<"Scope"<<"Value";
     this->setHorizontalHeaderLabels(header);
     this->setEditTriggers(QAbstractItemView::NoEditTriggers);
-    QString* sa=new QString("Prueba");
-    this->add(0,0,*sa);
+
 }
 void RAM::add(int row, int colu, QString data) {
    QTableWidgetItem* da= new QTableWidgetItem(data);

@@ -422,7 +422,8 @@ QString Syntax_analysis::search_value(QString nombre) {
         return QString("ERROR");
     }
     else{
-        return Operational_parsing::interface->getCell(2,index);
+        std::cout<<Operational_parsing::interface->getCell(1,0).toLatin1().data()<<"HASJGFGFJSGFJ"<<std::endl;
+        return Operational_parsing::interface->table->item(index,4)->text();
     }
 
 }

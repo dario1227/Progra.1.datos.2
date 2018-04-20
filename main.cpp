@@ -61,7 +61,7 @@ int main(int argc, char **argv) {
     //Client_Server servidor = Client_Server();
     //servidor.connect_Server();
     MyThread* ejecutables=new MyThread();
-   //ejecutables->addT(ex1);
+   ejecutables->addT(ex1);
 //    ejecutables->addT(ex2);
 //    ejecutables->addT(ex3);
     ejecutables->startT();
@@ -70,7 +70,5 @@ int main(int argc, char **argv) {
      QString str="34+34";
      bool x;
      str.toInt(&x,10);
-     cout<<"ENCONTRE QUE FUE"<<x;
-    cout<<GUI->getCell(0,0).toStdString();
     return app.exec();
 }
