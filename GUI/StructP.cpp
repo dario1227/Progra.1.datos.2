@@ -20,13 +20,6 @@ json_object* StructP::makeJson(){
     json_object_object_add(object,"value",toAdd);
     toAdd = json_object_new_string(to_string(0).c_str());
     json_object_object_add(object,"scope",toAdd);
-    json_object* array=json_object_new_array();
-    int c=0;
-    while(this->lines[c]!= nullptr){
-        json_object_array_add(array,lines[c]);
-        c++;
-    }
-    json_object_object_add(object,"variables",array);
     return object;
 }
 StructP* StructP::searchStruct(string name) {
@@ -122,17 +115,4 @@ json_object* StructP::getVariable(string name,StructP* object){
         y++;
         look=object->lines[y];
     }
-}
-json_object* StructP::getVariable(string name,json_object* object){
-   json_object* array= json_object_object_get(object,"variables");
-   int y=0;
-   json_object* look=json_object_array_get_idx(array,y);
-   while (look!=nullptr){
-       if(json_object_get_string(json_object_object_get(look,"name"))==name){
-           return look;
-       }
-       y++;
-       look=json_object_array_get_idx(array,y);
-
-   }
 }
