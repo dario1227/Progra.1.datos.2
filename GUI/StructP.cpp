@@ -29,6 +29,15 @@ json_object* StructP::makeJson(){
     json_object_object_add(object,"variables",array);
     return object;
 }
+static StructP* StructP::searchStruct(string name) {
+    NodoS* temp= StructP::structs->head;
+    while(temp!= nullptr){
+        if(temp->value->nombre==name){
+            return temp->value;
+        }
+        temp=temp->next;
+    }
+}
 void StructP::start(Interfaz* gui){
     StructP::structs= new ListaSimple();
     int x=0;
@@ -102,6 +111,17 @@ void StructP::start(Interfaz* gui){
         temp=temp->next;
     }
 
+}
+json_object* StructP::getVariable(string name,StructP* object){
+    int y=0;
+    json_object* look=object->lines[y];
+    while (look!=nullptr){
+        if(json_object_get_string(json_object_object_get(look,"name"))==name){
+            return look;
+        }
+        y++;
+        look=object->lines[y];
+    }
 }
 json_object* StructP::getVariable(string name,json_object* object){
    json_object* array= json_object_object_get(object,"variables");

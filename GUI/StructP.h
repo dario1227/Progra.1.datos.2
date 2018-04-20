@@ -20,7 +20,9 @@ public:
     int final =0;
     json_object* lines[30];
     json_object* getVariable(string name, json_object* estuctura);
+    json_object* getVariable(string name, StructP* estuctura);
     static void start(Interfaz* gui);
+    static StructP* searchStruct(string name);
 
 };
 
