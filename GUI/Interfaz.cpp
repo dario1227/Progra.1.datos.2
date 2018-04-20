@@ -150,7 +150,7 @@ void  Interfaz::findWords(string a) {
 void test(){
     NodoS* temp=StructP::structs->head;
     while (temp!= nullptr){
-        cout<<"\n"<<"////////////struct Lines"<<"\n";
+        cout<<"\n"<<"////////////struct Lines"<<temp->value->nombre<<"\n";
         int x=temp->value->inicio;
         int y=0;
         while (x<temp->value->final){
@@ -176,6 +176,7 @@ void Interfaz::next() {
             x+=(actual->value->final-actual->value->inicio)+1;
             y+=((actual->value->final-actual->value->inicio)+1)*17;
             this->cursor->move(1, y);
+            json_object* toserver=actual->value->makeJson();
         }
 
         else {
@@ -208,10 +209,10 @@ void Interfaz::prueba() {
     cout<<"CODIGO Fue"<<syntax->syntax_analysis(getLine(0),0)<<std::endl;
     //std::cout<<json_object_to_json_string(syntax->object)<<std::endl;
     if(syntax->object!= nullptr){
-    Operational_parsing::server->send_Server(syntax->object);}
+    //Operational_parsing::server->send_Server(syntax->object);
+    }
     findWords("int");
     findWords("long");
-    findWords("string");
     findWords("struct");
     findWords("short");
     findWords("bool");

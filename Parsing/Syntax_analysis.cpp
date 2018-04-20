@@ -355,7 +355,7 @@ void Syntax_analysis::parse_print(QString qString) {
     }
     if(index==qString.length()){
 
-        Operational_parsing::interface->addToShell("Error de syntaxis"+std::to_string(actual_line));
+        Operational_parsing::interface->addLog("Error de syntaxis"+std::to_string(actual_line));
         return;
     }
     analize_to_print(string_to_add);
@@ -419,7 +419,7 @@ QString Syntax_analysis::search_value(QString nombre) {
         return QString ("ERROR");
     }
     if(index==-1){
-        return QString("ERROR");
+        return QString ("ERROR") ;
     }
     else{
         std::cout<<Operational_parsing::interface->getCell(1,0).toLatin1().data()<<"HASJGFGFJSGFJ"<<std::endl;

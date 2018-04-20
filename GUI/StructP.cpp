@@ -10,6 +10,19 @@
 ListaSimple* StructP::structs=new ListaSimple();
 //lista de structs en el codigo con sus lineas de inicio y final
 //se encarga de agregar los structs y luego parse sus lineas de inicio a fin
+//
+json_object* StructP::makeJson(){
+    json_object* object = json_object_new_object();
+    json_object* toAdd = json_object_new_string(this->nombre.c_str());
+    json_object_object_add(object,"name",toAdd);
+    toAdd = json_object_new_string(to_string(this->bytes).c_str());
+    json_object_object_add(object,"Bytes",toAdd);
+    toAdd = json_object_new_string(to_string(this->inicio).c_str());
+    json_object_object_add(object,"Start",toAdd);
+    toAdd = json_object_new_string(to_string(this->final).c_str());
+    json_object_object_add(object,"End",toAdd);
+    return object;
+}
 void StructP::start(Interfaz* gui){
     StructP::structs= new ListaSimple();
     int x=0;
@@ -18,9 +31,16 @@ void StructP::start(Interfaz* gui){
     int total=0;
     int finales=gui->getLines();
     bool valor=false;
+    string data;
     while(x<=finales){
         QString line=gui->getLine(x);
         if(line.contains("{")&&line.contains("struct")){
+           string name= line.toStdString();
+            name.resize(name.length()-1);
+            std::reverse(name.begin(), name.end());
+            name.resize(name.length()-7);
+            std::reverse(name.begin(), name.end());
+            data=name;
             ini=x+1;
             valor= true;
         }
@@ -31,6 +51,7 @@ void StructP::start(Interfaz* gui){
             structP->inicio=ini;
             structP->final=fin;
             structP->bytes=total;
+            structP->nombre=data;
             NodoS* nodo= new NodoS();
             nodo->value=structP;
             StructP::structs->addL(nodo);
