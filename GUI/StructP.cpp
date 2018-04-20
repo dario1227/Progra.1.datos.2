@@ -29,7 +29,7 @@ json_object* StructP::makeJson(){
     json_object_object_add(object,"variables",array);
     return object;
 }
-static StructP* StructP::searchStruct(string name) {
+StructP* StructP::searchStruct(string name) {
     NodoS* temp= StructP::structs->head;
     while(temp!= nullptr){
         if(temp->value->nombre==name){
