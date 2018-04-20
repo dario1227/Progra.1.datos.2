@@ -22,11 +22,7 @@ json_object* StructP::makeJson(){
     json_object* array=json_object_new_array();
     int c=0;
     while(this->lines[c]!= nullptr){
-        int size=this->lines[c].length()-1;
-        string line=this->lines[c].toStdString();
-        line.resize(size);
-        toAdd = json_object_new_string(line.c_str());
-        json_object_array_add(array,toAdd);
+        json_object_array_add(array,lines[c]);
         c++;
     }
     json_object_object_add(object,"variables",array);
@@ -94,9 +90,10 @@ void StructP::start(Interfaz* gui){
         int z=temp->value->inicio;
         int y=0;
         while (z<temp->value->final-1){
+            analysis->syntax_analysis(gui->getLine(z),z);
             bool valor =analysis->syntax_analysis(gui->getLine(z),z);
             if (valor){
-                temp->value->lines[y] = gui->getLine(z);
+                temp->value->lines[y] =analysis->object;
             }
             z++;
             y++;

@@ -18,7 +18,7 @@ public:
     string nombre;
    json_object* makeJson();
     int final =0;
-    QString lines[30];
+    json_object* lines[30];
     static void start(Interfaz* gui);
 
 };
