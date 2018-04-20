@@ -19,6 +19,7 @@ public:
    json_object* makeJson();
     int final =0;
     json_object* lines[30];
+    json_object* getVariable(string name, json_object* estuctura);
     static void start(Interfaz* gui);
 
 };

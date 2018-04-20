@@ -11,6 +11,7 @@ ListaSimple* StructP::structs=new ListaSimple();
 //lista de structs en el codigo con sus lineas de inicio y final
 //se encarga de agregar los structs y luego parse sus lineas de inicio a fin
 //
+
 json_object* StructP::makeJson(){
     json_object* object = json_object_new_object();
     json_object* toAdd = json_object_new_string(this->nombre.c_str());
@@ -85,11 +86,11 @@ void StructP::start(Interfaz* gui){
 
     }
     NodoS* temp= StructP::structs->head;
-    Syntax_analysis* analysis= new Syntax_analysis();
     while (temp!=nullptr){
         int z=temp->value->inicio;
         int y=0;
         while (z<temp->value->final-1){
+            Syntax_analysis* analysis= new Syntax_analysis();
             analysis->syntax_analysis(gui->getLine(z),z);
             bool valor =analysis->syntax_analysis(gui->getLine(z),z);
             if (valor){
@@ -101,4 +102,17 @@ void StructP::start(Interfaz* gui){
         temp=temp->next;
     }
 
+}
+json_object* StructP::getVariable(string name,json_object* object){
+   json_object* array= json_object_object_get(object,"variables");
+   int y=0;
+   json_object* look=json_object_array_get_idx(array,y);
+   while (look!=nullptr){
+       if(json_object_get_string(json_object_object_get(look,"name"))==name){
+           return look;
+       }
+       y++;
+       look=json_object_array_get_idx(array,y);
+
+   }
 }

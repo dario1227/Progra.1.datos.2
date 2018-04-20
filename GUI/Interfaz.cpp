@@ -147,22 +147,6 @@ void  Interfaz::findWords(string a) {
     highlightCursor->mergeCharFormat(*colorFormat);
     cursor->endEditBlock();
 }
-void test(){
-    NodoS* temp=StructP::structs->head;
-    while (temp!= nullptr){
-        cout<<"\n"<<"////////////struct Lines"<<temp->value->nombre<<"\n";
-        int x=temp->value->inicio;
-        int y=0;
-        while (x<temp->value->final){
-            cout<<temp->value->lines[y].toStdString()<<"LIENA";
-            x++;
-            y++;
-        }
-        cout<<temp->value->inicio<<"-"<<temp->value->final;
-        temp=temp->next;
-    }
-}
-//
 NodoS* actual= nullptr;
 void Interfaz::next() {
     if(x<this->getLines()) {
@@ -177,6 +161,7 @@ void Interfaz::next() {
             y+=((actual->value->final-actual->value->inicio)+1)*17;
             this->cursor->move(1, y);
             json_object* toserver=actual->value->makeJson();
+            cout<<json_object_to_json_string(toserver);
         }
         else {
             y += 17;
@@ -203,7 +188,6 @@ void Interfaz::prueba() {
     this->cursor->move(1, y);
    // this->clearAll();
     StructP::start(this);
-    test();
     Syntax_analysis* syntax = new Syntax_analysis();
     cout<<"CODIGO Fue"<<syntax->syntax_analysis(getLine(0),0)<<std::endl;
     //std::cout<<json_object_to_json_string(syntax->object)<<std::endl;
