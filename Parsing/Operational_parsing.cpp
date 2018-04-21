@@ -8,6 +8,7 @@
 #include "../GUI/Interfaz.h"
 #include "Json_creator.h"
 #include "../Client_Server/Client_Server.h"
+#include "Counter_resolving.h"
 #include <iostream>
 
 Interfaz* Operational_parsing::interface = nullptr;
@@ -59,7 +60,9 @@ bool Operational_parsing::parse_int(QString operation, const char *tipo) {
         std::cout<<str->toLatin1().data()<<"ESTO FUE \n"<<std::endl;
         if(!contains_alphabet(*str,tipo)){
             QString string_saica = get_var_value<int>(*str, tipo);
-            if(string_saica=="Error"){
+            if(string_saica.contains("error",Qt::CaseInsensitive)){
+                Operational_parsing::interface->addLog("Error,typos incopatibles o nivel de scope indecuado");
+
                 return false;
             }
             string_to_parse.append(string_saica);
@@ -98,7 +101,9 @@ bool Operational_parsing::parse_floar(QString operation, const char *tipo) {
         std::cout<<str->toLatin1().data()<<"ESTO FUE \n"<<std::endl;
         if(!contains_alphabet(*str,tipo)){
             QString string_saica = get_var_value<int>(*str, tipo);
-            if(string_saica=="Error"){
+            if(string_saica.contains("Error",Qt::CaseInsensitive)){
+                Operational_parsing::interface->addLog("Error,typos incopatibles o nivel de scope indecuado");
+
                 return false;
             }
             string_to_parse.append(string_saica);
@@ -136,7 +141,9 @@ bool Operational_parsing::parse_long(QString operation, const char *tipo) {
         std::cout<<str->toLatin1().data()<<"ESTO FUE \n"<<std::endl;
         if(!contains_alphabet(*str,tipo)){
             QString string_saica = get_var_value<int>(*str, tipo);
-            if(string_saica=="Error"){
+            if(string_saica.contains("Error",Qt::CaseInsensitive)){
+                Operational_parsing::interface->addLog("Error,typos incopatibles o nivel de scope indecuado");
+
                 return false;
             }
             string_to_parse.append(string_saica);
@@ -170,7 +177,8 @@ bool Operational_parsing::parse_double(QString operation, const char *tipo) {
             std::cout<<string_saica.toLatin1().data()<<"ESTO FUE El Valor \n"<<std::endl;
 
             std::cout<<"QUE ME ESTA DANDO"<<string_saica.toLatin1().data()<<std::endl;
-            if(string_saica=="ERROR"){
+            if(string_saica.contains("Error",Qt::CaseInsensitive)){
+                Operational_parsing::interface->addLog("Error,typos incopatibles o nivel de scope indecuado");
                 return false;
             }
             string_to_parse.append(string_saica);
@@ -239,6 +247,9 @@ QString Operational_parsing::get_var_value(QString variable, const char *string)
     int index = 0;
     index =interface->table->searchName(variable.toLatin1().data());
     if (index==200){
+        return "ERROR";
+    }
+    if(interface->table->item(index,3)->text().toInt()>Counter_resolving::scope_level){
         return "ERROR";
     }
     if(interface->table->item(index,0)->text()=="int"||interface->table->item(index,0)->text()=="double"||interface->table->item(index,0)->text()=="long"||interface->table->item(index,0)->text()=="float"){

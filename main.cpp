@@ -70,5 +70,9 @@ int main(int argc, char **argv) {
      QString str="34+34";
      bool x;
      str.toInt(&x,10);
-    return app.exec();
-}
+     try {
+         return app.exec();
+
+     }catch (std::exception e){
+         return 0;
+     }}
