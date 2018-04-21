@@ -148,8 +148,9 @@ void  Interfaz::findWords(string a) {
     cursor->endEditBlock();
 }
 NodoS* actual= nullptr;
+bool avance= false;
 void Interfaz::next() {
-    if(x<this->getLines()) {
+    if(x<this->getLines() && avance) {
         if(getLine(x).contains("struct")){
             if(actual== nullptr){
                 actual=StructP::structs->head;
@@ -167,7 +168,13 @@ void Interfaz::next() {
             y += 17;
             Syntax_analysis *analysis = new Syntax_analysis();
             bool per = analysis->syntax_analysis(getLine(x), x);
-            if(per==true && analysis->object!= nullptr){
+            if(per== false){
+                addLog("Error en el parseo");
+                avance= false;
+                x=0;
+                y=6;
+            }
+            else if(per==true && analysis->object!= nullptr){
                 Operational_parsing::server->send_Server(analysis->object);
             }
             this->cursor->move(1, y);
@@ -185,11 +192,12 @@ void Interfaz::clearAll() {
     this->table->setHorizontalHeaderLabels(header);
 }
 void Interfaz::prueba() {
+    avance= true;
     actual= nullptr;
     y=6;
     x=1;
     this->cursor->move(1, y);
-   // this->clearAll();
+    this->clearAll();
     StructP::start(this);
     Syntax_analysis* syntax = new Syntax_analysis();
     //cout<<"CODIGO Fue"<<syntax->syntax_analysis(getLine(0),0)<<std::endl;
