@@ -22,6 +22,53 @@ json_object* StructP::makeJson(){
     json_object_object_add(object,"scope",toAdd);
     return object;
 }
+bool StructP::parseemeesta(QString line,Interfaz* gui) {
+    bool result=false;
+    string linea=line.toStdString();
+    int size=linea.length()-1;
+    linea.resize(size);
+    string nombre;
+    string variable;
+    int y=0;
+    while (linea[y]!=toascii(32)){
+        const char letter=linea[y];
+        nombre.append(&letter);
+        y++;
+    }
+    y++;
+    while (y< size+1 ){
+        const char letter=linea[y];
+        variable.append(&letter);
+        y++;
+    }
+    if(StructP::searchStruct(nombre)!= nullptr && gui->table->searchName(variable)==-1){
+        result= true;
+        cout<<"100% REAL NO FAKE";
+        return result;
+    }
+    else{
+        return result;
+    }
+
+}
+json_object* StructP::searchVariable(string struc, string variable) {
+    StructP* temp=searchStruct(struc);
+    if(temp== nullptr){
+        return nullptr;
+    }
+    else{
+        int y=0;
+        while(temp->lines[y]!= nullptr){
+           if( json_object_get_string(json_object_object_get(temp->lines[y],"name"))==variable){
+               return temp->lines[y];
+           }
+           else{
+               y++;
+           }
+        }
+    }
+
+}
 StructP* StructP::searchStruct(string name) {
     NodoS* temp= StructP::structs->head;
     while(temp!= nullptr){

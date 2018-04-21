@@ -214,7 +214,7 @@ void Interfaz::prueba() {
     findWords("double");
     findWords("char");
     findWords("printf");
-
+    StructP::parseemeesta(getLine(6),this);
 }
 
 void Interfaz::addLog(string x) {

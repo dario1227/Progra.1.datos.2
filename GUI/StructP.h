@@ -12,7 +12,9 @@
 class ListaSimple;
 class StructP {
 public:
+    static bool parseemeesta(QString line, Interfaz *gui);
     static ListaSimple* structs;
+    static json_object* searchVariable(string struc,string variable );
     int bytes=0;
     int inicio=0;
     string nombre;
