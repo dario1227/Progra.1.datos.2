@@ -166,7 +166,10 @@ void Interfaz::next() {
         else {
             y += 17;
             Syntax_analysis *analysis = new Syntax_analysis();
-            analysis->syntax_analysis(getLine(x), x);
+            bool per = analysis->syntax_analysis(getLine(x), x);
+            if(per==true && analysis->object!= nullptr){
+                Operational_parsing::server->send_Server(analysis->object);
+            }
             this->cursor->move(1, y);
             x++;
         }

@@ -6,6 +6,8 @@
 #include "reference_parsing.h"
 #include "Operational_parsing.h"
 #include "Json_creator.h"
+#include "Counter_resolving.h"
+
 /**
  * Inicia el parseo de una referencia
  * @param qString
@@ -305,6 +307,10 @@ bool reference_parsing::parse_reference_stage4(QString to_search, json_object *p
         Operational_parsing::interface->addLog("Error,Los tipos no coinciden");
         return false;
     }
+        if(Operational_parsing::interface->table->item(index,3)->text().toInt()>Counter_resolving::scope_level){
+            Operational_parsing::interface->addLog("Niveles de scope diferentes,no se puede referenciar a la variable");
+
+        }
     else{
         Json_creator::add_value(Operational_parsing::interface->table->item(index,2)->text().toLatin1().data(),pObject);
         return true;

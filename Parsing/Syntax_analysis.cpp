@@ -16,25 +16,21 @@
  * @return
  */
 bool Syntax_analysis::syntax_analysis(QString line, int line_n) {
+    if(line_n==0){
+        Counter_resolving::scope_level=0;
+    }
 
     if(parentesis_tester::analize()== false){
         return false;
     }
-    if(line=="{"){
+    if(line=="{"&&!line.contains("es")){
         object= nullptr;
-        howmanyScopes++;
         Counter_resolving::scope_level++;
         return true;
     }
     this->actual_line=line_n;
-    if(line=="{"){
-        object= nullptr;
-        Counter_resolving::scope_level++;
-        return true ;
-    }
     if(line=="}"){
         object= nullptr;
-
         Counter_resolving::scope_level--;
         return true;
 
@@ -84,6 +80,7 @@ bool Syntax_analysis::syntax_analysis_stage1(QString line) {
 
 
             if(is_pointcomma_next(line,x)||is_equal_next(line,x)){
+
                 Operational_parsing::interface->addLog("ERROR se espera un nombre de variable despues del tipo :D");
                 object= nullptr;
 
@@ -95,6 +92,8 @@ bool Syntax_analysis::syntax_analysis_stage1(QString line) {
                     return syntax_analysis_stage2(line, x);
                 }
                 else{
+                    Operational_parsing::interface->addLog("ERROR tipo inexistente");
+
                     std::cout<<"Error, tipo inexistente"<<std::endl;
                     object= nullptr;
 
@@ -139,8 +138,14 @@ bool Syntax_analysis::syntax_analysis_stage2(QString line, int i) {
 
 
                 if (types_equal(parsed)) {
-                    std::cout << "ERROR,no se puede usar nombres de clases como variables" << "\n";
+
+                    Operational_parsing::interface->addLog(
+                    "ERROR,no se puede usar nombres de clases como variables");
                     object= nullptr;
+                    return false;
+                }
+                if(Operational_parsing::interface->table->searchName(parsed->toLatin1().data())!=-1){
+                    Operational_parsing::interface->addLog("ERROR no se pueden definir nombres ya existentes");
                     return false;
                 }
                 Json_creator::add_value_name(parsed->toLatin1().data(), object);
@@ -154,6 +159,10 @@ bool Syntax_analysis::syntax_analysis_stage2(QString line, int i) {
                     return false;
                 }
                 if(object!= nullptr) {
+                    if(Operational_parsing::interface->table->searchName(parsed->toLatin1().data())!=-1){
+                        Operational_parsing::interface->addLog("ERROR no se pueden definir nombres ya existentes");
+                        return false;
+                    }
                     Json_creator::add_value_name(parsed->toLatin1().data(), object);
                 }
                 return true;
@@ -264,7 +273,9 @@ bool Syntax_analysis::syntax_analysis_stage3(QString line, int i) {
                 return syntax_analysis_stagefinal(*parsed);
             }
             if(is_equal_next(line,i+1)){
-                std::cout<<"ERROR no se pueden poner dos iguales"<<std::endl;
+                Operational_parsing::interface->addLog("ERROR no se pueden poner dos iguales");
+
+
                 return false;
             }
 
@@ -296,6 +307,11 @@ bool Syntax_analysis::syntax_analysis_stagefinal(QString value) {
         }
         else{
             if(type.contains(Operational_parsing::interface->table->item(searched,0)->text())){
+                if(Operational_parsing::interface->table->item(searched,3)->text().toInt()>Counter_resolving::scope_level){
+                    Operational_parsing::interface->addLog("Niveles de scope diferentes,no se puede referenciar a la variable");
+                    return false;
+
+                }
                 Json_creator::add_value(Operational_parsing::interface->table->item(searched,4)->text().toLatin1().data(),object);
                 return true;
             }

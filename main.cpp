@@ -64,7 +64,7 @@ int main(int argc, char **argv) {
    ejecutables->addT(ex1);
 //    ejecutables->addT(ex2);
 //    ejecutables->addT(ex3);
-    ejecutables->startT();
+   ejecutables->startT();
 //    usleep(2000);
     cout<<"//////////////////"<<x;
      QString str="34+34";
