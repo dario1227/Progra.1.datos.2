@@ -246,6 +246,9 @@ template <typename T>
 QString Operational_parsing::get_var_value(QString variable, const char *string) {
     int index = 0;
     index =interface->table->searchName(variable.toLatin1().data());
+    if(index==-1){
+        return "ERROR";
+    }
     if (index==200){
         return "ERROR";
     }

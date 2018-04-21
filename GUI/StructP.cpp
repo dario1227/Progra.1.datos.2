@@ -77,6 +77,7 @@ StructP* StructP::searchStruct(string name) {
         }
         temp=temp->next;
     }
+    return nullptr;
 }
 void StructP::start(Interfaz* gui){
     StructP::structs= new ListaSimple();

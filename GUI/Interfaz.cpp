@@ -169,10 +169,12 @@ void Interfaz::next() {
             Syntax_analysis *analysis = new Syntax_analysis();
             bool per = analysis->syntax_analysis(getLine(x), x);
             if(per== false){
+                if(!getLine(x).contains("}")){
                 addLog("Error en el parseo");
                 avance= false;
                 x=0;
                 y=6;
+                }
             }
             else if(per==true && analysis->object!= nullptr){
                 Operational_parsing::server->send_Server(analysis->object);
@@ -214,7 +216,7 @@ void Interfaz::prueba() {
     findWords("double");
     findWords("char");
     findWords("printf");
-    StructP::parseemeesta(getLine(6),this);
+   // StructP::parseemeesta(getLine(6),this);
 }
 
 void Interfaz::addLog(string x) {

@@ -8,6 +8,8 @@
 #include "parentesis_tester.h"
 #include "reference_parsing.h"
 #include "Counter_resolving.h"
+#include "../GUI/StructP.h"
+#include "parseo_struct.h"
 
 /**
  * Inicia los parametros iniciales
@@ -35,7 +37,7 @@ bool Syntax_analysis::syntax_analysis(QString line, int line_n) {
         return true;
 
     }
-    if(line.contains(';')&& types_syntax(line)){
+    if(line.contains(';')){
         Json_creator::add_scope_level((char*)std::to_string(Counter_resolving::scope_level).c_str(),object);
         return syntax_analysis_stage1(line);
     }
@@ -56,6 +58,12 @@ bool Syntax_analysis::syntax_analysis_stage1(QString line) {
     int counter = 0;
 
     while(x<line.length()&&counter!=2){
+        StructP* estructura = StructP::searchStruct(parsed->toLatin1().data());
+        if(estructura!= nullptr){
+            Json_creator::add_type_value("struct", object);
+            Json_creator::add_value(parsed->toLatin1().data(),object);
+            return parseo_struct::parse_var(line,estructura,object);
+        }
         std::cout<<parsed->toLatin1().data()<<"\n"<<"line leng="<<line.length()<<std::endl;
         if(line.operator[](x)!=' '&&counter==0){
             counter++;
@@ -71,7 +79,8 @@ bool Syntax_analysis::syntax_analysis_stage1(QString line) {
             if(parsed->contains("getAddr")){
                 syntax_analysis_stage2(line,x);
             }
-            std::cout<<"ME SALIO ESTO"<<line[x].toLatin1()<<std::endl;
+
+            Operational_parsing::interface->addLog("ERROR, no tipo");
             std::cout<<"me salio esto en la linea"<<parsed->toLatin1().data()<<std::endl;
             std::cout<<"ERROR no se definio el tipo"<<std::endl;
             return false;

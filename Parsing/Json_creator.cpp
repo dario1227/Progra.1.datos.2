@@ -43,3 +43,7 @@ void Json_creator::add_scope_level(char *value, json_object *objeto) {
     json_object* toAdd = json_object_new_string(value);
     json_object_object_add(objeto,"scope",toAdd);
 }
+void Json_creator::add_peso(char*value,json_object* objeto){
+    json_object* toAdd = json_object_new_string(value);
+    json_object_object_add(objeto,"peso",toAdd);
+}

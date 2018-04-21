@@ -8,7 +8,7 @@
 #include "GUI/ListaSimple.h"
 #include "Client_Server/Client_Server.h"
 #include "Parsing/Operational_parsing.h"
-
+#include "QVector"
 using namespace std;
 Interfaz* GUI= new Interfaz();
 template <typename T>
@@ -55,6 +55,7 @@ int main(int argc, char **argv) {
     QApplication app(argc, argv);
     qRegisterMetaType<QTextCharFormat>("QTextCharFormat");
     qRegisterMetaType<QTextCursor>("QTextCursor");
+  //  qRegisterMetaType<QVector>("QVector");
     GUI->Start();
     trig_function<double >();
   //  servidor.connect_Server();

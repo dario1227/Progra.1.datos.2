@@ -18,7 +18,7 @@ public:
 
     bool syntax_analysis(QString line, int n_line);
 
-private:
+
     bool syntax_analysis_stage1(QString line);
     bool syntax_analysis_stage2(QString line, int i);
     bool syntax_analysis_stage3(QString line, int i);
